@@ -1,7 +1,6 @@
 <?php
 
-$link = mysqli_connect('LocalHost', 'root', '') or die('No se pudo conectar: ' . mysqli_error());
-mysqli_select_db($link,'sisvintec') or die('No se pudo seleccionar la base de datos');
+$link = mysqli_connect("localhost","root","","ceuarkos_sisvintec", 3306) or die('No se pudo conectar: ' . mysqli_error());
 
 $query="SELECT * from tipo_sat";
 $result = mysqli_query($link,$query)

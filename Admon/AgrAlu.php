@@ -50,7 +50,7 @@
               
                   <label  class="col-lg-3 control-label">Contrasena:</label>
                   <div class="col-lg-9">
-                      <input type="password" placeholder="Contrase«Ða" name="pass" class="form-control" data-toggle="password"><br>
+                      <input type="password" placeholder="Contraseña" name="pass" class="form-control" data-toggle="password"><br>
                   </div>
                                   <label class="col-lg-3 control-label">Nombre Alumno</label>
                   <div class="col-lg-9">

@@ -1,6 +1,6 @@
 <?php
 
-$link = mysqli_connect('v196512', 'ceuarkos_SisVinTec', '#~AI,w6oONSd') or die('No se pudo conectar: ' . mysqli_error());
+$link = mysqli_connect("localhost","root","","ceuarkos_sisvintec", 3306) or die('No se pudo conectar: ' . mysqli_error());
 mysqli_select_db($link,'ceuarkos_SisvinTec') or die('No se pudo seleccionar la base de datos');
 
 $query="SELECT * from tipo_sat";
