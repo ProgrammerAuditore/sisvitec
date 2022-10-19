@@ -7,7 +7,7 @@
     $re = new Redi();
  if(!$conexion)
         {
-            die('error de conexion de servidor:'.mysql_error());
+            die('error de conexion de servidor:'. mysql_error());
         }
 	$users = $_POST["user"];
 	$pass = $_POST['password'];
@@ -17,6 +17,11 @@
 	$consulta="Select * from login where User='".$users."' and Password='".$pass."' and tipo=".$tipo;
 	$resultado=mysqli_query($conexion,$consulta);
 	$filas=mysqli_fetch_row($resultado);
+    
+    // Verificar si existe un usuario 
+    // (registrado en la base de datos)
+    if($filas == 0)
+    header('location:popup.php');
 
 
     $consulta2="Select * from alumnos where Id_Login=".$filas[0]." and Existe=1";
