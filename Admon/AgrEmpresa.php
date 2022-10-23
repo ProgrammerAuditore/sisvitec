@@ -50,7 +50,7 @@
               
                   <label  class="col-lg-3 control-label">Contrasena:</label>
                   <div class="col-lg-9">
-                      <input type="password" placeholder="Contrase«Ða" name="pass" class="form-control" data-toggle="password"><br>
+                      <input type="password" placeholder="Contraseña" name="pass" class="form-control" data-toggle="password"><br>
                   </div>
                     
               
@@ -174,7 +174,7 @@
               <hr>
               <br><br> 
               <input class="btn btn-primary" type="submit" name="enviar" value="Guardar" >
-               <a class="btn btn-primary" href="Alumno.php" role="button">Consultar o Eliminar</a>
+               <a class="btn btn-primary" href="ConsultarEmpresa.php" role="button">Consultar o Eliminar</a>
               </form>
               </div>
       </section>

@@ -59,7 +59,7 @@
         {
             die('error de conexion de servidor:'.mysql_error());
         }
-            $consulta = "SELECT alu.id_Alumnos,alu.Nombre,alu.Num_Control,alu.Correo,car.Nombre as Carrera, are.Nombre as Area From alumnos as alu LEFT JOIN carrera as car On alu.id_Carrera=car.id_carrera
+            $consulta = "SELECT alu.id_Login,alu.id_Alumnos,alu.Nombre,alu.Num_Control,alu.Correo,car.Nombre as Carrera, are.Nombre as Area From alumnos as alu LEFT JOIN carrera as car On alu.id_Carrera=car.id_carrera
 LEFT JOIN area as are On alu.id_Area = are.id_Area;";
             $resultado = mysqli_query($con , $consulta);
             $contador=0; 
@@ -70,10 +70,10 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
               <td><?php echo $misdatos["NumeroC"]; ?></td>
               <td><?php echo $misdatos["Correo"]; ?></td>
               <td><?php echo $misdatos["Area"]; ?></td>
-               <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=C.php?id=".$misdatos["id_empresa"]."&IdUsuario=".$misdatos["id_Login"]."><font color='#ffffff'>Consultar</font></a>" ?></td>
+               <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConAlumno.php?IdUsuario={$misdatos["id_Login"]}><font color='#ffffff'>Consultar</font></a>" ?></td>
               
-                <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=C.php?id=".$misdatos["id_empresa"]."&IdUsuario=".$misdatos["id_Login"]."><font color='#ffffff'>Editar</font></a>" ?></td>
-                  <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=C.php?id=".$misdatos["id_empresa"]." data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
+                <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} ><font color='#ffffff'>Editar</font></a>" ?></td>
+                  <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
                
               </tr>
 

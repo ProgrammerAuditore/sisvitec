@@ -58,7 +58,7 @@
                             <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button'>
                                 Sesión <span class='caret'></span></a>
                               <ul class='dropdown-menu' role='menu'>
-                                  <li><a href='https://www.ceuarkos.edu.mx/sisvintec/login.html'>Salir</a></li>
+                                  <li><a href='/'>Salir</a></li>
                                   </ul>
                           </li>
                       </ul>
