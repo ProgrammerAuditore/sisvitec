@@ -80,7 +80,7 @@ $getUsuario = $result->fetch_assoc();
   <section class="cuerpo">
     <!-- Poner los datos del usuario -->
     <div class="container">
-      <form class="form-datos" action="<?php echo "./FncDatabase/ActualizarAlumno.php?id=$IdUsuario"; ?>" method="POST" role="form">
+      <form class="form-datos" action="<?php echo "./FncDatabase/AlumnoActualizar.php?id=$IdUsuario"; ?>" method="POST" role="form">
         <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
         <hr>
 
