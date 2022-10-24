@@ -67,13 +67,13 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
             <tr>
               <td><?php echo $contador ?></td>
               <td><?php echo $misdatos["Nombre"]; ?></td>
-              <td><?php echo $misdatos["NumeroC"]; ?></td>
+              <td><?php echo $misdatos["Num_Control"]; ?></td>
               <td><?php echo $misdatos["Correo"]; ?></td>
               <td><?php echo $misdatos["Area"]; ?></td>
                <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConAlumno.php?IdUsuario={$misdatos["id_Login"]}><font color='#ffffff'>Consultar</font></a>" ?></td>
               
-                <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} ><font color='#ffffff'>Editar</font></a>" ?></td>
-                  <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
+                <td><?php echo "<a style='margin:3px' class='btn btn-warning' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} ><font color='#ffffff'>Editar</font></a>" ?></td>
+                  <td><?php echo "<a style='margin:3px' class='btn btn-danger' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
                
               </tr>
 
