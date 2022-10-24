@@ -84,38 +84,38 @@ $getUsuario = $result->fetch_assoc();
 
         <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
         <div class="col-lg-9">
-          <input type="text" value=<?php echo $getUsuario['User'];   ?> placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
+          <input type="text" disabled value=<?php echo $getUsuario['User'];   ?> placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
         </div>
 
-        <label class="col-lg-3 control-label">Contrasena:</label>
+        <label class="col-lg-3 control-label">Contraseña:</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Password'];   ?> type="password" placeholder="Contraseña" name="pass" class="form-control" data-toggle="password"><br>
+          <input type="password" disabled value=<?php echo $getUsuario['Password'];   ?> placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
         </div>
         <label class="col-lg-3 control-label">Nombre Alumno</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Nombre'];   ?> type="text" class="form-control" id="name" name="NombreA"><br>
+          <input value=<?php echo $getUsuario['Nombre'];   ?> type="text" disabled class="form-control" id="name" name="NombreA"><br>
         </div>
 
         <label class="col-lg-3 control-label">Numero De Control</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Num_Control'];   ?> type="text" class="form-control" id="name" name="NumeroC"><br>
+          <input value=<?php echo $getUsuario['Num_Control'];   ?> type="text" disabled class="form-control" id="name" name="NumeroC"><br>
         </div>
 
         <label class="col-lg-3 control-label">Correo Electronico</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Correo'];   ?> type="text" class="form-control" id="name" name="Correo"><br>
+          <input value=<?php echo $getUsuario['Correo'];   ?> type="text" disabled class="form-control" id="name" name="Correo"><br>
         </div>
 
         <label class="col-lg-3 control-label">Direccion</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Direccion'];   ?> type="text" class="form-control" id="name" name="Direccion"><br>
+          <input value=<?php echo $getUsuario['Direccion'];   ?> type="text" disabled class="form-control" id="name" name="Direccion"><br>
         </div>
 
 
         <label class="col-lg-3 control-label">Area De Desarrollo :</label>
         <div class="col-lg-9">
           <div class="selector-pai">
-            <select name="Area" class="form-control">
+            <select name="Area" class="form-control" disabled>
               <script type="text/javascript">
                 $(document).ready(function() {
                   $.ajax({
@@ -133,7 +133,7 @@ $getUsuario = $result->fetch_assoc();
         <label class="col-lg-3 control-label">Carrera :</label>
         <div class="col-lg-9">
           <div class="selector-pas">
-            <select name="Carrera" class="form-control">
+            <select name="Carrera" class="form-control" disabled>
               <script type="text/javascript">
                 $(document).ready(function() {
                   $.ajax({
