@@ -118,7 +118,7 @@ session_start();
 
         <hr>
         <br><br>
-        <input class="btn btn-primary" type="submit" name="postCrearAlumno" value="Actualizar">
+        <input class="btn btn-success" type="submit" name="postCrearAlumno" value="Agregar">
       </form>
     </div>
 

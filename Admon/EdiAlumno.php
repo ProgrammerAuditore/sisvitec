@@ -32,8 +32,6 @@ if ($result->num_rows <= 0) {
   header("Location: ./ConsultaAlumno.php");
 }
 
-//print var_dump($result->fetch_assoc());
-
 // Obtener los registros del usuario
 $getUsuario = $result->fetch_assoc();
 
@@ -153,7 +151,7 @@ $getUsuario = $result->fetch_assoc();
 
         <hr>
         <br><br>
-        <input class="btn btn-primary" type="submit" name="postActualizarAlumno" value="Actualizar">
+        <input class="btn btn-warning" type="submit" name="postActualizarAlumno" value="Actualizar">
       </form>
     </div>
 

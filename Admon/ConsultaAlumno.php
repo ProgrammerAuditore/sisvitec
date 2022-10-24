@@ -92,7 +92,7 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
     </div>
   </section>
 
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'success') { ?>
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'updated_success') { ?>
     <script>
       Swal.fire({
         icon: "success",
@@ -116,7 +116,7 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
     </script>
   <?php } ?>
 
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'error') { ?>
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'updated_error') { ?>
     <script>
       Swal.fire({
         icon: 'error',
@@ -144,7 +144,7 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
     </script>
   <?php } ?>
 
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'deleted') { ?>
     <script>
       Swal.fire({
         title: 'Confirmar',
