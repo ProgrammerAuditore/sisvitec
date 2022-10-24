@@ -24,7 +24,7 @@ error_reporting(0);
 
   <!-- sweetalert2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
+
 </head>
 
 <body>
@@ -79,7 +79,7 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
               <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConAlumno.php?IdUsuario={$misdatos["id_Login"]}><font color='#ffffff'>Consultar</font></a>" ?></td>
 
               <td><?php echo "<a style='margin:3px' class='btn btn-warning' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} ><font color='#ffffff'>Editar</font></a>" ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-danger' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
+              <td><?php echo "<a style='margin:3px' class='btn btn-danger' href=?IdUsuario={$misdatos["id_Login"]}&action=delete ><font color='#ffffff'>Eliminar</font></a>" ?></td>
 
             </tr>
 
@@ -109,13 +109,44 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
       Swal.fire({
         icon: 'error',
         title: 'Datos no actualizado.',
-        text: 
-        'Verifique que los campos sean correctos y no vacíos.\n' +
-        'Vuelve a intentarlo.'
+        text: 'Verifique que los campos sean correctos y no vacíos.\n' +
+          'Vuelve a intentarlo.'
       }).then((resultado) => {
         var url = document.location.href;
         window.history.pushState({}, "", url.split("?")[0]);
       });
+    </script>
+  <?php } ?>
+
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
+    <script>
+      Swal.fire({
+        title: 'Confirmar',
+        text: "¿Seguro que desear eliminar este alumno?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+      }).then((result) => {
+
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "./FncDatabase/AlumnoEliminar.php?id=<?php echo $_GET['IdUsuario']; ?>"
+          });
+          Swal.fire(
+            'Eliminado!',
+            'Alumno fue eliminado.',
+            'success'
+          ).then((r) => {
+            window.location.reload();
+          });
+        }
+        
+      })
     </script>
   <?php } ?>
 
