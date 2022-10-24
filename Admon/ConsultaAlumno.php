@@ -144,7 +144,7 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
     </script>
   <?php } ?>
 
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'deleted') { ?>
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
     <script>
       Swal.fire({
         title: 'Confirmar',
