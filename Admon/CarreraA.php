@@ -9,7 +9,11 @@ $result = mysqli_query($link,$query)
 echo $query;
  echo "<option>Seleccionar...</option>";
 while (($fila = mysqli_fetch_array($result)) != NULL) {
-    echo '<option value="'.$fila['id_carrera'].'">'.$fila['Nombre'].'</option>';
+    if(isset($_GET['idCarrera']) && $fila['id_carrera'] == $_GET['idCarrera'] ){
+        echo '<option selected value="'.$fila['id_carrera'].'">'.$fila['Nombre'].'</option>';
+    }else {
+        echo '<option value="'.$fila['id_carrera'].'">'.$fila['Nombre'].'</option>';
+    }
 }
 // Liberar resultados
 mysqli_free_result($result);

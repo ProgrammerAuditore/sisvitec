@@ -2,7 +2,6 @@
 
 // Iniciar session, hacer conexion  a la base de datos
 // y obtener la conexion
-session_start();
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
@@ -58,8 +57,8 @@ try {
     $NumeroC = $_POST['NumeroC'];
     $Correo = $_POST['Correo'];
     $Direccion = $_POST['Direccion'];
-    $Area = 1;
-    $Carrera = 1;
+    $Area = $_POST['Area'];
+    $Carrera = $_POST['Carrera'];
     $idAlumno = $_GET['id'];
     $stmt->execute();
     

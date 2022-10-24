@@ -78,7 +78,7 @@ $getUsuario = $result->fetch_assoc();
   <section class="cuerpo">
     <!-- Poner los datos del usuario -->
     <div class="container">
-      <form class="form-datos" action="<?php echo "./FncDatabase/ActualizarAlumno.php?id=$IdUsuario";?>" method="POST" role="form">
+      <form class="form-datos" action="<?php echo "./FncDatabase/ActualizarAlumno.php?id=$IdUsuario"; ?>" method="POST" role="form">
         <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
         <hr>
 
@@ -114,11 +114,41 @@ $getUsuario = $result->fetch_assoc();
 
         <label class="col-lg-3 control-label">Area De Desarrollo :</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Area'];   ?> type="text" class="form-control" id="name" name="Area"><br>
+          <div class="selector-pai">
+            <select name="Area" class="form-control">
+              <script type="text/javascript">
+                $(document).ready(function() {
+                  $.ajax({
+                    type: "POST",
+                    url: "AreasD.php?idArea=<?php echo $getUsuario['id_Area']; ?>",
+                    success: function(response) {
+                      $('.selector-pai select').html(response).fadeIn();
+                    }
+                  });
+                });
+              </script>
+            </select><br>
+          </div>
         </div>
         <label class="col-lg-3 control-label">Carrera :</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Carrera'];   ?> type="text" class="form-control" id="name" name="Carrera"><br>
+          <div class="selector-pas">
+            <select name="Carrera" class="form-control">
+              <script type="text/javascript">
+                $(document).ready(function() {
+                  $.ajax({
+                    type: "POST",
+                    url: "CarreraA.php?idCarrera=<?php echo $getUsuario['id_Carrera']; ?>" ,
+                    success: function(response) {
+                      console.log("Valor" );
+                      $('.selector-pas select').html(response).fadeIn();
+                    }
+                  });
+
+                });
+              </script>
+            </select><br>
+          </div>
         </div>
 
         <hr>
