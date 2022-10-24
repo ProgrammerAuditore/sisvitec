@@ -104,11 +104,37 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
     </script>
   <?php } ?>
 
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_success') { ?>
+    <script>
+      Swal.fire({
+        icon: "success",
+        text: "Alumno creado"
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
   <?php if (isset($_GET['action']) && $_GET['action'] == 'error') { ?>
     <script>
       Swal.fire({
         icon: 'error',
         title: 'Datos no actualizado.',
+        text: 'Verifique que los campos sean correctos y no vacíos.\n' +
+          'Vuelve a intentarlo.'
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_error') { ?>
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Alumno no fue creado',
         text: 'Verifique que los campos sean correctos y no vacíos.\n' +
           'Vuelve a intentarlo.'
       }).then((resultado) => {
@@ -145,7 +171,7 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
             window.location.reload();
           });
         }
-        
+
       })
     </script>
   <?php } ?>

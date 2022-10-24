@@ -138,9 +138,9 @@ $getUsuario = $result->fetch_assoc();
                 $(document).ready(function() {
                   $.ajax({
                     type: "POST",
-                    url: "CarreraA.php?idCarrera=<?php echo $getUsuario['id_Carrera']; ?>" ,
+                    url: "CarreraA.php?idCarrera=<?php echo $getUsuario['id_Carrera']; ?>",
                     success: function(response) {
-                      console.log("Valor" );
+                      console.log("Valor");
                       $('.selector-pas select').html(response).fadeIn();
                     }
                   });
