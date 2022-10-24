@@ -15,7 +15,6 @@ if (!isset($_GET['IdUsuario']) || empty($_GET['IdUsuario'])) {
 // Obtener el IdUsuario
 $IdUsuario = $_GET['IdUsuario'];
 
-
 // Crear consulta
 $consultaQ = "SELECT lng.*, alu.*, car.Nombre AS Carrera, are.Nombre AS Area  
     FROM `alumnos` AS alu   
@@ -36,6 +35,8 @@ if ($result->num_rows <= 0) {
 
 // Obtener los registros del usuario
 $getUsuario = $result->fetch_assoc();
+
+$mysqli->close();
 
 ?>
 <!DOCTYPE html>
