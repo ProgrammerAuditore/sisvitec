@@ -29,7 +29,7 @@ foreach ($camposHTML as $key) {
         // En caso de recibir campos incorrectos
         // Muestra un mensaje de error y 3 seg después
         // se redirige a ConsultaAlumno
-        header("refresh:3;url=../EdiAlumno.php?IdUsuario=" . $_GET['id']);
+        header("Location: /Admon/ConsultaAlumno.php?IdUsuario=" . $_GET['id'] . "&action=error");
         print "Campos incorrectos, verificar campos";
         exit();
     }
@@ -68,7 +68,7 @@ try {
     // En caso de no tener errores
     // Muestra un mensaje exitosa y 3 seg después
     // se redirige a ConsultaAlumno
-    header("refresh:3;url=../ConsultaAlumno.php");
+    header("Location: /Admon/ConsultaAlumno.php?IdUsuario=" . $_GET['id'] . "&action=success");
     print "Usuario Actualizado exitosamente.";
 
 } catch (mysqli_sql_exception $exception) {
