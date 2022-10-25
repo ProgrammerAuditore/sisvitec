@@ -31,7 +31,7 @@ $result = $mysqli->query($consultaQ);
 
 //****  Verificar si existe registro del proyecto */
 if ($result->num_rows <= 0) {
-    header("Location: /Admon/CP.php");
+    header("Location: /Admon/ConsultarProyectos.php");
 }
 
 // Obtener los registros del proyecto

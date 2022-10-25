@@ -31,7 +31,7 @@ $result = $mysqli->query($consultaQ);
 
 //****  Verificar si existe registro del proyecto */
 if ($result->num_rows <= 0) {
-    header("Location: /Admon/CP.php");
+    header("Location: /Admon/ConsultarProyectos.php");
 }
 
 // Obtener los registros del proyecto
@@ -119,7 +119,7 @@ $mysqli->close();
             <!-- Botones (Para acciones) -->
             <hr>
             <br><br>
-            <a class="btn btn-primary" href="/Admon/ConsultarEmpresa.php" role="button">Volver</a>
+            <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Volver</a>
             <a class="btn btn-warning" href="/Admon/EdiEmpresa.php?IdEmpresa=<?php echo $_GET['IdEmpresa']; ?>" role="button">Editar</a>
         </div>
 

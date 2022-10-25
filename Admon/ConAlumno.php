@@ -156,7 +156,7 @@ $mysqli->close();
 
         <hr>
         <br><br>
-        <a class="btn btn-primary" href="/Admon/ConsultaAlumno.php" role="button">Volver</a>
+        <a class="btn btn-primary" href="/Admon/ConsultarAlumnos.php" role="button">Volver</a>
         <a class="btn btn-warning" href="/Admon/EdiAlumno.php?IdUsuario=<?php echo $getUsuario['id_Login']; ?>" role="button">Editar</a>
       </form>
     </div>

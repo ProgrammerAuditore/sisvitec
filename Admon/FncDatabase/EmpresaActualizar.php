@@ -31,7 +31,7 @@ foreach ($camposHTML as $key) {
         // En caso de recibir campos incorrectos
         // Muestra un mensaje de error y 3 seg después
         // se redirige a ConsultaAlumno
-        header("Location: /Admon/ConsultarEmpresa.php?action=updated_error");
+        header("Location: /Admon/ConsultarEmpresas.php?action=updated_error");
         print "Campos incorrectos, verificar campos";
         exit();
     }
@@ -76,7 +76,7 @@ try {
     // En caso de no tener errores
     // Muestra un mensaje exitosa y 3 seg después
     // se redirige a ConsultaAlumno
-    header("Location: /Admon/ConsultarEmpresa.php?action=updated_success");
+    header("Location: /Admon/ConsultarEmpresas.php?action=updated_success");
     print "Usuario creado exitosamente.";
 } catch (mysqli_sql_exception $exception) {
 
