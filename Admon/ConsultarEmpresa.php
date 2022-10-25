@@ -21,6 +21,9 @@ error_reporting(0);
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- sweetalert2 -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -84,13 +87,33 @@ error_reporting(0);
       </div>
     </div>
   </section>
-  <section class="cuerpo">
-    <div class="container">
-      <center>
-      </center>
-    </div>
 
-  </section>
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_success') { ?>
+    <script>
+      Swal.fire({
+        icon: "success",
+        text: "Empresa agregado exitosamente"
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_error') { ?>
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Empresa no agregado',
+        text: 'Verifique que los campos sean correctos y no vacíos.\n' +
+          'Vuelve a intentarlo.'
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
   <footer>
     <div class="contenedor">
       <p>Copyright &copy; BCB</p>
