@@ -11,13 +11,18 @@ if ($mysqli->connect_errno) {
     die("Error en la conexion" . $mysqli->connect_error);
 }
 
+//****  Verificar que existe el parametro ID de empresa */
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header("Location: ../ConsultarEmpresa.php");
+    exit();
+}
+
+
 // Listar campos a recibir desde la pagina Editar Alumno
 $camposHTML = array(
-    'user', 'pass', 'NombreE', 'RazonS', 'TelRH',
-    'RFCE', 'idtipo', 'direccion', 'magnitud', 'alcance',
-    'Giro', 'Mision', 'tipoEmpresa', 'NombreRL', 'CorreoRL',
-    'RFCRL', 'TelRL', 'NombreRH', 'CorreoRH', 'RFCRH',
-    'postAgregarEmpresa'
+    'NombreE', 'tipoEmpresa',
+    'RazonS', 'RFCE', 'direccion',
+    'postActualizarEmpresa'
 );
 
 // Verificar campos recibidos
@@ -26,7 +31,7 @@ foreach ($camposHTML as $key) {
         // En caso de recibir campos incorrectos
         // Muestra un mensaje de error y 3 seg después
         // se redirige a ConsultaAlumno
-        header("Location: /Admon/ConsultarEmpresa.php?action=created_error");
+        header("Location: /Admon/ConsultarEmpresa.php?action=updated_error");
         print "Campos incorrectos, verificar campos";
         exit();
     }
@@ -35,55 +40,24 @@ foreach ($camposHTML as $key) {
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
-// Obtener Loggin ID
-$consultaObtenerIdLogin = "SELECT MAX(id_Login) AS max_login FROM `login` ; ";
-
 // Crear consulta
-$consultaCrearUsuario = "INSERT INTO `login`  
-(`tipo`, `User`, `Password`, `Existe`) 
-VALUES (?,?,?,?) ; ";
-
-// Crear consulta
-$consultaAgregarEmpresa = "INSERT INTO empresa   
-(Nombre, Razon_Social,  RFC, id_tipo, Direccion, Magnitud, Alcance, Giro,
-Mision, Tipo_empresa, id_login, Existe )  
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?); ";
+$consultaActualizarEmpresa = "UPDATE empresa SET    
+Nombre = ?, Razon_Social  = ?,   
+RFC  = ?, tipo_empresa  = ?, Direccion  = ?  
+WHERE id_empresa = ? AND Existe = ? ; ";
 
 try {
-
-    // ***** Obtener ID Login */
-    $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
-    $rowLogin = $queryObtenerIdLogin->fetch_array();
-
-
-    // ***** Registrar Usuario */
+    // ***** Actualizar Empresa */
     // preparar y parametrar
-    $stmtCrearUsuario = $mysqli->prepare($consultaCrearUsuario);
-    $stmtCrearUsuario->bind_param("issi", $tipo, $user, $pass, $Existe);
-
-    // establecer parametros y ejecutar cambios
-    $tipo = 2; // <=== Tipo empresa
-    $user = $_POST['user'];
-    $pass = $_POST['pass'];
-    $Existe = 1;
-    $stmtCrearUsuario->execute();
-
-    // ***** Registrar Alumno */
-    // preparar y parametrar
-    $stmtAgregarEmpresa = $mysqli->prepare($consultaAgregarEmpresa);
+    $stmtAgregarEmpresa = $mysqli->prepare($consultaActualizarEmpresa);
     $stmtAgregarEmpresa->bind_param(
-        "sssissssssii",
+        "sssssii",
         $NombreE,
         $RazonSE,
         $RFCE,
         $idtipo,
         $Direccion,
-        $magnitud,
-        $alcance,
-        $Giro,
-        $Mision,
-        $tipoEmpresa,
-        $idLogin,
+        $idEmpresa,
         $Existe
     );
 
@@ -91,14 +65,9 @@ try {
     $NombreE   = $_POST['NombreE'];
     $RazonSE = $_POST['RazonS'];
     $RFCE = $_POST['RFCE'];
-    $idtipo = intval($_POST['idtipo']);
+    $idtipo = $_POST['tipoEmpresa'];
     $Direccion = $_POST['direccion'];
-    $magnitud = $_POST['magnitud'];
-    $alcance = $_POST['alcance'];
-    $Giro = $_POST['Giro'];
-    $Mision = $_POST['Mision'];
-    $tipoEmpresa = $_POST['tipoEmpresa'];
-    $idLogin = $rowLogin['max_login'];
+    $idEmpresa = $_GET['id'];
     $Existe = 1;
     $stmtAgregarEmpresa->execute();
 
@@ -107,7 +76,7 @@ try {
     // En caso de no tener errores
     // Muestra un mensaje exitosa y 3 seg después
     // se redirige a ConsultaAlumno
-    header("Location: /Admon/ConsultarEmpresa.php?action=created_success");
+    header("Location: /Admon/ConsultarEmpresa.php?action=updated_success");
     print "Usuario creado exitosamente.";
 } catch (mysqli_sql_exception $exception) {
 

@@ -87,42 +87,41 @@ $mysqli->close();
     </section>
     <section class="cuerpo">
         <div class="container">
+        <form class="form-datos" action="<?php echo "./FncDatabase/EmpresaActualizar.php?id=$IdEmpresa"; ?>" method="POST" role="form">
+                <!-- Información de la empresa -->
+                <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
+                <hr>
+                <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
+                <div class="col-lg-9">
+                    <input class="form-control" id="nombre" name="NombreE" type="text" placeholder="Usuario" value="<?php echo $getProyecto['EmpresaNombre']; ?>"><br>
+                </div>
 
-            <!-- Información de la empresa -->
-            <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
-            <hr>
-            <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
-            <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['EmpresaNombre']; ?></p>
-            </div>
+                <label for="nombre" class="col-lg-3 control-label">Tipo de empresa:</label>
+                <div class="col-lg-9">
+                    <input class="form-control" id="tipoEmpresa" name="tipoEmpresa" type="text" placeholder="Usuario" value="<?php echo $getProyecto['EmpresaTipo']; ?>"><br>
+                </div>
 
-            <label for="nombre" class="col-lg-3 control-label">Tipo de empresa:</label>
-            <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['EmpresaTipo']; ?></p>
-            </div>
+                <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
+                <div class="col-lg-9">
+                    <input class="form-control" id="RazonS" name="RazonS" type="text" placeholder="Usuario" value="<?php echo $getProyecto['EmpresaRazonSocial']; ?>"><br>
+                </div>
 
-            <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
-            <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['EmpresaRazonSocial']; ?></p>
-            </div>
+                <label for="nombre" class="col-lg-3 control-label">RFC:</label>
+                <div class="col-lg-9">
+                    <input class="form-control" id="RFCE" name="RFCE" type="text" placeholder="Usuario" value="<?php echo $getProyecto['EmpresaRFC']; ?>"><br>
+                </div>
 
-            <label for="nombre" class="col-lg-3 control-label">RFC:</label>
-            <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['EmpresaRFC']; ?></p>
-            </div>
+                <label class="col-lg-3 control-label">Descripción:</label>
+                <div class="col-lg-9 m-2">
+                    <textarea name="direccion" class="form-control"><?php echo $getProyecto['EmpresaDireccion']; ?></textarea>
+                </div>
 
-            <label class="col-lg-3 control-label">Descripción:</label>
-            <div class="col-lg-9 m-2">
-                <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['EmpresaDireccion']; ?></textarea>
-            </div>
-
-            <!-- Botones (Para acciones) -->
-            <hr>
-            <br><br>
-            <a class="btn btn-primary" href="/Admon/ConsultarEmpresa.php" role="button">Volver</a>
-            <a class="btn btn-warning" href="/Admon/EdiEmpresa.php?IdEmpresa=<?php echo $_GET['IdEmpresa']; ?>" role="button">Editar</a>
+                <!-- Botones (Para acciones) -->
+                <hr>
+                <br><br>
+                <input class="btn btn-primary" type="submit" name="postActualizarEmpresa" value="Actualizar">
         </div>
-
+        </form>
     </section>
     <footer>
         <div class="contenedor">

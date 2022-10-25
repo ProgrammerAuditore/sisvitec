@@ -74,8 +74,8 @@ error_reporting(0);
               <td><?php echo $misdatos["Direccion"]; ?></td>
               <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConEmpresa.php?IdEmpresa=" . $misdatos["id_empresa"] . "><font color='#ffffff'>Consultar</font></a>" ?></td>
 
-              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=EditarEmpresa.php?id=" . $misdatos["id_empresa"] . "&IdUsuario=" . $misdatos["id_Login"] . "><font color='#ffffff'>Editar</font></a>" ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=EliminarEmpresa.php?id=" . $misdatos["id_empresa"] . " data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
+              <td><?php echo "<a style='margin:3px' class='btn btn-warning' href=EdiEmpresa.php?IdEmpresa=" . $misdatos["id_empresa"] . "><font color='#ffffff'>Editar</font></a>" ?></td>
+              <td><?php echo "<a style='margin:3px' class='btn btn-danger' href=EliminarEmpresa.php?id=" . $misdatos["id_empresa"] . " data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
 
             </tr>
 
@@ -107,6 +107,32 @@ error_reporting(0);
         title: 'Empresa no agregado',
         text: 'Verifique que los campos sean correctos y no vacíos.\n' +
           'Vuelve a intentarlo.'
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'updated_error') { ?>
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Datos no actualizado.',
+        text: 'Verifique que los campos sean correctos y no vacíos.\n' +
+          'Vuelve a intentarlo.'
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'updated_success') { ?>
+    <script>
+      Swal.fire({
+        icon: "success",
+        text: "Datos actualizados"
       }).then((resultado) => {
         var url = document.location.href;
         window.history.pushState({}, "", url.split("?")[0]);
