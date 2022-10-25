@@ -69,7 +69,7 @@ error_reporting(0);
               <td><?php echo $misdatos["Nombre"]; ?></td>
               <td><?php echo $misdatos["Razon_Social"]; ?></td>
               <td><?php echo $misdatos["Direccion"]; ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConsultaPempresa.php?id=" . $misdatos["id_empresa"] . "&IdUsuario=" . $misdatos["id_Login"] . "><font color='#ffffff'>Consultar</font></a>" ?></td>
+              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConEmpresa.php?IdEmpresa=" . $misdatos["id_empresa"] . "><font color='#ffffff'>Consultar</font></a>" ?></td>
 
               <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=EditarEmpresa.php?id=" . $misdatos["id_empresa"] . "&IdUsuario=" . $misdatos["id_Login"] . "><font color='#ffffff'>Editar</font></a>" ?></td>
               <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=EliminarEmpresa.php?id=" . $misdatos["id_empresa"] . " data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
