@@ -29,7 +29,7 @@
                                 Empresa<span class='caret'></span></a>
                               <ul class='dropdown-menu' role='menu'>
                                   <li><a href='AgrEmpresa.php'>Agregar </a></li>
-                                  <li><a href='ConsultarEmpresa.php'>Consultar/Eliminar</a></li>
+                                  <li><a href='ConsultarEmpresas.php'>Consultar/Eliminar</a></li>
                                 </ul>
                           </li>
                                                     <li class='dropdown'>
@@ -37,7 +37,7 @@
                                 Proyecto <span class='caret'></span></a>
                               <ul class='dropdown-menu' role='menu'>
                                   <li class='dropdown dropdown-submenu'>
-                                          <li><a href='CP.php'>Consultar</a></li>
+                                          <li><a href='ConsultarProyectos.php'>Consultar</a></li>
                                       
                                   </li>
                                </ul>
@@ -49,7 +49,7 @@
                               <ul class='dropdown-menu' role='menu'>
                                   <li class='dropdown dropdown-submenu'>
                                           <li><a href='AgrAlu.php'>Agregar</a></li>
-                                          <li><a href='ConsultaAlumno.php'>Consultar/Eliminar</a></li>
+                                          <li><a href='ConsultarAlumnos.php'>Consultar/Eliminar</a></li>
                                       
                                   </li>
                                </ul>
