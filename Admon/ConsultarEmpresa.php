@@ -75,7 +75,7 @@ error_reporting(0);
               <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConEmpresa.php?IdEmpresa=" . $misdatos["id_empresa"] . "><font color='#ffffff'>Consultar</font></a>" ?></td>
 
               <td><?php echo "<a style='margin:3px' class='btn btn-warning' href=EdiEmpresa.php?IdEmpresa=" . $misdatos["id_empresa"] . "><font color='#ffffff'>Editar</font></a>" ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-danger' href=EliminarEmpresa.php?id=" . $misdatos["id_empresa"] . " data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
+              <td><?php echo "<a style='margin:3px' class='btn btn-danger' href=?IdEmpresa=" . $misdatos["id_empresa"] . "&action=delete ><font color='#ffffff'>Eliminar</font></a>" ?></td>
 
             </tr>
 
@@ -137,6 +137,38 @@ error_reporting(0);
         var url = document.location.href;
         window.history.pushState({}, "", url.split("?")[0]);
       });
+    </script>
+  <?php } ?>
+
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
+    <script>
+      Swal.fire({
+        title: 'Confirmar',
+        text: "¿Seguro que desear eliminar este alumno?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+      }).then((result) => {
+
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "./FncDatabase/EmpresaEliminar.php?id=<?php echo $_GET['IdEmpresa']; ?>"
+          });
+          Swal.fire(
+            'Eliminado!',
+            'Alumno fue eliminado.',
+            'success'
+          ).then((r) => {
+            window.location.reload();
+          });
+        }
+
+      })
     </script>
   <?php } ?>
 
