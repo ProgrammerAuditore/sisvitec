@@ -105,7 +105,7 @@ error_reporting(0);
     <script>
       Swal.fire({
         title: 'Confirmar',
-        text: "¿Seguro que desear eliminar este alumno?",
+        text: "¿Seguro que desear eliminar está empresa?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -120,11 +120,10 @@ error_reporting(0);
           $.ajax({
             url: "./FncDatabase/EmpresaEliminar.php?id=<?php echo $_GET['IdEmpresa']; ?>"
           });
-          Swal.fire(
-            'Eliminado!',
-            'Alumno fue eliminado.',
-            'success'
-          ).then((r) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Empresa eliminado.',
+          }).then((r) => {
             window.location.reload();
           });
         }
