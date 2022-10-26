@@ -5,6 +5,7 @@
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
+$goTo = "Location: /Admon/ConsultarAlumnos.php";
 
 // Verificar la conexion
 if ($mysqli->connect_errno) {
@@ -21,10 +22,9 @@ $camposHTML = array(
 foreach ($camposHTML as $key) {
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
-        // Muestra un mensaje de error y 3 seg después
-        // se redirige a ConsultaAlumno
-        header("Location: /Admon/ConsultarAlumnos.php?action=created_error");
-        print "Campos incorrectos, verificar campos";
+        $goTo .= "?action=created_error";
+        $mysqli->close();
+        header($goTo);
         exit();
     }
 }
@@ -32,7 +32,7 @@ foreach ($camposHTML as $key) {
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
-$consultaVerificarUsuario = "SELECT *, id_Login FROM `login` WHERE User = ? ; ";
+$consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 
 $consultaObtenerIdLogin = "SELECT MAX(id_Login) AS max_login FROM `login` ; ";
 
@@ -91,21 +91,19 @@ try {
     $stmtVerificarUsuario->store_result();
     $rowUsuario = $stmtVerificarUsuario->num_rows;
 
-    if ($rowUsuario > 0) {
+    if ($rowUsuario > 1) {
         
         // ***** Deshacer cambios */
+        // En caso de existir el usuario
         $mysqli->rollback();
-        header("Location: /Admon/ConsultarAlumnos.php?action=created_exist");
+        $goTo .= "?action=created_exist";
 
     } else {
 
         // ***** Efectuar cambios */
-        $mysqli->commit();
         // En caso de no tener errores
-        // Muestra un mensaje exitosa y 3 seg después
-        // se redirige a ConsultaAlumno
-        header("Location: /Admon/ConsultarAlumnos.php?action=created_success");
-        print "Usuario creado exitosamente.";
+        $mysqli->commit();
+        $goTo .= "?action=created_success";
     }
 } catch (mysqli_sql_exception $exception) {
 
@@ -123,3 +121,6 @@ try {
 
 $mysqli->close();
 $stmtCrearUsuario->close();
+$stmtCrearAlumno->close();
+$stmtVerificarUsuario->close();
+header($goTo);
