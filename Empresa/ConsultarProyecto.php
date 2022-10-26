@@ -1,10 +1,27 @@
 <?php
+// Iniciar session, hacer conexion  a la base de datos
+// y obtener la conexion
 session_start();
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
 $IDE = $_SESSION['idE'];
-error_reporting(0);
+//error_reporting(0);
+
+// Crear consulta
+$consultaQ = "SELECT 
+p.Nombre aS ProyectoNombre,
+a.Nombre AS ProyectoArea,
+p.Descripcion AS ProyectoDescripcion,
+p.Duracion AS ProyectoDuracion 
+FROM proyecto AS p 
+LEFT JOIN area AS a ON p.id_Area=a.id_Area 
+WHERE p.id_Empresa=$IDE";
+
+// Obtener resultado de la consulta
+$result = $mysqli->query($consultaQ);
+
+$mysqli->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +42,7 @@ error_reporting(0);
 
   <!-- sweetalert2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
+
 </head>
 
 <body>
@@ -53,48 +70,33 @@ error_reporting(0);
               <th>Area</th>
               <th>Descripcion</th>
               <th>Duracion / Semanas</th>
-              <th>Editar Proyecto</th>
-              <th>Eliminar</th>
+              <th>Acciones</th>
             </tr>
           </thead>
-          <?php
-          $mysql = new conexion();
-          $con = $mysql->_ObtenerConexion();
-          if (!$con) {
-            die('error de conexion de servidor:' . mysql_error());
-          }
-          $consulta = "SELECT p.Nombre as NombreP,a.Nombre,p.Descripcion,p.Duracion FROM proyecto as p Left JOIN area as a ON p.id_Area=a.id_Area where p.id_Empresa=" . $IDE . ";";
-          $resultado = mysqli_query($con, $consulta);
-          $contador = 0;
-          while ($misdatos = mysqli_fetch_assoc($resultado)) {
-            $contador++; ?>
-            <tr>
-              <td><?php echo $contador ?></td>
-              <td><?php echo $misdatos["NombreP"]; ?></td>
-              <td><?php echo $misdatos["Nombre"]; ?></td>
-              <td><?php echo $misdatos["Descripcion"]; ?></td>
-              <td><?php echo $misdatos["Duracion"]; ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=C.php?id=" . $misdatos["id_empresa"] . "&IdUsuario=" . $misdatos["id_Login"] . "><font color='#ffffff'>Consultar</font></a>" ?></td>
-
-              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=C.php?id=" . $misdatos["id_empresa"] . "&IdUsuario=" . $misdatos["id_Login"] . "><font color='#ffffff'>Editar</font></a>" ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=C.php?id=" . $misdatos["id_empresa"] . " data-confirm='¿Está seguro de que desea eliminar el alumno seleccionado?'><font color='#ffffff'>Eliminar</font></a>" ?></td>
-
-            </tr>
-
-          <?php } ?>
-
+          <tbody>
+            <?php
+            $filas = 0;
+            while ($getProyectos = $result->fetch_assoc()) {
+              $filas++;
+            ?>
+              <tr>
+                <td><?php echo $filas ?></td>
+                <td><?php echo $getProyectos['ProyectoNombre'] ?></td>
+                <td><?php echo $getProyectos['ProyectoArea'] ?></td>
+                <td><?php echo $getProyectos['ProyectoDescripcion'] ?></td>
+                <td><?php echo $getProyectos['ProyectoDuracion'] ?></td>
+                <td>
+                  <a href="" class="btn btn-primary">Consultar</a>
+                  <a href="" class="btn btn-primary">Editar</a>
+                  <a href="" class="btn btn-primary">Eliminar</a>
+                </td>
+              </tr>
+            <?php } ?>
           </tbody>
         </table>
         <!-- Fin Contenido -->
       </div>
     </div>
-  </section>
-  <section class="cuerpo">
-    <div class="container">
-      <center>
-      </center>
-    </div>
-
   </section>
 
   <?php if (isset($_GET['action'])) { ?>
