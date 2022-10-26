@@ -32,15 +32,14 @@ foreach ($camposHTML as $key) {
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
-// Obtener Loggin ID
+$consultaVerificarUsuario = "SELECT *, id_Login FROM `login` WHERE User = ? ; ";
+
 $consultaObtenerIdLogin = "SELECT MAX(id_Login) AS max_login FROM `login` ; ";
 
-// Crear consulta
 $consultaCrearUsuario = "INSERT INTO `login`  
 (`tipo`, `User`, `Password`, `Existe`) 
 VALUES (?,?,?,?) ; ";
 
-// Crear consulta
 $consultaCrearAlumno = "INSERT INTO `alumnos`   
 (`Nombre`, `Num_Control`,  `Correo`,  
 `Direccion`, `id_Area`, `id_Carrera`, `id_Login`, `Existe`) 
@@ -51,7 +50,6 @@ try {
     // ***** Obtener ID Login */
     $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
     $rowLogin = $queryObtenerIdLogin->fetch_array();
-    
 
     // ***** Registrar Usuario */
     // preparar y parametrar
@@ -59,7 +57,7 @@ try {
     $stmtCrearUsuario->bind_param("issi", $tipo, $user, $pass, $Existe);
 
     // establecer parametros y ejecutar cambios
-    $tipo = 1;
+    $tipo = 1; // <=== Tipo alumno
     $user = $_POST['user'];
     $pass = $_POST['pass'];
     $Existe = 1;
@@ -81,13 +79,34 @@ try {
     $Existe = 1;
     $stmtCrearAlumno->execute();
 
-    // ***** Efectuar cambios */
-    $mysqli->commit();
-    // En caso de no tener errores
-    // Muestra un mensaje exitosa y 3 seg después
-    // se redirige a ConsultaAlumno
-    header("Location: /Admon/ConsultarAlumnos.php?action=created_success");
-    print "Usuario creado exitosamente.";
+    // ***** Verificar Usuario */
+    // preparar y parametrar
+    $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
+    $stmtVerificarUsuario->bind_param("s",$user);
+
+    // establecer parametros y ejecutar cambios
+    $user = $_POST['user'];
+    $stmtVerificarUsuario->execute();
+
+    $stmtVerificarUsuario->store_result();
+    $rowUsuario = $stmtVerificarUsuario->num_rows;
+
+    if ($rowUsuario > 0) {
+        
+        // ***** Deshacer cambios */
+        $mysqli->rollback();
+        header("Location: /Admon/ConsultarAlumnos.php?action=created_exist");
+
+    } else {
+
+        // ***** Efectuar cambios */
+        $mysqli->commit();
+        // En caso de no tener errores
+        // Muestra un mensaje exitosa y 3 seg después
+        // se redirige a ConsultaAlumno
+        header("Location: /Admon/ConsultarAlumnos.php?action=created_success");
+        print "Usuario creado exitosamente.";
+    }
 } catch (mysqli_sql_exception $exception) {
 
     // ***** Deshacer cambios */

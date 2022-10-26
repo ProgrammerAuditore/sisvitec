@@ -144,6 +144,20 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
     </script>
   <?php } ?>
 
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_exist') { ?>
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Alumno no fue creado',
+        text: 'El nombre de usuario ya está registrado. \n' +
+          'Vuelve a intentarlo.'
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
   <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
     <script>
       Swal.fire({

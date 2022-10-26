@@ -5,6 +5,7 @@
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
+$goTo = "/Admon/ConsultarAlumnos.php";
 
 // Verificar la conexion
 if ($mysqli->connect_errno) {
@@ -26,17 +27,19 @@ $camposHTML = array(
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
-        // En caso de recibir campos incorrectos
-        // Muestra un mensaje de error y 3 seg después
-        // se redirige a ConsultaAlumno
-        header("Location: /Admon/ConsultarAlumnos.php?action=updated_error");
-        print "Campos incorrectos, verificar campos";
+        // En caso de recibir campos incorrectos o vacíos
+        $mysqli->close();
+        $goTo = "?action=updated_error";
+        header("Location: " . $goTo);
         exit();
     }
 }
 
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
+
+// Crear consulta
+$consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 
 // Crear consulta
 $consultaActualizarUsuario = "UPDATE `login` SET   
@@ -54,8 +57,14 @@ try {
     // ***** Registrar Usuario */
     // preparar y parametrar
     $stmtActualizarUsuario = $mysqli->prepare($consultaActualizarUsuario);
-    $stmtActualizarUsuario->bind_param("issii", 
-        $tipo, $user, $pass, $idAlumno, $Existe);
+    $stmtActualizarUsuario->bind_param(
+        "issii",
+        $tipo,
+        $user,
+        $pass,
+        $idAlumno,
+        $Existe
+    );
 
     // establecer parametros y ejecutar cambios
     $tipo = 1;
@@ -69,8 +78,17 @@ try {
     // ***** Actualizar Alumno */
     // preparar y parametrar
     $stmtActualizarAlumno = $mysqli->prepare($consultaActualizarAlumno);
-    $stmtActualizarAlumno->bind_param("ssssiiii",
-        $NombreA, $NumeroC, $Correo, $Direccion, $Area, $Carrera, $idAlumno, $Existe);
+    $stmtActualizarAlumno->bind_param(
+        "ssssiiii",
+        $NombreA,
+        $NumeroC,
+        $Correo,
+        $Direccion,
+        $Area,
+        $Carrera,
+        $idAlumno,
+        $Existe
+    );
 
     // establecer parametros y ejecutar cambios
     $NombreA   = $_POST['NombreA'];
@@ -83,26 +101,31 @@ try {
     $Existe = 1;
     $stmtActualizarAlumno->execute();
 
-    // ***** Efectuar cambios */
-    $mysqli->commit();
-    // En caso de no tener errores
-    // Muestra un mensaje exitosa y 3 seg después
-    // se redirige a ConsultaAlumno
-    header("Location: /Admon/ConsultarAlumnos.php?action=updated_success");
-    print "Usuario Actualizado exitosamente.";
+    // ***** Obtener ID Login */
+    $queryVerificarUsuario = $mysqli->query($consulta);
+    $rowUsuario = $queryVerificarUsuario->num_rows;
+
+    if ($rowUsuario > 0) {
+        // ***** Deshacer cambios */
+        $mysqli->rollback();
+        $goTo = "?action=created_exist";
+    } else {
+
+        // ***** Efectuar cambios */
+        // En caso de no tener errores
+        $mysqli->commit();
+        $goTo .= "?action=updated_success";
+    }
 } catch (mysqli_sql_exception $exception) {
 
     // ***** Deshacer cambios */
-    $mysqli->rollback();
     // En caso de tener error en MYSQL
-    // Muestra un mensaje de error y 3 seg después
-    // se redirige a ConsultaAlumno
-    header("refresh:3;url=../ConsultaAlumno.php");
-    print "Usuario no actualizado satisfactoriamente";
-
-    print $exception;
+    $mysqli->rollback();
+    $goTo .= "?action=updated_error";
+    //print $exception;
     //throw $exception;
 }
 
 $mysqli->close();
 $stmtActualizarAlumno->close();
+header("Location: " . $goTo);
