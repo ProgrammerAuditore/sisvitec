@@ -17,13 +17,18 @@ $IdEmpresa = $_GET['IdEmpresa'];
 
 // Crear consulta
 $consultaQ = "SELECT 
+lng.User AS EmpresaUser,
+lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
 e.Tipo_Empresa AS EmpresaTipo,
 e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
-e.id_Empresa AS EmpresaID
+e.id_Empresa AS EmpresaID,
+sat.Nombre AS EmpresaTipoSAT
 FROM empresa AS e 
+LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
+LEFT JOIN `tipo_sat` AS sat ON sat.id_tipo = e.id_tipo
 WHERE e.id_empresa = $IdEmpresa ; ";
 
 // Obtener resultado de la consulta
@@ -87,7 +92,26 @@ $mysqli->close();
     </section>
     <section class="cuerpo">
         <div class="container">
-        <form class="form-datos" action="<?php echo "./FncDatabase/EmpresaActualizar.php?id=$IdEmpresa"; ?>" method="POST" role="form">
+            <form class="form-datos" action="<?php echo "./FncDatabase/EmpresaActualizar.php?id=$IdEmpresa"; ?>" method="POST" role="form">
+
+                <!-- Información de registro -->
+                <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+                <hr>
+                <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
+                <div class="col-lg-9">
+                    <input type="text" 
+                    value="<?php echo $getProyecto['EmpresaUser']; ?>"
+                    placeholder="Usuario" name="user" class="form-control" id="nombre" ><br>
+                </div>
+
+                <label class="col-lg-3 control-label">Contrasena:</label>
+                <div class="col-lg-9">
+                    <input 
+                    value="<?php echo $getProyecto['EmpresaPassword']; ?>"
+                    type="password" placeholder="Contraseña" name="pass" 
+                    class="form-control" data-toggle="password"><br>
+                </div>
+
                 <!-- Información de la empresa -->
                 <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
                 <hr>

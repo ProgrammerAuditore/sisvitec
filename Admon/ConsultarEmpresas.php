@@ -88,51 +88,12 @@ error_reporting(0);
     </div>
   </section>
 
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_success') { ?>
+  <?php if (isset($_GET['action'])) { ?>
     <script>
       Swal.fire({
-        icon: "success",
-        text: "Empresa agregado exitosamente"
-      }).then((resultado) => {
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-      });
-    </script>
-  <?php } ?>
-
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_error') { ?>
-    <script>
-      Swal.fire({
-        icon: 'error',
-        title: 'Empresa no agregado',
-        text: 'Verifique que los campos sean correctos y no vacíos.\n' +
-          'Vuelve a intentarlo.'
-      }).then((resultado) => {
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-      });
-    </script>
-  <?php } ?>
-
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'updated_error') { ?>
-    <script>
-      Swal.fire({
-        icon: 'error',
-        title: 'Datos no actualizado.',
-        text: 'Verifique que los campos sean correctos y no vacíos.\n' +
-          'Vuelve a intentarlo.'
-      }).then((resultado) => {
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-      });
-    </script>
-  <?php } ?>
-
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'updated_success') { ?>
-    <script>
-      Swal.fire({
-        icon: "success",
-        text: "Datos actualizados"
+        icon: '<?php echo (isset($_GET['action'])) ? $_GET['action'] : ''; ?>',
+        title: '<?php echo (isset($_GET['title'])) ? $_GET['title'] : ''; ?>',
+        html: '<?php echo (isset($_GET['msg'])) ? $_GET['msg'] : ''; ?>'
       }).then((resultado) => {
         var url = document.location.href;
         window.history.pushState({}, "", url.split("?")[0]);

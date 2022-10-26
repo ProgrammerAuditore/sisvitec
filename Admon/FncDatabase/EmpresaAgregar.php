@@ -5,6 +5,9 @@
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
+$title = "Empresa";
+$goTo = "Location:/Admon/ConsultarEmpresas.php";
+$againTo = "<br/><hr><a href=/Admon/AgrEmpresa.php>Volver a intentarlo.</a>";
 
 // Verificar la conexion
 if ($mysqli->connect_errno) {
@@ -24,16 +27,20 @@ $camposHTML = array(
 foreach ($camposHTML as $key) {
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
-        // Muestra un mensaje de error y 3 seg después
-        // se redirige a ConsultaAlumno
-        header("Location: /Admon/ConsultarEmpresas.php?action=created_error");
-        print "Campos incorrectos, verificar campos";
+        $goTo .= "?action=error";
+        $goTo .= "&title=$title no agregado.";
+        $goTo .= "&msg=Verifique que los campos sean validos y no vacios.";
+        $goTo .= $againTo;
+        $mysqli->close();
+        header($goTo);
         exit();
     }
 }
 
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
+
+$consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 
 // Obtener Loggin ID
 $consultaObtenerIdLogin = "SELECT MAX(id_Login) AS max_login FROM `login` ; ";
@@ -51,11 +58,6 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?); ";
 
 try {
 
-    // ***** Obtener ID Login */
-    $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
-    $rowLogin = $queryObtenerIdLogin->fetch_array();
-
-
     // ***** Registrar Usuario */
     // preparar y parametrar
     $stmtCrearUsuario = $mysqli->prepare($consultaCrearUsuario);
@@ -67,6 +69,10 @@ try {
     $pass = $_POST['pass'];
     $Existe = 1;
     $stmtCrearUsuario->execute();
+
+    // ***** Obtener ID Login */
+    $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
+    $rowLogin = $queryObtenerIdLogin->fetch_array();
 
     // ***** Registrar Alumno */
     // preparar y parametrar
@@ -102,26 +108,51 @@ try {
     $Existe = 1;
     $stmtAgregarEmpresa->execute();
 
-    // ***** Efectuar cambios */
-    $mysqli->commit();
-    // En caso de no tener errores
-    // Muestra un mensaje exitosa y 3 seg después
-    // se redirige a ConsultaAlumno
-    header("Location: /Admon/ConsultarEmpresas.php?action=created_success");
-    print "Usuario creado exitosamente.";
+    // ***** Verificar Usuario */
+    // preparar y parametrar
+    $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
+    $stmtVerificarUsuario->bind_param("s", $user);
+
+    // establecer parametros y ejecutar cambios
+    $user = $_POST['user'];
+    $stmtVerificarUsuario->execute();
+
+    $stmtVerificarUsuario->store_result();
+    $rowUsuario = $stmtVerificarUsuario->num_rows;
+
+    if ($rowUsuario > 1) {
+
+        // ***** Deshacer cambios */
+        // En caso de existir el usuario
+        $mysqli->rollback();
+        $goTo .= "?action=error";
+        $goTo .= "&title=$title no agregado.";
+        $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
+        $goTo .= "<b>Ya está registrado.<b>";
+        $goTo .= $againTo;
+
+    } else {
+
+        // ***** Efectuar cambios */
+        // En caso de no tener errores
+        $mysqli->commit();
+        $goTo .= "?action=success";
+        $goTo .= "&title=$title agregado.";
+    }
 } catch (mysqli_sql_exception $exception) {
 
     // ***** Deshacer cambios */
     $mysqli->rollback();
     // En caso de tener error en MYSQL
-    // Muestra un mensaje de error y 3 seg después
-    // se redirige a ConsultaAlumno
-    //header("refresh:3;url=../ConsultaAlumno.php");
-    print "Usuario no actualizado satisfactoriamente";
-
-    print $exception;
+    $goTo .= "?action=error";
+    $goTo .= "&title=$title no actualizado.";
+    $goTo .= $againTo;
+    //print $exception;
     //throwLogin $exception;
 }
 
 $mysqli->close();
 $stmtCrearUsuario->close();
+$stmtAgregarEmpresa->close();
+$stmtVerificarUsuario->close();
+header($goTo);
