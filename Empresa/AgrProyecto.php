@@ -47,18 +47,18 @@ print_r("Este es la variable: $IDE :" . $IDE)
   </section>
   <section class="cuerpo">
     <div class="container">
-      <form class="form-datos" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" role="form">
+      <form class="form-datos" action="<?php echo "/Empresa/FncDatabase/ProyectoAgregar.php?id=$IDE" ?>" method="POST" role="form">
         <span style="font-weight:bold;color:#000080;">Informacion de Registro De Proyecto&nbsp;</span>
         <hr>
 
         <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="name" name="NombreP"><br>
+          <input type="text" class="form-control" id="name" name="proyecto-nombre"><br>
         </div>
         <label class="col-lg-3 control-label">Area De Desarrollo :</label>
         <div class="col-lg-9">
           <div class="selector-pais">
-            <select name="Area" class="form-control">
+            <select name="proyecto-area" class="form-control">
               <script type="text/javascript">
                 $(document).ready(function() {
                   $.ajax({
@@ -76,117 +76,39 @@ print_r("Este es la variable: $IDE :" . $IDE)
         </div>
         <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="Descr" name="Descrip"><br>
+          <input type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
         </div>
 
         <label class="col-lg-3 control-label">Objetivo General Del Proyecto</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="OGDP" name="OGDP"><br>
+          <input type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
         </div>
         <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto :</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="OGEP" name="OEDP"><br>
+          <input type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
         </div>
         <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
         <div class="col-lg-9">
-          <select name="Duracion" class="form-control">
+          <select name="proyecto-duracion" class="form-control">
+            <!-- Crear 25 opciones -->
             <Option select value="">Seleccione</Option>
-            <Option value="1">1</Option>
-            <Option value="2">2</Option>
-            <Option value="3">3</Option>
-            <Option value="4">4</Option>
-            <Option value="5">5</Option>
-            <Option value="6">6</Option>
-            <Option value="7">7</Option>
-            <Option value="8">8</Option>
-            <Option value="9">9</Option>
-            <Option value="10">10</Option>
-            <Option value="11">11</Option>
-            <Option value="12">12</Option>
-            <Option value="13">13</Option>
-            <Option value="14">14</Option>
-            <Option value="15">15</Option>
-            <Option value="16">16</Option>
-            <Option value="17">17</Option>
-            <Option value="18">18</Option>
-            <Option value="19">19</Option>
-            <Option value="20">20</Option>
-            <Option value="21">21</Option>
-            <Option value="22">22</Option>
-            <Option value="23">23</Option>
-            <Option value="24">24</Option>
-            <Option value="25">25</Option>
+            <?php
+            for ($i = 1; $i <= 25; $i++) {
+            ?>
+              <Option value="<?php echo $i; ?>"><?php echo $i; ?></Option>
+            <?php } ?>
           </select><br>
         </div>
         <label class="col-lg-3 control-label">Tipo de Proyecto</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="TP" name="TP"><br>
+          <input type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
         </div>
         <hr>
         <br><br>
-        <input class="btn btn-primary" type="submit" name="enviar" value="Guardar">
+        <input class="btn btn-primary" type="submit" name="postAgregarProyecto" value="Guardar">
       </form>
     </div>
   </section>
-  <?php
-
-  if (isset($_POST["enviar"])) {
-    $mysql = new conexion();
-    $con = $mysql->_ObtenerConexion();
-    if (!$con) {
-      die("Connection failed: " . $con->connect_error);
-    }
-    $NombreP   = $_POST['NombreP'];
-    $Area   = $_POST['Area'];
-    $Descripcion = $_POST['Descrip'];
-    $OGDP = $_POST['OGDP'];
-    $OEDP = $_POST['OEDP'];
-    $Duracion = $_POST['Duracion'];
-    $TP = $_POST['TP'];
-
-    mysqli_query($con, "START TRANSACTION;");
-
-    $result = mysqli_query($con, "select * from proyecto where Nombre = '" . $NombreP . "' and id_Area = " . $Area . " and Descripcion='" . $Descripcion . "' and id_Empresa='" . $IDE . "'");
-
-    if (mysqli_num_rows($result) > 0) {
-      echo 'Proyecto YA Existente';
-      mysqli_query($con, "RollBack;");
-    } else {
-      $sql = "INSERT INTO `proyecto`(`Nombre`, `id_Area`, `Descripcion`, `id_Empresa`, `Objetivo_General`, `Objetivo_Espesifico`, `Duracion`, `Tipo_Proyect`) VALUES ('" . $NombreP . "'," . $Area . ",'" . $Descripcion . "'," . $IDE . ",'" . $OGDP . "','" . $OEDP . "'," . $Duracion . ",'" . $TP . "')";
-
-      if (mysqli_query($con, $sql)) {
-        mysqli_query($con, "COMMIT;");
-  ?>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.1/jquery.jgrowl.min.css" />
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.1/jquery.jgrowl.min.js"></script>
-        <script>
-          $.jGrowl("EL REGISTRO SE GUARDO CON EXITO!", {
-            life: 3000,
-            position: 'bottom-right',
-            theme: 'test'
-          });
-        </script>
-        <style>
-          .test {
-            background-color: #31B404;
-            width: 300px;
-            height: 80px;
-            text-align: center;
-          }
-        </style>
-  <?php
-
-
-      } else {
-        mysqli_query($con, "RollBack;");
-        echo 'error al agregar El Proyecto';
-      }
-    }
-    $con->close();
-  }
-
-  ?>
   <footer>
     <div class="contenedor">
       <p>Copyright &copy; BCB</p>
