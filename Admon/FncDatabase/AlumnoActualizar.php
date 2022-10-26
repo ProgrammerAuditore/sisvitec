@@ -5,7 +5,7 @@
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
-$goTo = "/Admon/ConsultarAlumnos.php";
+$goTo = "Location:/Admon/ConsultarAlumnos.php";
 
 // Verificar la conexion
 if ($mysqli->connect_errno) {
@@ -14,7 +14,10 @@ if ($mysqli->connect_errno) {
 
 //****  Verificar que existe el parametro IdUsuario */
 if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: ../ConsultaAlumno.php");
+    // En caso de recibir campos incorrectos
+    $goTo .= "?action=updated_error";
+    $mysqli->close();
+    header($goTo);
     exit();
 }
 
@@ -27,10 +30,10 @@ $camposHTML = array(
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
-        // En caso de recibir campos incorrectos o vacíos
+        // En caso de recibir campos incorrectos
+        $goTo .= "?action=updated_error";
         $mysqli->close();
-        $goTo = "?action=updated_error";
-        header("Location: " . $goTo);
+        header($goTo);
         exit();
     }
 }
@@ -101,14 +104,24 @@ try {
     $Existe = 1;
     $stmtActualizarAlumno->execute();
 
-    // ***** Obtener ID Login */
-    $queryVerificarUsuario = $mysqli->query($consulta);
-    $rowUsuario = $queryVerificarUsuario->num_rows;
+    // ***** Verificar Usuario */
+    // preparar y parametrar
+    $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
+    $stmtVerificarUsuario->bind_param("s",$user);
 
-    if ($rowUsuario > 0) {
+    // establecer parametros y ejecutar cambios
+    $user = $_POST['user'];
+    $stmtVerificarUsuario->execute();
+
+    $stmtVerificarUsuario->store_result();
+    $rowUsuario = $stmtVerificarUsuario->num_rows;
+
+    if ($rowUsuario > 1) {
+
         // ***** Deshacer cambios */
+        // En caso de existir el usuario
         $mysqli->rollback();
-        $goTo = "?action=created_exist";
+        $goTo .= "?action=updated_exist";
     } else {
 
         // ***** Efectuar cambios */
@@ -119,7 +132,7 @@ try {
 } catch (mysqli_sql_exception $exception) {
 
     // ***** Deshacer cambios */
-    // En caso de tener error en MYSQL
+    // En caso de un error en la base de datos
     $mysqli->rollback();
     $goTo .= "?action=updated_error";
     //print $exception;
@@ -128,4 +141,6 @@ try {
 
 $mysqli->close();
 $stmtActualizarAlumno->close();
-header("Location: " . $goTo);
+$stmtActualizarUsuario->close();
+$stmtVerificarUsuario->close();
+header($goTo);

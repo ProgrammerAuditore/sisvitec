@@ -47,10 +47,6 @@ VALUES (?,?,?,?,?,?,?,?); ";
 
 try {
 
-    // ***** Obtener ID Login */
-    $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
-    $rowLogin = $queryObtenerIdLogin->fetch_array();
-
     // ***** Registrar Usuario */
     // preparar y parametrar
     $stmtCrearUsuario = $mysqli->prepare($consultaCrearUsuario);
@@ -63,10 +59,14 @@ try {
     $Existe = 1;
     $stmtCrearUsuario->execute();
 
+    // ***** Obtener ID Login del usuario creado recientemente */
+    $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
+    $rowLogin = $queryObtenerIdLogin->fetch_array();
+
     // ***** Registrar Alumno */
     // preparar y parametrar
     $stmtCrearAlumno = $mysqli->prepare($consultaCrearAlumno);
-    $stmtCrearAlumno->bind_param("ssssiiii", $NombreA, $NumeroC, $Correo, $Direccion, $Area, $Carrera, $idAlumno, $Existe);
+    $stmtCrearAlumno->bind_param("ssssiiii", $NombreA, $NumeroC, $Correo, $Direccion, $Area, $Carrera, $idLogin, $Existe);
 
     // establecer parametros y ejecutar cambios
     $NombreA   = $_POST['NombreA'];
@@ -75,7 +75,7 @@ try {
     $Direccion = $_POST['Direccion'];
     $Area = $_POST['Area'];
     $Carrera = $_POST['Carrera'];
-    $idAlumno = $rowLogin['max_login'];
+    $idLogin  = $rowLogin['max_login'];
     $Existe = 1;
     $stmtCrearAlumno->execute();
 
@@ -104,6 +104,7 @@ try {
         // En caso de no tener errores
         $mysqli->commit();
         $goTo .= "?action=created_success";
+
     }
 } catch (mysqli_sql_exception $exception) {
 

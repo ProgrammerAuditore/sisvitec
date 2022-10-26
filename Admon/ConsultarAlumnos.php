@@ -1,9 +1,28 @@
 <?php
+// Iniciar session, hacer conexion  a la base de datos
+// y obtener la conexion
 session_start();
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
-error_reporting(0);
+
+// Crear consulta
+$consultaQ = "SELECT
+alu.id_Login AS AlumnoLoginId,
+alu.id_Alumnos AS AlumnoId,
+alu.Nombre AS AlumnoNombre,
+alu.Num_Control AS AlumnoNumControl,
+alu.Correo AS AlumnoCorreo,
+car.Nombre AS AlumnoCarrera, 
+are.Nombre AS AlumnoArea 
+FROM alumnos AS alu 
+LEFT JOIN carrera AS car ON alu.id_Carrera=car.id_carrera
+LEFT JOIN area AS are ON alu.id_Area = are.id_Area; ";
+
+// Obtener resultado de la consulta
+$result = $mysqli->query($consultaQ);
+
+$mysqli->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,33 +77,35 @@ error_reporting(0);
               <th>Eliminar</th>
             </tr>
           </thead>
-          <?php
-          $mysql = new conexion();
-          $con = $mysql->_ObtenerConexion();
-          if (!$con) {
-            die('error de conexion de servidor:' . mysql_error());
-          }
-          $consulta = "SELECT alu.id_Login,alu.id_Alumnos,alu.Nombre,alu.Num_Control,alu.Correo,car.Nombre as Carrera, are.Nombre as Area From alumnos as alu LEFT JOIN carrera as car On alu.id_Carrera=car.id_carrera
-LEFT JOIN area as are On alu.id_Area = are.id_Area;";
-          $resultado = mysqli_query($con, $consulta);
-          $contador = 0;
-          while ($misdatos = mysqli_fetch_assoc($resultado)) {
-            $contador++; ?>
-            <tr>
-              <td><?php echo $contador ?></td>
-              <td><?php echo $misdatos["Nombre"]; ?></td>
-              <td><?php echo $misdatos["Num_Control"]; ?></td>
-              <td><?php echo $misdatos["Correo"]; ?></td>
-              <td><?php echo $misdatos["Area"]; ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConAlumno.php?IdUsuario={$misdatos["id_Login"]}><font color='#ffffff'>Consultar</font></a>" ?></td>
-
-              <td><?php echo "<a style='margin:3px' class='btn btn-warning' href=EdiAlumno.php?IdUsuario={$misdatos["id_Login"]} ><font color='#ffffff'>Editar</font></a>" ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-danger' href=?IdUsuario={$misdatos["id_Login"]}&action=delete ><font color='#ffffff'>Eliminar</font></a>" ?></td>
-
-            </tr>
-
-          <?php } ?>
-
+          <tbody>
+            <?php
+            $filas = 0;
+            while ($getAlumnos = $result->fetch_assoc()) {
+              $filas++;
+            ?>
+              <tr>
+                <td><?php echo $filas ?></td>
+                <td><?php echo $getAlumnos['AlumnoNombre'] ?></td>
+                <td><?php echo $getAlumnos['AlumnoNumControl'] ?></td>
+                <td><?php echo $getAlumnos['AlumnoCorreo'] ?></td>
+                <td><?php echo $getAlumnos['AlumnoArea'] ?></td>
+                <td>
+                  <a class="btn btn-primary" 
+                  href="./ConAlumno.php?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>" 
+                  role="button">Consultar</a>
+                </td>
+                <td>
+                <a class="btn btn-warning" 
+                  href="./EdiAlumno.php?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>" 
+                  role="button">Editar</a>
+                </td>
+                <td>
+                <a class="btn btn-danger" 
+                  href="?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>&action=delete" 
+                  role="button">Editar</a>
+                </td>
+              </tr>
+            <?php } ?>
           </tbody>
         </table>
         <!-- Fin Contenido -->
@@ -92,103 +113,7 @@ LEFT JOIN area as are On alu.id_Area = are.id_Area;";
     </div>
   </section>
 
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'updated_success') { ?>
-    <script>
-      Swal.fire({
-        icon: "success",
-        text: "Datos actualizados"
-      }).then((resultado) => {
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-      });
-    </script>
-  <?php } ?>
-
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_success') { ?>
-    <script>
-      Swal.fire({
-        icon: "success",
-        text: "Alumno creado"
-      }).then((resultado) => {
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-      });
-    </script>
-  <?php } ?>
-
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'updated_error') { ?>
-    <script>
-      Swal.fire({
-        icon: 'error',
-        title: 'Datos no actualizado.',
-        text: 'Verifique que los campos sean correctos y no vacíos.\n' +
-          'Vuelve a intentarlo.'
-      }).then((resultado) => {
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-      });
-    </script>
-  <?php } ?>
-
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_error') { ?>
-    <script>
-      Swal.fire({
-        icon: 'error',
-        title: 'Alumno no fue creado',
-        text: 'Verifique que los campos sean correctos y no vacíos.\n' +
-          'Vuelve a intentarlo.'
-      }).then((resultado) => {
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-      });
-    </script>
-  <?php } ?>
-
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'created_exist') { ?>
-    <script>
-      Swal.fire({
-        icon: 'error',
-        title: 'Alumno no fue creado',
-        text: 'El nombre de usuario ya está registrado. \n' +
-          'Vuelve a intentarlo.'
-      }).then((resultado) => {
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-      });
-    </script>
-  <?php } ?>
-
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
-    <script>
-      Swal.fire({
-        title: 'Confirmar',
-        text: "¿Seguro que desear eliminar este alumno?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si'
-      }).then((result) => {
-
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-
-        if (result.isConfirmed) {
-          $.ajax({
-            url: "./FncDatabase/AlumnoEliminar.php?id=<?php echo $_GET['IdUsuario']; ?>"
-          });
-          Swal.fire(
-            'Eliminado!',
-            'Alumno fue eliminado.',
-            'success'
-          ).then((r) => {
-            window.location.reload();
-          });
-        }
-
-      })
-    </script>
-  <?php } ?>
+  <?php require './notificacionesAlumno.php' ?>
 
   <footer>
     <div class="contenedor">
