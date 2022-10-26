@@ -90,19 +90,13 @@ $mysqli->close();
                 <td><?php echo $getAlumnos['AlumnoCorreo'] ?></td>
                 <td><?php echo $getAlumnos['AlumnoArea'] ?></td>
                 <td>
-                  <a class="btn btn-primary" 
-                  href="./ConAlumno.php?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>" 
-                  role="button">Consultar</a>
+                  <a class="btn btn-primary" href="./ConAlumno.php?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>" role="button">Consultar</a>
                 </td>
                 <td>
-                <a class="btn btn-warning" 
-                  href="./EdiAlumno.php?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>" 
-                  role="button">Editar</a>
+                  <a class="btn btn-warning" href="./EdiAlumno.php?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>" role="button">Editar</a>
                 </td>
                 <td>
-                <a class="btn btn-danger" 
-                  href="?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>&action=delete" 
-                  role="button">Editar</a>
+                  <a class="btn btn-danger" href="?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>&action=delete" role="button">Editar</a>
                 </td>
               </tr>
             <?php } ?>
@@ -113,7 +107,50 @@ $mysqli->close();
     </div>
   </section>
 
-  <?php require './notificacionesAlumno.php' ?>
+  <?php if (isset($_GET['action'])) { ?>
+    <script>
+      Swal.fire({
+        icon: '<?php echo (isset($_GET['action'])) ? $_GET['action'] : ''; ?>',
+        title: '<?php echo (isset($_GET['title'])) ? $_GET['title'] : ''; ?>',
+        html: '<?php echo (isset($_GET['msg'])) ? $_GET['msg'] : ''; ?>'
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
+  <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
+    <script>
+      Swal.fire({
+        title: 'Confirmar',
+        text: "¿Seguro que desear eliminar este alumno?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+      }).then((result) => {
+
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "./FncDatabase/AlumnoEliminar.php?id=<?php echo $_GET['IdUsuario']; ?>"
+          });
+          Swal.fire(
+            'Eliminado!',
+            'Alumno fue eliminado.',
+            'success'
+          ).then((r) => {
+            window.location.reload();
+          });
+        }
+
+      })
+    </script>
+  <?php } ?>
 
   <footer>
     <div class="contenedor">

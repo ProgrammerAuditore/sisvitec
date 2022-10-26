@@ -6,6 +6,7 @@ include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
 $goTo = "Location:/Admon/ConsultarAlumnos.php";
+$againTo = "<br/><hr><a href=/Admon/EdiAlumno.php?IdUsuario={$_GET['id']}>Volver a intentarlo.</a>";
 
 // Verificar la conexion
 if ($mysqli->connect_errno) {
@@ -15,7 +16,7 @@ if ($mysqli->connect_errno) {
 //****  Verificar que existe el parametro IdUsuario */
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     // En caso de recibir campos incorrectos
-    $goTo .= "?action=updated_error";
+    $goTo .= "?action=error&msg=Usuario no valido&msg=Este usuario no existe.";
     $mysqli->close();
     header($goTo);
     exit();
@@ -31,7 +32,10 @@ $camposHTML = array(
 foreach ($camposHTML as $key) {
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
-        $goTo .= "?action=updated_error";
+        $goTo .= "?action=error";
+        $goTo .= "&title=Alumno no actualizado.";
+        $goTo .= "&msg=Verifique que los campos sean validos y no vacios.";
+        $goTo .= $againTo;
         $mysqli->close();
         header($goTo);
         exit();
@@ -121,22 +125,32 @@ try {
         // ***** Deshacer cambios */
         // En caso de existir el usuario
         $mysqli->rollback();
-        $goTo .= "?action=updated_exist";
+        $goTo .= "?action=error";
+        $goTo .= "&title=Alumno no actualizado.";
+        $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
+        $goTo .= "<b>Ya está registrado.<b>";
+        $goTo .= $againTo;
+
     } else {
 
         // ***** Efectuar cambios */
         // En caso de no tener errores
         $mysqli->commit();
-        $goTo .= "?action=updated_success";
+        $goTo .= "?action=success";
+        $goTo .= "&title=Alumno actualizado.";
+
     }
 } catch (mysqli_sql_exception $exception) {
 
     // ***** Deshacer cambios */
     // En caso de un error en la base de datos
     $mysqli->rollback();
-    $goTo .= "?action=updated_error";
+    $goTo .= "?action=error";
+    $goTo .= "&title=Alumno no actualizado.";
+    $goTo .= $againTo;
     //print $exception;
     //throw $exception;
+
 }
 
 $mysqli->close();

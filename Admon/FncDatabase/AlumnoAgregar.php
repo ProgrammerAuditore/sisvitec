@@ -5,7 +5,8 @@
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
-$goTo = "Location: /Admon/ConsultarAlumnos.php";
+$goTo = "Location:/Admon/ConsultarAlumnos.php";
+$againTo = "<br/><hr><a href=/Admon/AgrAlu.php>Volver a intentarlo.</a>";
 
 // Verificar la conexion
 if ($mysqli->connect_errno) {
@@ -22,7 +23,10 @@ $camposHTML = array(
 foreach ($camposHTML as $key) {
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
-        $goTo .= "?action=created_error";
+        $goTo .= "?action=error";
+        $goTo .= "&title=Alumno no agregado.";
+        $goTo .= "&msg=Verifique que los campos sean validos y no vacios.";
+        $goTo .= $againTo;
         $mysqli->close();
         header($goTo);
         exit();
@@ -96,27 +100,29 @@ try {
         // ***** Deshacer cambios */
         // En caso de existir el usuario
         $mysqli->rollback();
-        $goTo .= "?action=created_exist";
+        $goTo .= "?action=error";
+        $goTo .= "&title=Alumno no agregado.";
+        $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
+        $goTo .= "<b>Ya está registrado.<b>";
+        $goTo .= $againTo;
 
     } else {
 
         // ***** Efectuar cambios */
         // En caso de no tener errores
         $mysqli->commit();
-        $goTo .= "?action=created_success";
+        $goTo .= "?action=success";
+        $goTo .= "&title=Alumno agregado.";
 
     }
 } catch (mysqli_sql_exception $exception) {
 
     // ***** Deshacer cambios */
     $mysqli->rollback();
-    // En caso de tener error en MYSQL
-    // Muestra un mensaje de error y 3 seg después
-    // se redirige a ConsultaAlumno
-    //header("refresh:3;url=../ConsultaAlumno.php");
-    print "Usuario no actualizado satisfactoriamente";
-
-    print $exception;
+    $goTo .= "?action=error";
+    $goTo .= "&title=Alumno no actualizado.";
+    $goTo .= $againTo;
+    //print $exception;
     //throwLogin $exception;
 }
 
