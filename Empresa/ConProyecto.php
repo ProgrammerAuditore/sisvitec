@@ -86,58 +86,45 @@ $mysqli->close();
   </section>
   <section class="cuerpo">
     <div class="container">
-      
-        <span style="font-weight:bold;color:#000080;">Informacion de Registro De Proyecto&nbsp;</span>
-        <hr>
-        <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
-        <div class="col-lg-9">
-          <input
-          value=<?php echo $getProyecto['ProyectoNombre']; ?> disabled
-          type="text" class="form-control" id="name" name="proyecto-nombre"><br>
-        </div>
-        <label class="col-lg-3 control-label">Area De Desarrollo :</label>
-        <div class="col-lg-9">
-          <div class="selector-pais">
-          <input
-          value=<?php echo $getProyecto['ProyectoArea']; ?> disabled
-          type="text" class="form-control" name="proyecto-area"><br>
-          </div>
-        </div>
-        <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
-        <div class="col-lg-9">
-          <input 
-          value=<?php echo $getProyecto['ProyectoDescripcion']; ?> disabled
-          type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
-        </div>
 
-        <label class="col-lg-3 control-label">Objetivo General Del Proyecto</label>
-        <div class="col-lg-9">
-          <input 
-          value=<?php echo $getProyecto['ProyectoObjGeneral']; ?> disabled
-          type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
+      <span style="font-weight:bold;color:#000080;">Informacion de Registro De Proyecto&nbsp;</span>
+      <hr>
+      <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
+      <div class="col-lg-9">
+        <input value=<?php echo $getProyecto['ProyectoNombre']; ?> disabled type="text" class="form-control" id="name" name="proyecto-nombre"><br>
+      </div>
+      <label class="col-lg-3 control-label">Area De Desarrollo :</label>
+      <div class="col-lg-9">
+        <div class="selector-pais">
+          <input value=<?php echo $getProyecto['ProyectoArea']; ?> disabled type="text" class="form-control" name="proyecto-area"><br>
         </div>
-        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto :</label>
-        <div class="col-lg-9">
-          <input
-          value=<?php echo $getProyecto['ProyectoObjEspecifico']; ?> disabled
-          type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
-        </div>
-        <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
-        <div class="col-lg-9">
-        <input
-          value=<?php echo $getProyecto['ProyectoDuracion']; ?> disabled
-          type="text" class="form-control" name="proyecto-duracion"><br>
-        </div>
-        <label class="col-lg-3 control-label">Tipo de Proyecto</label>
-        <div class="col-lg-9">
-          <input 
-          value=<?php echo $getProyecto['ProyectoTipo']; ?> disabled
-          type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
-        </div>
-        <hr>
-        <br><br>
-        <a class="btn btn-primary" href="/Empresa/ConsultarProyecto.php" role="button">Regresar</a>
-        
+      </div>
+      <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
+      <div class="col-lg-9">
+        <input value=<?php echo $getProyecto['ProyectoDescripcion']; ?> disabled type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
+      </div>
+
+      <label class="col-lg-3 control-label">Objetivo General Del Proyecto</label>
+      <div class="col-lg-9">
+        <input value=<?php echo $getProyecto['ProyectoObjGeneral']; ?> disabled type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
+      </div>
+      <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto :</label>
+      <div class="col-lg-9">
+        <input value=<?php echo $getProyecto['ProyectoObjEspecifico']; ?> disabled type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
+      </div>
+      <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
+      <div class="col-lg-9">
+        <input value=<?php echo $getProyecto['ProyectoDuracion']; ?> disabled type="text" class="form-control" name="proyecto-duracion"><br>
+      </div>
+      <label class="col-lg-3 control-label">Tipo de Proyecto</label>
+      <div class="col-lg-9">
+        <input value=<?php echo $getProyecto['ProyectoTipo']; ?> disabled type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
+      </div>
+      <hr>
+      <br><br>
+      <a class="btn btn-primary" href="/Empresa/ConsultarProyecto.php" role="button">Regresar</a>
+      <a class="btn btn-warning" href="/Empresa/EdiProyecto.php?IdProyecto=<?php echo $getProyecto['ProyectoId']; ?>" role="button">Editar</a>
+
     </div>
   </section>
   <footer>

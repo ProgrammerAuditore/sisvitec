@@ -1,9 +1,51 @@
 <?php
+// Iniciar session, hacer conexion  a la base de datos
+// y obtener la conexion
 session_start();
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
-$IDE = $_SESSION['idE'];
+$title = "Proyecto";
+$goTo = "Location:/Empresa/ConsultarProyecto.php";
+$againTo = "<br/><hr><a href=/Empresa/AgrProyecto.php>Volver a intentarlo.</a>";
+
+//****  Verificar que existe el parametro IdUsuario */
+if (!isset($_GET['IdProyecto']) || empty($_GET['IdProyecto'])) {
+  // En caso de recibir campos incorrectos
+  $goTo .= "?action=error&msg=Usuario no valido&msg=Este usuario no existe.";
+  $mysqli->close();
+  header($goTo);
+  exit();
+}
+
+// Obtener el IdProyecto
+$IdProyecto = $_GET['IdProyecto'];
+
+// Crear consulta
+$consultaQ = "SELECT 
+p.id_Proyecto AS ProyectoId,
+p.Nombre AS ProyectoNombre,
+p.Descripcion AS ProyectoDescripcion,
+p.Descripcion AS ProyectoObjGeneral,
+p.Objetivo_Espesifico AS ProyectoObjEspecifico,
+p.Duracion AS ProyectoDuracion,
+p.Tipo_Proyect AS ProyectoTipo,
+a.Nombre AS ProyectoArea,
+e.Nombre AS ProyectoEmpresa
+FROM `proyecto` AS p  
+LEFT JOIN `empresa` AS e ON p.id_Empresa = e.id_empresa
+LEFT JOIN `area` AS a ON p.id_Area = a.id_Area   
+WHERE p.id_Proyecto = $IdProyecto;";
+
+// Obtener resultado de la consulta
+$result = $mysqli->query($consultaQ);
+//print var_dump($result->fetch_assoc());
+
+// Obtener los registros del usuario
+$getProyecto = $result->fetch_assoc();
+
+$mysqli->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,65 +86,46 @@ $IDE = $_SESSION['idE'];
   </section>
   <section class="cuerpo">
     <div class="container">
-      <form class="form-datos" action="<?php echo "/Empresa/FncDatabase/ProyectoAgregar.php?id=$IDE" ?>" method="POST" role="form">
+      <form 
+      action=<?php echo "/Empresa/FncDatabase/ProyectoActualizar.php?id=$IdProyecto"; ?>
+      class="form-datos"  method="POST" role="form">
         <span style="font-weight:bold;color:#000080;">Informacion de Registro De Proyecto&nbsp;</span>
         <hr>
-
         <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="name" name="proyecto-nombre"><br>
+          <input value=<?php echo $getProyecto['ProyectoNombre']; ?>  type="text" class="form-control" id="name" name="proyecto-nombre"><br>
         </div>
         <label class="col-lg-3 control-label">Area De Desarrollo :</label>
         <div class="col-lg-9">
           <div class="selector-pais">
-            <select name="proyecto-area" class="form-control">
-              <script type="text/javascript">
-                $(document).ready(function() {
-                  $.ajax({
-                    type: "POST",
-                    url: "AreasD.php",
-                    success: function(response) {
-                      $('.selector-pais select').html(response).fadeIn();
-                    }
-                  });
-
-                });
-              </script>
-            </select><br>
+            <input value=<?php echo $getProyecto['ProyectoArea']; ?>  type="text" class="form-control" name="proyecto-area"><br>
           </div>
         </div>
         <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
+          <input value=<?php echo $getProyecto['ProyectoDescripcion']; ?>  type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
         </div>
 
         <label class="col-lg-3 control-label">Objetivo General Del Proyecto</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
+          <input value=<?php echo $getProyecto['ProyectoObjGeneral']; ?>  type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
         </div>
         <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto :</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
+          <input value=<?php echo $getProyecto['ProyectoObjEspecifico']; ?>  type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
         </div>
         <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
         <div class="col-lg-9">
-          <select name="proyecto-duracion" class="form-control">
-            <!-- Crear 25 opciones -->
-            <Option select value="">Seleccione</Option>
-            <?php
-            for ($i = 1; $i <= 25; $i++) {
-            ?>
-              <Option value="<?php echo $i; ?>"><?php echo $i; ?></Option>
-            <?php } ?>
-          </select><br>
+          <input value=<?php echo $getProyecto['ProyectoDuracion']; ?>  type="text" class="form-control" name="proyecto-duracion"><br>
         </div>
         <label class="col-lg-3 control-label">Tipo de Proyecto</label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
+          <input value=<?php echo $getProyecto['ProyectoTipo']; ?>  type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
         </div>
         <hr>
         <br><br>
-        <input class="btn btn-primary" type="submit" name="postAgregarProyecto" value="Guardar">
+        <a class="btn btn-primary" href="/Empresa/ConsultarProyecto.php" role="button">Regresar</a>
+        <input class="btn btn-warning" type="submit" name="postActualizarProyecto" value="Actualizar">
       </form>
     </div>
   </section>

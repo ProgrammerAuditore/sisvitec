@@ -87,15 +87,9 @@ $mysqli->close();
                 <td><?php echo $getProyectos['ProyectoDescripcion'] ?></td>
                 <td><?php echo $getProyectos['ProyectoDuracion'] ?></td>
                 <td>
-                  <a 
-                  class="btn btn-primary"
-                  href="<?php echo "/Empresa/ConProyecto.php?IdProyecto=" . $getProyectos['ProyectoId']; ?>" >Consultar</a>
-                  <a 
-                  class="btn btn-warning"
-                  href="<?php echo "/Empresa/EdiProyecto.php?id=" . $getProyectos['ProyectoId']; ?>" >Editar</a>
-                  <a 
-                  class="btn btn-danger"
-                  href="<?php echo "?id=" . $getProyectos['ProyectoId'] . "&action=delete"; ?>" >Eliminar</a>
+                  <a class="btn btn-primary" href="<?php echo "/Empresa/ConProyecto.php?IdProyecto=" . $getProyectos['ProyectoId']; ?>">Consultar</a>
+                  <a class="btn btn-warning" href="/Empresa/EdiProyecto.php?IdProyecto=<?php echo $getProyectos['ProyectoId']; ?>" role="button">Editar</a>
+                  <a class="btn btn-danger" href="<?php echo "?id=" . $getProyectos['ProyectoId'] . "&action=delete"; ?>">Eliminar</a>
                 </td>
               </tr>
             <?php } ?>
