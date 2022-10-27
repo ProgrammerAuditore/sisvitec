@@ -17,6 +17,8 @@ $IdEmpresa = $_GET['IdEmpresa'];
 
 // Crear consulta
 $consultaQ = "SELECT 
+lng.User AS EmpresaUser,
+lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
 e.Tipo_Empresa AS EmpresaTipo,
 e.Razon_Social AS EmpresaRazonSocial,
@@ -24,6 +26,7 @@ e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
 e.id_Empresa AS EmpresaID
 FROM empresa AS e 
+LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
 WHERE e.id_empresa = $IdEmpresa ; ";
 
 // Obtener resultado de la consulta
@@ -87,33 +90,45 @@ $mysqli->close();
     </section>
     <section class="cuerpo">
         <div class="container">
+            <!-- Información de registro -->
+            <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+            <hr>
+            <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
+            <div class="col-lg-9">
+                <p class="form-control" disabled><?php echo $getProyecto['EmpresaUser']; ?></p>
+            </div>
+
+            <label class="col-lg-3 control-label">Contrasena:</label>
+            <div class="col-lg-9">
+                <p class="form-control" disabled><?php echo "******"; ?></p>
+            </div>
 
             <!-- Información de la empresa -->
             <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
             <hr>
             <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
             <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['EmpresaNombre']; ?></p>
+                <p class="form-control" disabled><?php echo $getProyecto['EmpresaNombre']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">Tipo de empresa:</label>
             <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['EmpresaTipo']; ?></p>
+                <p class="form-control" disabled><?php echo $getProyecto['EmpresaTipo']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
             <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['EmpresaRazonSocial']; ?></p>
+                <p class="form-control" disabled><?php echo $getProyecto['EmpresaRazonSocial']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">RFC:</label>
             <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['EmpresaRFC']; ?></p>
+                <p class="form-control" disabled><?php echo $getProyecto['EmpresaRFC']; ?></p>
             </div>
 
             <label class="col-lg-3 control-label">Descripción:</label>
             <div class="col-lg-9 m-2">
-                <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['EmpresaDireccion']; ?></textarea>
+                <textarea disabled name="descripcion" class="form-control"><?php echo $getProyecto['EmpresaDireccion']; ?></textarea>
             </div>
 
             <!-- Botones (Para acciones) -->
