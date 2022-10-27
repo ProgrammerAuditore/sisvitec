@@ -10,6 +10,7 @@ $IDE = $_SESSION['idE'];
 
 // Crear consulta
 $consultaQ = "SELECT 
+p.id_Proyecto AS ProyectoId,
 p.Nombre aS ProyectoNombre,
 a.Nombre AS ProyectoArea,
 p.Descripcion AS ProyectoDescripcion,
@@ -86,9 +87,15 @@ $mysqli->close();
                 <td><?php echo $getProyectos['ProyectoDescripcion'] ?></td>
                 <td><?php echo $getProyectos['ProyectoDuracion'] ?></td>
                 <td>
-                  <a href="" class="btn btn-primary">Consultar</a>
-                  <a href="" class="btn btn-primary">Editar</a>
-                  <a href="" class="btn btn-primary">Eliminar</a>
+                  <a 
+                  class="btn btn-primary"
+                  href="<?php echo "/Empresa/ConProyecto.php?IdProyecto=" . $getProyectos['ProyectoId']; ?>" >Consultar</a>
+                  <a 
+                  class="btn btn-warning"
+                  href="<?php echo "/Empresa/EdiProyecto.php?id=" . $getProyectos['ProyectoId']; ?>" >Editar</a>
+                  <a 
+                  class="btn btn-danger"
+                  href="<?php echo "?id=" . $getProyectos['ProyectoId'] . "&action=delete"; ?>" >Eliminar</a>
                 </td>
               </tr>
             <?php } ?>
