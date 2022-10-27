@@ -89,7 +89,7 @@ $mysqli->close();
                 <td>
                   <a class="btn btn-primary" href="<?php echo "/Empresa/ConProyecto.php?IdProyecto=" . $getProyectos['ProyectoId']; ?>">Consultar</a>
                   <a class="btn btn-warning" href="/Empresa/EdiProyecto.php?IdProyecto=<?php echo $getProyectos['ProyectoId']; ?>" role="button">Editar</a>
-                  <a class="btn btn-danger" href="<?php echo "?id=" . $getProyectos['ProyectoId'] . "&action=delete"; ?>">Eliminar</a>
+                  <a class="btn btn-danger" href="<?php echo "?IdProyecto=" . $getProyectos['ProyectoId'] . "&action=delete"; ?>">Eliminar</a>
                 </td>
               </tr>
             <?php } ?>
@@ -130,14 +130,14 @@ $mysqli->close();
 
         if (result.isConfirmed) {
           $.ajax({
-            url: "./FncDatabase/AlumnoEliminar.php?id=<?php echo $_GET['IdUsuario']; ?>"
-          });
-          Swal.fire(
-            'Eliminado!',
-            'Alumno fue eliminado.',
-            'success'
-          ).then((r) => {
-            window.location.reload();
+            url: "./FncDatabase/ProyectoEliminar.php?id=<?php echo $_GET['IdProyecto']; ?>"
+          }).then((a) => {
+            Swal.fire({
+              icon: 'success',
+              title: a
+            }).then((r) => {
+              window.location.reload();
+            });
           });
         }
 
