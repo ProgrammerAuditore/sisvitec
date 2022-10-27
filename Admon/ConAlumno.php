@@ -82,6 +82,7 @@ $mysqli->close();
     <!-- Poner los datos del usuario -->
     <div class="container">
       <form class="form-datos" action="<?php echo "./FncDatabase/AlumnoActualizar.php?id=$IdUsuario"; ?>" method="POST" role="form">
+        <br>
         <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
         <hr>
 
@@ -94,6 +95,10 @@ $mysqli->close();
         <div class="col-lg-9">
           <input type="password" disabled value=<?php echo $getUsuario['Password'];   ?> placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
         </div>
+
+        <span style="font-weight:bold;color:#000080;">Informacion de alumno&nbsp;</span>
+        <hr>
+
         <label class="col-lg-3 control-label">Nombre Alumno</label>
         <div class="col-lg-9">
           <input value=<?php echo $getUsuario['Nombre'];   ?> type="text" disabled class="form-control" id="name" name="NombreA"><br>

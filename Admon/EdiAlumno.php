@@ -77,6 +77,7 @@ $getUsuario = $result->fetch_assoc();
     <!-- Poner los datos del usuario -->
     <div class="container">
       <form class="form-datos" action="<?php echo "./FncDatabase/AlumnoActualizar.php?id=$IdUsuario"; ?>" method="POST" role="form">
+        <br>
         <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
         <hr>
 
@@ -89,6 +90,10 @@ $getUsuario = $result->fetch_assoc();
         <div class="col-lg-9">
           <input value=<?php echo $getUsuario['Password'];   ?> type="password" placeholder="Contraseña" name="pass" class="form-control" data-toggle="password"><br>
         </div>
+
+        <span style="font-weight:bold;color:#000080;">Informacion de alumno&nbsp;</span>
+        <hr>
+        
         <label class="col-lg-3 control-label">Nombre Alumno</label>
         <div class="col-lg-9">
           <input value=<?php echo $getUsuario['Nombre'];   ?> type="text" class="form-control" id="name" name="NombreA"><br>
