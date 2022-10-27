@@ -20,7 +20,7 @@ $consultaQ = "SELECT
 lng.User AS EmpresaUser,
 lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
-e.Tipo_Empresa AS EmpresaTipo,
+e.Tipo_Empresa AS EmpresaTipoConvenio,
 e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
@@ -111,9 +111,9 @@ $mysqli->close();
                 <p class="form-control" disabled><?php echo $getProyecto['EmpresaNombre']; ?></p>
             </div>
 
-            <label for="nombre" class="col-lg-3 control-label">Tipo de empresa:</label>
+            <label for="nombre" class="col-lg-3 control-label">Tipo de Convenio:</label>
             <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getProyecto['EmpresaTipo']; ?></p>
+                <p class="form-control" disabled><?php echo $getProyecto['EmpresaTipoConvenio']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>

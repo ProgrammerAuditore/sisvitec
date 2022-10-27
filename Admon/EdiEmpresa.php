@@ -20,7 +20,7 @@ $consultaQ = "SELECT
 lng.User AS EmpresaUser,
 lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
-e.Tipo_Empresa AS EmpresaTipo,
+e.Tipo_Empresa AS EmpresaTipoConvenio,
 e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
@@ -40,8 +40,8 @@ if ($result->num_rows <= 0) {
 }
 
 // Obtener los registros del proyecto
-$getProyecto = $result->fetch_assoc();
-//print var_dump($getProyecto);
+$getEmpresa = $result->fetch_assoc();
+//print var_dump($getEmpresa);
 
 $mysqli->close();
 
@@ -99,17 +99,12 @@ $mysqli->close();
                 <hr>
                 <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
                 <div class="col-lg-9">
-                    <input type="text" 
-                    value="<?php echo $getProyecto['EmpresaUser']; ?>"
-                    placeholder="Usuario" name="user" class="form-control" id="nombre" ><br>
+                    <input type="text" value="<?php echo $getEmpresa['EmpresaUser']; ?>" placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
                 </div>
 
                 <label class="col-lg-3 control-label">Contrasena:</label>
                 <div class="col-lg-9">
-                    <input 
-                    value="<?php echo $getProyecto['EmpresaPassword']; ?>"
-                    type="password" placeholder="Contraseña" name="pass" 
-                    class="form-control" data-toggle="password"><br>
+                    <input value="<?php echo $getEmpresa['EmpresaPassword']; ?>" type="password" placeholder="Contraseña" name="pass" class="form-control" data-toggle="password"><br>
                 </div>
 
                 <!-- Información de la empresa -->
@@ -117,27 +112,43 @@ $mysqli->close();
                 <hr>
                 <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
                 <div class="col-lg-9">
-                    <input class="form-control" id="nombre" name="NombreE" type="text" placeholder="Usuario" value="<?php echo $getProyecto['EmpresaNombre']; ?>"><br>
+                    <input class="form-control" id="nombre" name="NombreE" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaNombre']; ?>"><br>
                 </div>
 
-                <label for="nombre" class="col-lg-3 control-label">Tipo de empresa:</label>
+                <!-- Tipo de convenio -->
+                <label for="turno" class="col-lg-3 control-label">Tipo de Convenio:</label>
                 <div class="col-lg-9">
-                    <input class="form-control" id="tipoEmpresa" name="tipoEmpresa" type="text" placeholder="Usuario" value="<?php echo $getProyecto['EmpresaTipo']; ?>"><br>
+                    <select name="tipoEmpresa" class="form-control">
+                        <?php
+                        $opcionesConvenio = array(
+                            "Seleccionar tipo de convenio...",
+                            "Servicios profesionales y consultoría",
+                            "Desarrollo y transferencia de tecnología"
+                        );
+                        foreach ($opcionesConvenio as $valor) {
+                            if (trim($valor) == trim($getEmpresa["EmpresaTipoConvenio"])) {
+                                echo "<option value='$valor' selected>$valor</option>";
+                            } else {
+                                echo "<option value='$valor'>$valor</option>";
+                            }
+                        }
+                        ?>
+                    </select><br>
                 </div>
 
                 <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
                 <div class="col-lg-9">
-                    <input class="form-control" id="RazonS" name="RazonS" type="text" placeholder="Usuario" value="<?php echo $getProyecto['EmpresaRazonSocial']; ?>"><br>
+                    <input class="form-control" id="RazonS" name="RazonS" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaRazonSocial']; ?>"><br>
                 </div>
 
                 <label for="nombre" class="col-lg-3 control-label">RFC:</label>
                 <div class="col-lg-9">
-                    <input class="form-control" id="RFCE" name="RFCE" type="text" placeholder="Usuario" value="<?php echo $getProyecto['EmpresaRFC']; ?>"><br>
+                    <input class="form-control" id="RFCE" name="RFCE" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaRFC']; ?>"><br>
                 </div>
 
                 <label class="col-lg-3 control-label">Descripción:</label>
                 <div class="col-lg-9 m-2">
-                    <textarea name="direccion" class="form-control"><?php echo $getProyecto['EmpresaDireccion']; ?></textarea>
+                    <textarea name="direccion" class="form-control"><?php echo $getEmpresa['EmpresaDireccion']; ?></textarea>
                 </div>
 
                 <!-- Botones (Para acciones) -->
