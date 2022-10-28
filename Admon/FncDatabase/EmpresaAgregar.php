@@ -16,10 +16,26 @@ if ($mysqli->connect_errno) {
 
 // Listar campos a recibir desde la pagina Editar Alumno
 $camposHTML = array(
-    'user', 'pass', 'NombreE', 'RazonS', 'TelRH',
-    'RFCE', 'idtipo', 'direccion', 'magnitud', 'alcance',
-    'Giro', 'Mision', 'tipoEmpresa', 'NombreRL', 'CorreoRL',
-    'RFCRL', 'TelRL', 'NombreRH', 'CorreoRH', 'RFCRH',
+    'cuenta-usuario', 
+    'cuenta-password', 
+    'empresa-nombre', 
+    'empresa-razon-social', 
+    'empresa-rfc', 
+    'empresa-tipo-sat',
+    'empresa-direccion',
+    'empresa-magnitud',
+    'empresa-alcance',
+    'empresa-giro',
+    'empresa-mision',
+    'empresa-tipo-convenio',
+    'representante-nombre',
+    'representante-rfc',
+    'representante-correo',
+    'representante-telefono',
+    'recursoshumanos-nombre',
+    'recursoshumanos-rfc',
+    'recursoshumanos-correo',
+    'recursoshumanos-telefono',
     'postAgregarEmpresa'
 );
 
@@ -58,19 +74,19 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?); ";
 
 try {
 
-    // ***** Registrar Usuario */
+    // ***** Registrar una nuevo Cuenta */
     // preparar y parametrar
     $stmtCrearUsuario = $mysqli->prepare($consultaCrearUsuario);
-    $stmtCrearUsuario->bind_param("issi", $tipo, $user, $pass, $Existe);
+    $stmtCrearUsuario->bind_param("issi", $CuentaTipo, $CuentaUsuario, $CuentaPassword, $Existe);
 
     // establecer parametros y ejecutar cambios
-    $tipo = 2; // <=== Tipo empresa
-    $user = $_POST['user'];
-    $pass = $_POST['pass'];
+    $CuentaTipo = 2; // <=== Tipo empresa
+    $CuentaUsuario = $_POST['cuenta-usuario'];
+    $CuentaPassword = $_POST['cuenta-password'];
     $Existe = 1;
     $stmtCrearUsuario->execute();
 
-    // ***** Obtener ID Login */
+    // ***** Obtener ID Login de la cuenta nueva */
     $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
     $rowLogin = $queryObtenerIdLogin->fetch_array();
 
@@ -79,32 +95,32 @@ try {
     $stmtAgregarEmpresa = $mysqli->prepare($consultaAgregarEmpresa);
     $stmtAgregarEmpresa->bind_param(
         "sssissssssii",
-        $NombreE,
-        $RazonSE,
-        $RFCE,
-        $idtipo,
-        $Direccion,
-        $magnitud,
-        $alcance,
-        $Giro,
-        $Mision,
-        $tipoEmpresa,
-        $idLogin,
+        $EmpresaNombre,
+        $EmpresaRazonSocial,
+        $EmpresaRFC,
+        $EmpresaTipoSAT,
+        $EmpresaDireccion,
+        $EmpresaMagnitud,
+        $EmpresaAlcance,
+        $EmpresaGiro,
+        $EmpresaMision,
+        $EmpresaTipoConvenio,
+        $CuentaIdLogin,
         $Existe
     );
 
     // establecer parametros y ejecutar cambios
-    $NombreE   = $_POST['NombreE'];
-    $RazonSE = $_POST['RazonS'];
-    $RFCE = $_POST['RFCE'];
-    $idtipo = intval($_POST['idtipo']);
-    $Direccion = $_POST['direccion'];
-    $magnitud = $_POST['magnitud'];
-    $alcance = $_POST['alcance'];
-    $Giro = $_POST['Giro'];
-    $Mision = $_POST['Mision'];
-    $tipoEmpresa = $_POST['tipoEmpresa'];
-    $idLogin = $rowLogin['max_login'];
+    $EmpresaNombre   = $_POST['empresa-nombre'];
+    $EmpresaRazonSocial = $_POST['empresa-razon-social'];
+    $EmpresaRFC = $_POST['empresa-rfc'];
+    $EmpresaTipoSAT = intval($_POST['empresa-tipo-sat']);
+    $EmpresaDireccion = $_POST['empresa-direccion'];
+    $EmpresaMagnitud = $_POST['empresa-magnitud'];
+    $EmpresaAlcance = $_POST['empresa-alcance'];
+    $EmpresaGiro = $_POST['empresa-giro'];
+    $EmpresaMision = $_POST['empresa-mision'];
+    $EmpresaTipoConvenio = $_POST['empresa-tipo-convenio'];
+    $CuentaIdLogin = $rowLogin['max_login'];
     $Existe = 1;
     $stmtAgregarEmpresa->execute();
 
