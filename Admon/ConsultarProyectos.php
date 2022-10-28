@@ -87,7 +87,11 @@ $mysqli->close();
                   role="button">Consultar</a>
                 </td>
                 <td>
-                  <a class="btn btn-success" href="#" role="button">Asignar</a>
+                  <a 
+                  class="btn btn-success" 
+                  href="./AsignarAP.php?id=<?php echo $getProyectos['id_Proyecto']; ?>" 
+                  role="button">Asignar</a>
+                  
                 </td>
               </tr>
             <?php } ?>
