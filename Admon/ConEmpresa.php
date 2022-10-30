@@ -31,6 +31,7 @@ WHERE e.id_empresa = $IdEmpresa ; ";
 
 // Crear consulta
 $consultaGetTrabajadores = "SELECT
+t.id_Trabajador AS TrabajadorId,  
 t.Nombre AS TrabajadorNombre,  
 t.RFC AS TrabajadorRFC,  
 t.Correo AS TrabajadorCorreo,  
@@ -143,7 +144,7 @@ $mysqli->close();
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <a class="btn btn-warning" href="/Admon/EdiEmpresa.php?IdEmpresa=<?php echo $_GET['IdEmpresa']; ?>" role="button">Editar</a>
-                    Información de general
+                    <h5>Información de general</h5>
                 </div>
                 <div class="panel-body">
 
@@ -197,7 +198,10 @@ $mysqli->close();
     <section class="cuerpo">
         <div class="container">
             <div class="panel panel-primary">
-                <div class="panel-heading">Información de trabajadores</div>
+                <div class="panel-heading">
+                    <a class="btn btn-success" href="/Admon/AgrTrabajador.php" role="button">Agregar</a>
+                    <h5>Información de trabajadores</h5>
+                </div>
                 <table class="table table-hover table-responsive table-bordered">
                     <tbody>
                         <tr>
@@ -223,7 +227,9 @@ $mysqli->close();
                                 <td><?php echo $getTrabajadores['TrabajadorPuesto']; ?></td>
                                 <td><?php echo $getTrabajadores['TrabajadorTelefono']; ?></td>
                                 <td class="btn-acciones">
-                                    <a href="#" class="btn btn-warning" role="button"><i class="bi bi-pencil-square"></i></a>
+                                    <a 
+                                    href="/Admon/EdiTrabajador.php?IdTrabajador=<?php echo $getTrabajadores['TrabajadorId']; ?>"
+                                    class="btn btn-warning" role="button"><i class="bi bi-pencil-square"></i></a>
                                     <a href="#" class="btn btn-danger" role="button"><i class="bi bi-x-square"></i></a>
                                 </td>
                             </tr>

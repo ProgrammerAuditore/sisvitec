@@ -154,7 +154,7 @@ $mysqli->close();
                 <!-- Botones (Para acciones) -->
                 <hr>
                 <br><br>
-                <input class="btn btn-primary" type="submit" name="postActualizarEmpresa" value="Actualizar">
+                <input class="btn btn-warning" type="submit" name="postActualizarEmpresa" value="Actualizar">
         </div>
         </form>
     </section>
