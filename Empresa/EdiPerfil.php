@@ -153,6 +153,7 @@ $mysqli->close();
         </div>
         </form>
     </section>
+    
     <footer>
         <div class="contenedor">
             <p>Copyright &copy; BCB</p>

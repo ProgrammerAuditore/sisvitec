@@ -8,7 +8,7 @@ $mysqli = $mysql->_ObtenerConexion();
 $IdEmpresa = $_SESSION['idE'];
 
 // Crear consulta
-$consultaQ = "SELECT 
+$consultaGetEmpresa = "SELECT 
 lng.User AS EmpresaUser,
 lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
@@ -21,17 +21,39 @@ FROM empresa AS e
 LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
 WHERE e.id_empresa = $IdEmpresa ; ";
 
-// Obtener resultado de la consulta
-$result = $mysqli->query($consultaQ);
+// Crear consulta
+$consultaGetTrabajadores = "SELECT
+t.Nombre AS TrabajadorNombre,  
+t.RFC AS TrabajadorRFC,  
+t.Correo AS TrabajadorCorreo,  
+t.Puesto AS TrabajadorPuesto,  
+e.Nombre AS TrabajadorEmpresa,  
+t.Tel AS TrabajadorTelefono  
+FROM `trabajador` AS t    
+LEFT JOIN `empresa` AS e ON e.id_empresa = t.id_Empresa  
+WHERE t.id_Empresa = $IdEmpresa ; ";
 
-//****  Verificar si existe registro del proyecto */
-if ($result->num_rows <= 0) {
+// *** Obtener el registro de la empresa ***/
+// Obtener resultado de la consulta
+$resultadoGetEmpresa = $mysqli->query($consultaGetEmpresa);
+
+//  Verificar si existe registro del proyecto
+if ($resultadoGetEmpresa->num_rows <= 0) {
     header("Location: /Admon/ConsultarProyectos.php");
 }
 
 // Obtener los registros de la empresa
-$getEmpresa = $result->fetch_assoc();
+$getEmpresa = $resultadoGetEmpresa->fetch_assoc();
 //print var_dump($getEmpresa);
+
+// *** Obtener el registro de los trabajadores ***/
+// Obtener resultado de la consulta
+$resultadoGetTrabajadores = $mysqli->query($consultaGetTrabajadores);
+
+//  Verificar si existe registro del proyecto
+if ($resultadoGetTrabajadores->num_rows <= 0) {
+    header("Location: /Admon/ConsultarProyectos.php");
+}
 
 $mysqli->close();
 
@@ -125,6 +147,41 @@ $mysqli->close();
             <div class="col-lg-9 m-2">
                 <p class="form-control" disabled><?php echo $getEmpresa['EmpresaDireccion']; ?></p>
             </div>
+
+            <!-- Información de trabajadores -->
+            <section class="cuerpo">
+                <div class="container">
+                    <span style="font-weight:bold;color:#000080;">Informacion de trabajadores&nbsp;</span>
+                    <hr>
+                    <table class="table table-hover table-responsive table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>RFC</th>
+                                <th>Correo</th>
+                                <th>Puesto</th>
+                                <th>Telefono</th>
+                            </tr>
+
+                            <?php
+                            $fila = 0;
+                            while ($getTrabajadores = $resultadoGetTrabajadores->fetch_assoc()) {
+                                $fila++;
+                            ?>
+                                <tr>
+                                    <td><?php echo $fila; ?></td>
+                                    <td><?php echo $getTrabajadores['TrabajadorNombre']; ?></td>
+                                    <td><?php echo $getTrabajadores['TrabajadorRFC']; ?></td>
+                                    <td><?php echo $getTrabajadores['TrabajadorCorreo']; ?></td>
+                                    <td><?php echo $getTrabajadores['TrabajadorPuesto']; ?></td>
+                                    <td><?php echo $getTrabajadores['TrabajadorTelefono']; ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
             <!-- Botones (Para acciones) -->
             <!-- <hr>
