@@ -5,6 +5,9 @@ session_start();
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
+
+//****  Obtener todo los datos del usuario */
+// Obtener el IdUsuario
 $IdEmpresa = $_SESSION['idE'];
 
 // Crear consulta
@@ -16,9 +19,11 @@ e.Tipo_Empresa AS EmpresaTipoConvenio,
 e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
-e.id_Empresa AS EmpresaID
+e.id_Empresa AS EmpresaID,
+sat.Nombre AS EmpresaTipoSAT
 FROM empresa AS e 
 LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
+LEFT JOIN `tipo_sat` AS sat ON sat.id_tipo = e.id_tipo
 WHERE e.id_empresa = $IdEmpresa ; ";
 
 // Obtener resultado de la consulta
@@ -29,7 +34,7 @@ if ($result->num_rows <= 0) {
     header("Location: /Admon/ConsultarProyectos.php");
 }
 
-// Obtener los registros de la empresa
+// Obtener los registros del proyecto
 $getEmpresa = $result->fetch_assoc();
 //print var_dump($getEmpresa);
 
@@ -82,54 +87,71 @@ $mysqli->close();
     </section>
     <section class="cuerpo">
         <div class="container">
-            <!-- Información de registro -->
-            <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
-            <hr>
-            <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
-            </div>
+            <form class="form-datos" action="<?php echo "./FncDatabase/PerfilActualizar.php?id=$IdEmpresa"; ?>" method="POST" role="form">
 
-            <label class="col-lg-3 control-label">Contrasena:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo "******"; ?></p>
-            </div>
+                <!-- Información de registro -->
+                <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+                <hr>
+                <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
+                <div class="col-lg-9">
+                    <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
+                </div>
 
-            <!-- Información de la empresa -->
-            <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
-            <hr>
-            <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaNombre']; ?></p>
-            </div>
+                <label class="col-lg-3 control-label">Contrasena:</label>
+                <div class="col-lg-9">
+                    <p class="form-control" disabled><?php echo "******"; ?></p>
+                </div>
 
-            <label for="nombre" class="col-lg-3 control-label">Tipo de Convenio:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaTipoConvenio']; ?></p>
-            </div>
+                <!-- Información de la empresa -->
+                <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
+                <hr>
+                <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
+                <div class="col-lg-9">
+                    <input class="form-control" id="nombre" name="NombreE" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaNombre']; ?>"><br>
+                </div>
 
-            <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRazonSocial']; ?></p>
-            </div>
+                <!-- Tipo de convenio -->
+                <label for="turno" class="col-lg-3 control-label">Tipo de Convenio:</label>
+                <div class="col-lg-9">
+                    <select name="tipoEmpresa" class="form-control">
+                        <?php
+                        $opcionesConvenio = array(
+                            "Seleccionar tipo de convenio...",
+                            "Servicios profesionales y consultoría",
+                            "Desarrollo y transferencia de tecnología"
+                        );
+                        foreach ($opcionesConvenio as $valor) {
+                            if (trim($valor) == trim($getEmpresa["EmpresaTipoConvenio"])) {
+                                echo "<option value='$valor' selected>$valor</option>";
+                            } else {
+                                echo "<option value='$valor'>$valor</option>";
+                            }
+                        }
+                        ?>
+                    </select><br>
+                </div>
 
-            <label for="nombre" class="col-lg-3 control-label">RFC:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRFC']; ?></p>
-            </div>
+                <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
+                <div class="col-lg-9">
+                    <input class="form-control" id="RazonS" name="RazonS" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaRazonSocial']; ?>"><br>
+                </div>
 
-            <label class="col-lg-3 control-label">Descripción:</label>
-            <div class="col-lg-9 m-2">
-                <textarea disabled name="descripcion" class="form-control"><?php echo $getEmpresa['EmpresaDireccion']; ?></textarea>
-            </div>
+                <label for="nombre" class="col-lg-3 control-label">RFC:</label>
+                <div class="col-lg-9">
+                    <input class="form-control" id="RFCE" name="RFCE" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaRFC']; ?>"><br>
+                </div>
 
-            <!-- Botones (Para acciones) -->
-            <!-- <hr>
-            <br><br>
-            <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Volver</a>
-            <a class="btn btn-warning" href="/Admon/EdiEmpresa.php?IdEmpresa=<?php echo $idEmpresa; ?>" role="button">Editar</a> -->
+                <label class="col-lg-3 control-label">Descripción:</label>
+                <div class="col-lg-9 m-2">
+                    <textarea name="direccion" class="form-control"><?php echo $getEmpresa['EmpresaDireccion']; ?></textarea>
+                </div>
+
+                <!-- Botones (Para acciones) -->
+                <hr>
+                <br><br>
+                <input class="btn btn-warning" type="submit" name="postActualizarEmpresa" value="Actualizar">
         </div>
-
+        </form>
     </section>
     <footer>
         <div class="contenedor">
