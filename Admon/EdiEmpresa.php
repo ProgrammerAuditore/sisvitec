@@ -146,9 +146,9 @@ $mysqli->close();
                     <input class="form-control" id="RFCE" name="RFCE" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaRFC']; ?>"><br>
                 </div>
 
-                <label class="col-lg-3 control-label">Descripción:</label>
+                <label class="col-lg-3 control-label">Dirección:</label>
                 <div class="col-lg-9 m-2">
-                    <textarea name="direccion" class="form-control"><?php echo $getEmpresa['EmpresaDireccion']; ?></textarea>
+                    <input class="form-control" id="direccion" name="direccion" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaDireccion']; ?>"><br>
                 </div>
 
                 <!-- Botones (Para acciones) -->

@@ -121,9 +121,9 @@ $mysqli->close();
                 <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRFC']; ?></p>
             </div>
 
-            <label class="col-lg-3 control-label">Descripción:</label>
+            <label class="col-lg-3 control-label">Dirección:</label>
             <div class="col-lg-9 m-2">
-                <textarea disabled name="descripcion" class="form-control"><?php echo $getEmpresa['EmpresaDireccion']; ?></textarea>
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaDireccion']; ?></p>
             </div>
 
             <!-- Botones (Para acciones) -->

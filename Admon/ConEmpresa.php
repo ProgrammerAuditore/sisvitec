@@ -38,8 +38,8 @@ if ($result->num_rows <= 0) {
 }
 
 // Obtener los registros del proyecto
-$getProyecto = $result->fetch_assoc();
-//print var_dump($getProyecto);
+$getEmpresa = $result->fetch_assoc();
+//print var_dump($getEmpresa);
 
 $mysqli->close();
 
@@ -95,7 +95,7 @@ $mysqli->close();
             <hr>
             <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
             <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getProyecto['EmpresaUser']; ?></p>
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
             </div>
 
             <label class="col-lg-3 control-label">Contrasena:</label>
@@ -108,27 +108,27 @@ $mysqli->close();
             <hr>
             <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
             <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getProyecto['EmpresaNombre']; ?></p>
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaNombre']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">Tipo de Convenio:</label>
             <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getProyecto['EmpresaTipoConvenio']; ?></p>
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaTipoConvenio']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
             <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getProyecto['EmpresaRazonSocial']; ?></p>
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRazonSocial']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">RFC:</label>
             <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getProyecto['EmpresaRFC']; ?></p>
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRFC']; ?></p>
             </div>
 
-            <label class="col-lg-3 control-label">Descripción:</label>
+            <label class="col-lg-3 control-label">Dirección:</label>
             <div class="col-lg-9 m-2">
-                <textarea disabled name="descripcion" class="form-control"><?php echo $getProyecto['EmpresaDireccion']; ?></textarea>
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaDireccion']; ?></p>
             </div>
 
             <!-- Botones (Para acciones) -->
