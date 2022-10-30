@@ -29,6 +29,18 @@ FROM empresa AS e
 LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
 WHERE e.id_empresa = $IdEmpresa ; ";
 
+// Crear consulta
+$consultaGetTrabajadores = "SELECT
+t.Nombre AS TrabajadorNombre,  
+t.RFC AS TrabajadorRFC,  
+t.Correo AS TrabajadorCorreo,  
+t.Puesto AS TrabajadorPuesto,  
+e.Nombre AS TrabajadorEmpresa,  
+t.Tel AS TrabajadorTelefono  
+FROM `trabajador` AS t    
+LEFT JOIN `empresa` AS e ON e.id_empresa = t.id_Empresa  
+WHERE t.id_Empresa = $IdEmpresa ; ";
+
 // Obtener resultado de la consulta
 $result = $mysqli->query($consultaQ);
 
@@ -40,6 +52,16 @@ if ($result->num_rows <= 0) {
 // Obtener los registros del proyecto
 $getEmpresa = $result->fetch_assoc();
 //print var_dump($getEmpresa);
+
+// *** Obtener el registro de los trabajadores ***/
+// Obtener resultado de la consulta
+$resultadoGetTrabajadores = $mysqli->query($consultaGetTrabajadores);
+
+//  Verificar si existe registro del proyecto
+if ($resultadoGetTrabajadores->num_rows <= 0) {
+    header("Location: /Admon/ConsultarProyectos.php");
+}
+
 
 $mysqli->close();
 
@@ -66,12 +88,19 @@ $mysqli->close();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
+
+    <!-- Bootstrap Icons v5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 
 <style>
-    textarea {
-        resize: none;
-        margin: 0.5em 0px;
+    section.cuerpo {
+        margin: 3.5em 0px;
+    }
+    td.btn-acciones {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
     }
 </style>
 
@@ -139,6 +168,47 @@ $mysqli->close();
         </div>
 
     </section>
+
+    <!-- Información de trabajadores -->
+    <section class="cuerpo">
+        <div class="container">
+            <span style="font-weight:bold;color:#000080;">Informacion de trabajadores&nbsp;</span>
+            <hr>
+            <table class="table table-hover table-responsive table-bordered">
+                <tbody>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>RFC</th>
+                        <th>Correo</th>
+                        <th>Puesto</th>
+                        <th>Telefono</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                    <?php
+                    $fila = 0;
+                    while ($getTrabajadores = $resultadoGetTrabajadores->fetch_assoc()) {
+                        $fila++;
+                    ?>
+                        <tr>
+                            <td><?php echo $fila; ?></td>
+                            <td><?php echo $getTrabajadores['TrabajadorNombre']; ?></td>
+                            <td><?php echo $getTrabajadores['TrabajadorRFC']; ?></td>
+                            <td><?php echo $getTrabajadores['TrabajadorCorreo']; ?></td>
+                            <td><?php echo $getTrabajadores['TrabajadorPuesto']; ?></td>
+                            <td><?php echo $getTrabajadores['TrabajadorTelefono']; ?></td>
+                            <td class="btn-acciones">
+                                <a href="#" class="btn btn-warning" role="button"><i class="bi bi-pencil-square"></i></a>
+                                <a href="#" class="btn btn-danger" role="button"><i class="bi bi-x-square"></i></a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
     <footer>
         <div class="contenedor">
             <p>Copyright &copy; BCB</p>
