@@ -95,12 +95,19 @@ $mysqli->close();
 
 <style>
     section.cuerpo {
-        margin: 3.5em 0px;
+        margin: 0px 0px 2em 0px;
     }
+
     td.btn-acciones {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+    }
+
+    div.panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
     }
 </style>
 
@@ -117,95 +124,114 @@ $mysqli->close();
         <p class="lead">Perfil Empresa</p>
         <hr>
     </section>
+
+    <!-- Botones (Para acciones) -->
     <section class="cuerpo">
         <div class="container">
-            <!-- Información de registro -->
-            <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
-            <hr>
-            <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Volver</a>
+                </div>
             </div>
-
-            <label class="col-lg-3 control-label">Contrasena:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo "******"; ?></p>
-            </div>
-
-            <!-- Información de la empresa -->
-            <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
-            <hr>
-            <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaNombre']; ?></p>
-            </div>
-
-            <label for="nombre" class="col-lg-3 control-label">Tipo de Convenio:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaTipoConvenio']; ?></p>
-            </div>
-
-            <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRazonSocial']; ?></p>
-            </div>
-
-            <label for="nombre" class="col-lg-3 control-label">RFC:</label>
-            <div class="col-lg-9">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRFC']; ?></p>
-            </div>
-
-            <label class="col-lg-3 control-label">Dirección:</label>
-            <div class="col-lg-9 m-2">
-                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaDireccion']; ?></p>
-            </div>
-
-            <!-- Botones (Para acciones) -->
-            <hr>
-            <br><br>
-            <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Volver</a>
-            <a class="btn btn-warning" href="/Admon/EdiEmpresa.php?IdEmpresa=<?php echo $_GET['IdEmpresa']; ?>" role="button">Editar</a>
         </div>
+    </section>
 
+    <!-- Información de general -->
+    <section class="cuerpo">
+        <div class="container">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <a class="btn btn-warning" href="/Admon/EdiEmpresa.php?IdEmpresa=<?php echo $_GET['IdEmpresa']; ?>" role="button">Editar</a>
+                    Información de general
+                </div>
+                <div class="panel-body">
+
+                    <!-- Información de registro -->
+                    <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+                    <hr>
+                    <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
+                    <div class="col-lg-9">
+                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
+                    </div>
+
+                    <label class="col-lg-3 control-label">Contrasena:</label>
+                    <div class="col-lg-9">
+                        <p class="form-control" disabled><?php echo "******"; ?></p>
+                    </div>
+
+                    <!-- Información de la empresa -->
+                    <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
+                    <hr>
+                    <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
+                    <div class="col-lg-9">
+                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaNombre']; ?></p>
+                    </div>
+
+                    <label for="nombre" class="col-lg-3 control-label">Tipo de Convenio:</label>
+                    <div class="col-lg-9">
+                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaTipoConvenio']; ?></p>
+                    </div>
+
+                    <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
+                    <div class="col-lg-9">
+                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRazonSocial']; ?></p>
+                    </div>
+
+                    <label for="nombre" class="col-lg-3 control-label">RFC:</label>
+                    <div class="col-lg-9">
+                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRFC']; ?></p>
+                    </div>
+
+                    <label class="col-lg-3 control-label">Dirección:</label>
+                    <div class="col-lg-9 m-2">
+                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaDireccion']; ?></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Información de trabajadores -->
     <section class="cuerpo">
         <div class="container">
-            <span style="font-weight:bold;color:#000080;">Informacion de trabajadores&nbsp;</span>
-            <hr>
-            <table class="table table-hover table-responsive table-bordered">
-                <tbody>
-                    <tr>
-                        <th>#</th>
-                        <th>Nombre</th>
-                        <th>RFC</th>
-                        <th>Correo</th>
-                        <th>Puesto</th>
-                        <th>Telefono</th>
-                        <th>Acciones</th>
-                    </tr>
-
-                    <?php
-                    $fila = 0;
-                    while ($getTrabajadores = $resultadoGetTrabajadores->fetch_assoc()) {
-                        $fila++;
-                    ?>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Información de trabajadores</div>
+                <table class="table table-hover table-responsive table-bordered">
+                    <tbody>
                         <tr>
-                            <td><?php echo $fila; ?></td>
-                            <td><?php echo $getTrabajadores['TrabajadorNombre']; ?></td>
-                            <td><?php echo $getTrabajadores['TrabajadorRFC']; ?></td>
-                            <td><?php echo $getTrabajadores['TrabajadorCorreo']; ?></td>
-                            <td><?php echo $getTrabajadores['TrabajadorPuesto']; ?></td>
-                            <td><?php echo $getTrabajadores['TrabajadorTelefono']; ?></td>
-                            <td class="btn-acciones">
-                                <a href="#" class="btn btn-warning" role="button"><i class="bi bi-pencil-square"></i></a>
-                                <a href="#" class="btn btn-danger" role="button"><i class="bi bi-x-square"></i></a>
-                            </td>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>RFC</th>
+                            <th>Correo</th>
+                            <th>Puesto</th>
+                            <th>Telefono</th>
+                            <th>Acciones</th>
                         </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+
+                        <?php
+                        $fila = 0;
+                        while ($getTrabajadores = $resultadoGetTrabajadores->fetch_assoc()) {
+                            $fila++;
+                        ?>
+                            <tr>
+                                <td><?php echo $fila; ?></td>
+                                <td><?php echo $getTrabajadores['TrabajadorNombre']; ?></td>
+                                <td><?php echo $getTrabajadores['TrabajadorRFC']; ?></td>
+                                <td><?php echo $getTrabajadores['TrabajadorCorreo']; ?></td>
+                                <td><?php echo $getTrabajadores['TrabajadorPuesto']; ?></td>
+                                <td><?php echo $getTrabajadores['TrabajadorTelefono']; ?></td>
+                                <td class="btn-acciones">
+                                    <a href="#" class="btn btn-warning" role="button"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="#" class="btn btn-danger" role="button"><i class="bi bi-x-square"></i></a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
