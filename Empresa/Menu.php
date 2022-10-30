@@ -28,8 +28,8 @@
                             <a href='Carrera.php' class='dropdown-toggle' data-toggle='dropdown' role='button'>
                                 Perfil <span class='caret'></span></a>
                               <ul class='dropdown-menu' role='menu'>
-                                  <li><a href='C.php'>Consultar</a></li>
-                                  <li><a href='C.php'>Modificar</a></li></ul>
+                                  <li><a href='ConPerfil.php'>Consultar</a></li>
+                                  <li><a href='EdiPerfil.php'>Modificar</a></li></ul>
                           </li>
   
                           <li class='dropdown'>
