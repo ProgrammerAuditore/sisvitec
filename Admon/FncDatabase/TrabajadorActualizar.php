@@ -59,7 +59,7 @@ $mysqli->begin_transaction();
 
 // Crear consulta
 $consultaActualizarTrabajador = "UPDATE `trabajador` SET       
-Nombre = ?, RFC = ?, Correo = ?, Puesto = ?, Tel = ?, id_Empresa = 38
+Nombre = ?, RFC = ?, Correo = ?, Puesto = ?, Tel = ?
 WHERE id_Trabajador = ? AND Existe = ? ; ";
 
 try {
