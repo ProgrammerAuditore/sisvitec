@@ -58,12 +58,6 @@ $getEmpresa = $result->fetch_assoc();
 // Obtener resultado de la consulta
 $resultadoGetTrabajadores = $mysqli->query($consultaGetTrabajadores);
 
-//  Verificar si existe registro del proyecto
-if ($resultadoGetTrabajadores->num_rows <= 0) {
-    header("Location: /Admon/ConsultarProyectos.php");
-}
-
-
 $mysqli->close();
 
 ?>
@@ -92,6 +86,10 @@ $mysqli->close();
 
     <!-- Bootstrap Icons v5 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- sweetalert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <style>
@@ -202,7 +200,7 @@ $mysqli->close();
                     <a class="btn btn-success" href="/Admon/AgrTrabajador.php?IdEmpresa=<?php echo $IdEmpresa; ?>" role="button">Agregar</a>
                     <h5>Información de trabajadores</h5>
                 </div>
-                <table class="table table-hover table-responsive table-bordered">
+                <table class="table table-hover table-responsive table-bordered" id="tbl-trabajadores">
                     <tbody>
                         <tr>
                             <th>#</th>
@@ -227,10 +225,8 @@ $mysqli->close();
                                 <td><?php echo $getTrabajadores['TrabajadorPuesto']; ?></td>
                                 <td><?php echo $getTrabajadores['TrabajadorTelefono']; ?></td>
                                 <td class="btn-acciones">
-                                    <a 
-                                    href="/Admon/EdiTrabajador.php?IdTrabajador=<?php echo $getTrabajadores['TrabajadorId']; ?>"
-                                    class="btn btn-warning" role="button"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="#" class="btn btn-danger" role="button"><i class="bi bi-x-square"></i></a>
+                                    <a href="/Admon/EdiTrabajador.php?IdTrabajador=<?php echo $getTrabajadores['TrabajadorId']; ?>" class="btn btn-warning" role="button"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="?IdEmpresa=<?php echo $IdEmpresa; ?>&IdTrabajador=<?php echo $getTrabajadores['TrabajadorId']; ?>&action=delete" class="btn btn-danger" role="button"><i class="bi bi-x-square"></i></a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -240,6 +236,41 @@ $mysqli->close();
             </div>
         </div>
     </section>
+
+    <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
+        <script>
+            Swal.fire({
+                title: 'Confirmar',
+                text: "¿Seguro que desear eliminar este alumno?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si'
+            }).then((result) => {
+
+                var url = document.location.href;
+                window.history.pushState({}, "", url.split("&")[0] + "#tbl-trabajadores");
+
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "./FncDatabase/TrabajadorEliminar.php?" +
+                            "idT=<?php echo $_GET['IdTrabajador']; ?>&" +
+                            "idE=<?php echo $_GET['IdEmpresa']; ?>"
+                    });
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Trabajador eliminado.',
+                    }).then((r) => {
+                        window.location.reload();
+                    });
+                }
+
+                window.location.href = window.location.href;
+                
+            })
+        </script>
+    <?php } ?>
 
     <footer>
         <div class="contenedor">
