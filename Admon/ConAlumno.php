@@ -16,12 +16,21 @@ if (!isset($_GET['IdUsuario']) || empty($_GET['IdUsuario'])) {
 $IdUsuario = $_GET['IdUsuario'];
 
 // Crear consulta
-$consultaQ = "SELECT lng.*, alu.*, car.Nombre AS Carrera, are.Nombre AS Area  
-    FROM `alumnos` AS alu   
-    LEFT JOIN `carrera` AS car ON alu.id_Carrera=car.id_carrera  
-    LEFT JOIN `login` AS lng ON lng.id_Login = alu.id_Login    
-    LEFT JOIN `area` AS are ON alu.id_Area = are.id_Area   
-    WHERE alu.id_Login = $IdUsuario;";
+$consultaQ = "SELECT 
+lng.User AS CuentaUser,
+lng.Password AS CuentaPassword, 
+alu.id_Login AS AlumnoLoginId,
+alu.Nombre AS AlumnoNombre,
+alu.Num_Control AS AlumnoNumeroControl,
+alu.Correo AS AlumnoCorreo,
+alu.Direccion AS AlumnoDireccion,
+car.id_Carrera AS AlumnoCarreraId, 
+are.id_Area AS AlumnoAreaId
+FROM `alumnos` AS alu   
+LEFT JOIN `carrera` AS car ON alu.id_Carrera=car.id_carrera  
+LEFT JOIN `login` AS lng ON lng.id_Login = alu.id_Login    
+LEFT JOIN `area` AS are ON alu.id_Area = are.id_Area   
+WHERE alu.id_Login = $IdUsuario ; ";
 
 // Obtener resultado de la consulta
 $result = $mysqli->query($consultaQ);
@@ -81,88 +90,87 @@ $mysqli->close();
   <section class="cuerpo">
     <!-- Poner los datos del usuario -->
     <div class="container">
-      <form class="form-datos" action="<?php echo "./FncDatabase/AlumnoActualizar.php?id=$IdUsuario"; ?>" method="POST" role="form">
-        <br>
-        <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
-        <hr>
 
-        <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
-        <div class="col-lg-9">
-          <input type="text" disabled value=<?php echo $getUsuario['User'];   ?> placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
-        </div>
+      <br>
+      <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+      <hr>
 
-        <label class="col-lg-3 control-label">Contraseña:</label>
-        <div class="col-lg-9">
-          <input type="password" disabled value=<?php echo $getUsuario['Password'];   ?> placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
-        </div>
+      <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
+      <div class="col-lg-9">
+        <p disabled class="form-control"><?php echo $getUsuario['CuentaUser']; ?></p>
+      </div>
 
-        <span style="font-weight:bold;color:#000080;">Informacion de alumno&nbsp;</span>
-        <hr>
+      <label class="col-lg-3 control-label">Contraseña:</label>
+      <div class="col-lg-9">
+        <p disabled class="form-control"><?php echo $getUsuario['CuentaPassword']; ?></p>
+      </div>
 
-        <label class="col-lg-3 control-label">Nombre Alumno</label>
-        <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Nombre'];   ?> type="text" disabled class="form-control" id="name" name="NombreA"><br>
-        </div>
+      <span style="font-weight:bold;color:#000080;">Informacion de alumno&nbsp;</span>
+      <hr>
 
-        <label class="col-lg-3 control-label">Numero De Control</label>
-        <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Num_Control'];   ?> type="text" disabled class="form-control" id="name" name="NumeroC"><br>
-        </div>
+      <label class="col-lg-3 control-label">Nombre Alumno</label>
+      <div class="col-lg-9">
+        <p disabled class="form-control"><?php echo $getUsuario['AlumnoNombre']; ?></p>
+      </div>
 
-        <label class="col-lg-3 control-label">Correo Electronico</label>
-        <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Correo'];   ?> type="text" disabled class="form-control" id="name" name="Correo"><br>
-        </div>
+      <label class="col-lg-3 control-label">Numero De Control</label>
+      <div class="col-lg-9">
+        <p disabled class="form-control"><?php echo $getUsuario['AlumnoNumeroControl']; ?></p>
+      </div>
 
-        <label class="col-lg-3 control-label">Direccion</label>
-        <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Direccion'];   ?> type="text" disabled class="form-control" id="name" name="Direccion"><br>
-        </div>
+      <label class="col-lg-3 control-label">Correo Electronico</label>
+      <div class="col-lg-9">
+        <p disabled class="form-control"><?php echo $getUsuario['AlumnoCorreo']; ?></p>
+      </div>
 
-        <label class="col-lg-3 control-label">Area De Desarrollo :</label>
-        <div class="col-lg-9">
-          <div class="selector-pai">
-            <select name="Area" class="form-control" disabled>
-              <script type="text/javascript">
-                $(document).ready(function() {
-                  $.ajax({
-                    type: "POST",
-                    url: "AreasD.php?idArea=<?php echo $getUsuario['id_Area']; ?>",
-                    success: function(response) {
-                      $('.selector-pai select').html(response).fadeIn();
-                    }
-                  });
+      <label class="col-lg-3 control-label">Direccion</label>
+      <div class="col-lg-9">
+        <p disabled class="form-control"><?php echo $getUsuario['AlumnoDireccion']; ?></p>
+      </div>
+
+      <label class="col-lg-3 control-label">Area De Desarrollo :</label>
+      <div class="col-lg-9">
+        <div class="selector-pai">
+          <select name="Area" class="form-control" disabled>
+            <script type="text/javascript">
+              $(document).ready(function() {
+                $.ajax({
+                  type: "POST",
+                  url: "AreasD.php?idArea=<?php echo $getUsuario['AlumnoAreaId']; ?>",
+                  success: function(response) {
+                    $('.selector-pai select').html(response).fadeIn();
+                  }
                 });
-              </script>
-            </select><br>
-          </div>
+              });
+            </script>
+          </select><br>
         </div>
-        <label class="col-lg-3 control-label">Carrera :</label>
-        <div class="col-lg-9">
-          <div class="selector-pas">
-            <select name="Carrera" class="form-control" disabled>
-              <script type="text/javascript">
-                $(document).ready(function() {
-                  $.ajax({
-                    type: "POST",
-                    url: "CarreraA.php?idCarrera=<?php echo $getUsuario['id_Carrera']; ?>",
-                    success: function(response) {
-                      console.log("Valor");
-                      $('.selector-pas select').html(response).fadeIn();
-                    }
-                  });
-
+      </div>
+      <label class="col-lg-3 control-label">Carrera :</label>
+      <div class="col-lg-9">
+        <div class="selector-pas">
+          <select name="Carrera" class="form-control" disabled>
+            <script type="text/javascript">
+              $(document).ready(function() {
+                $.ajax({
+                  type: "POST",
+                  url: "CarreraA.php?idCarrera=<?php echo $getUsuario['AlumnoCarreraId']; ?>",
+                  success: function(response) {
+                    console.log("Valor");
+                    $('.selector-pas select').html(response).fadeIn();
+                  }
                 });
-              </script>
-            </select><br>
-          </div>
-        </div>
 
-        <hr>
-        <br><br>
-        <a class="btn btn-primary" href="/Admon/ConsultarAlumnos.php" role="button">Regresar</a>
-        <a class="btn btn-warning" href="/Admon/EdiAlumno.php?IdUsuario=<?php echo $getUsuario['id_Login']; ?>" role="button">Editar</a>
-      </form>
+              });
+            </script>
+          </select><br>
+        </div>
+      </div>
+
+      <hr>
+      <br><br>
+      <a class="btn btn-primary" href="/Admon/ConsultarAlumnos.php" role="button">Regresar</a>
+      <a class="btn btn-warning" href="/Admon/EdiAlumno.php?IdUsuario=<?php echo $getUsuario['AlumnoLoginId']; ?>" role="button">Editar</a>
     </div>
 
   </section>

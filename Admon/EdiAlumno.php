@@ -17,12 +17,21 @@ $IdUsuario = $_GET['IdUsuario'];
 
 
 // Crear consulta
-$consultaQ = "SELECT lng.*, alu.*, car.Nombre AS Carrera, are.Nombre AS Area  
-    FROM `alumnos` AS alu   
-    LEFT JOIN `carrera` AS car ON alu.id_Carrera=car.id_carrera  
-    LEFT JOIN `login` AS lng ON lng.id_Login = alu.id_Login    
-    LEFT JOIN `area` AS are ON alu.id_Area = are.id_Area   
-    WHERE alu.id_Login = $IdUsuario;";
+$consultaQ = "SELECT 
+lng.User AS CuentaUser,
+lng.Password AS CuentaPassword, 
+alu.id_Login AS AlumnoLoginId,
+alu.Nombre AS AlumnoNombre,
+alu.Num_Control AS AlumnoNumeroControl,
+alu.Correo AS AlumnoCorreo,
+alu.Direccion AS AlumnoDireccion,
+car.id_Carrera AS AlumnoCarreraId, 
+are.id_Area AS AlumnoAreaId
+FROM `alumnos` AS alu   
+LEFT JOIN `carrera` AS car ON alu.id_Carrera=car.id_carrera  
+LEFT JOIN `login` AS lng ON lng.id_Login = alu.id_Login    
+LEFT JOIN `area` AS are ON alu.id_Area = are.id_Area   
+WHERE alu.id_Login = $IdUsuario ; ";
 
 // Obtener resultado de la consulta
 $result = $mysqli->query($consultaQ);
@@ -83,12 +92,12 @@ $getUsuario = $result->fetch_assoc();
 
         <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
         <div class="col-lg-9">
-          <input type="text" value=<?php echo $getUsuario['User'];   ?> placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
+          <input type="text" value=<?php echo $getUsuario['CuentaUser']; ?> placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
         </div>
 
         <label class="col-lg-3 control-label">Contrasena:</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Password'];   ?> type="password" placeholder="Contraseña" name="pass" class="form-control" data-toggle="password"><br>
+          <input value=<?php echo $getUsuario['CuentaPassword'];   ?> type="password" placeholder="Contraseña" name="pass" class="form-control" data-toggle="password"><br>
         </div>
 
         <span style="font-weight:bold;color:#000080;">Informacion de alumno&nbsp;</span>
@@ -96,22 +105,22 @@ $getUsuario = $result->fetch_assoc();
         
         <label class="col-lg-3 control-label">Nombre Alumno</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Nombre'];   ?> type="text" class="form-control" id="name" name="NombreA"><br>
+          <input value=<?php echo $getUsuario['AlumnoNombre'];   ?> type="text" class="form-control" id="name" name="NombreA"><br>
         </div>
 
         <label class="col-lg-3 control-label">Numero De Control</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Num_Control'];   ?> type="text" class="form-control" id="name" name="NumeroC"><br>
+          <input value=<?php echo $getUsuario['AlumnoNumeroControl'];   ?> type="text" class="form-control" id="name" name="NumeroC"><br>
         </div>
 
         <label class="col-lg-3 control-label">Correo Electronico</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Correo'];   ?> type="text" class="form-control" id="name" name="Correo"><br>
+          <input value=<?php echo $getUsuario['AlumnoCorreo'];   ?> type="text" class="form-control" id="name" name="Correo"><br>
         </div>
 
         <label class="col-lg-3 control-label">Direccion</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getUsuario['Direccion'];   ?> type="text" class="form-control" id="name" name="Direccion"><br>
+          <input value=<?php echo $getUsuario['AlumnoDireccion'];   ?> type="text" class="form-control" id="name" name="Direccion"><br>
         </div>
 
 
@@ -123,7 +132,7 @@ $getUsuario = $result->fetch_assoc();
                 $(document).ready(function() {
                   $.ajax({
                     type: "POST",
-                    url: "AreasD.php?idArea=<?php echo $getUsuario['id_Area']; ?>",
+                    url: "AreasD.php?idArea=<?php echo $getUsuario['AlumnoAreaId']; ?>",
                     success: function(response) {
                       $('.selector-pai select').html(response).fadeIn();
                     }
@@ -141,7 +150,7 @@ $getUsuario = $result->fetch_assoc();
                 $(document).ready(function() {
                   $.ajax({
                     type: "POST",
-                    url: "CarreraA.php?idCarrera=<?php echo $getUsuario['id_Carrera']; ?>",
+                    url: "CarreraA.php?idCarrera=<?php echo $getUsuario['AlumnoCarreraId']; ?>",
                     success: function(response) {
                       console.log("Valor");
                       $('.selector-pas select').html(response).fadeIn();
