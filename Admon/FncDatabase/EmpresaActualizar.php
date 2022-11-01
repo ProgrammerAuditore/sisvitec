@@ -23,8 +23,13 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 // Listar campos a recibir desde la pagina Editar Alumno
 $camposHTML = array(
-    'user','pass','NombreE', 'tipoEmpresa',
-    'RazonS', 'RFCE', 'direccion',
+    'cuenta-user',
+    'cuenta-password',
+    'empresa-nombre',
+    'empresa-tipo-convenio',
+    'empresa-razon-social',
+    'empresa-rfc',
+    'empresa-direccion',
     'postActualizarEmpresa'
 );
 
@@ -42,8 +47,17 @@ foreach ($camposHTML as $key) {
     }
 }
 
-// ***** Iniciar Transición */
-$mysqli->begin_transaction();
+// Crear variables de campos recibidos
+$CuentaTipo = 1;
+$EmpresaId = $_GET['id'];
+$CuentaUser = $_POST['cuenta-user'];
+$CuentaPassword = $_POST['cuenta-password'];
+$EmpresaNombre = $_POST['empresa-nombre'];
+$EmpresaTipoConvenio = $_POST['empresa-tipo-convenio'];
+$EmpresaRazonSocial = $_POST['empresa-razon-social'];
+$EmpresaRFC = $_POST['empresa-rfc'];
+$EmpresaDireccion = $_POST['empresa-direccion'];
+$Existe = 1;
 
 $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 
@@ -58,6 +72,9 @@ Nombre = ?, Razon_Social  = ?,
 RFC  = ?, tipo_empresa  = ?, Direccion  = ?  
 WHERE id_empresa = ? AND Existe = ? ; ";
 
+// ***** Iniciar Transición */
+$mysqli->begin_transaction();
+
 try {
 
     // ***** Registrar Usuario */
@@ -65,19 +82,12 @@ try {
     $stmtActualizarUsuario = $mysqli->prepare($consultaActualizarUsuario);
     $stmtActualizarUsuario->bind_param(
         "issii",
-        $tipo,
-        $user,
-        $pass,
-        $idAlumno,
+        $CuentaTipo,
+        $CuentaUser,
+        $CuentaPassword,
+        $EmpresaId,
         $Existe
     );
-
-    // establecer parametros y ejecutar cambios
-    $tipo = 1;
-    $user = $_POST['user'];
-    $pass = $_POST['pass'];
-    $idAlumno = $_GET['id'];
-    $Existe = 1;
     $stmtActualizarUsuario->execute();
 
     // ***** Actualizar Empresa */
@@ -85,32 +95,20 @@ try {
     $stmtAgregarEmpresa = $mysqli->prepare($consultaActualizarEmpresa);
     $stmtAgregarEmpresa->bind_param(
         "sssssii",
-        $NombreE,
-        $RazonSE,
-        $RFCE,
-        $idtipo,
-        $Direccion,
-        $idEmpresa,
+        $EmpresaNombre,
+        $EmpresaRazonSocial,
+        $EmpresaRFC,
+        $EmpresaTipoConvenio,
+        $EmpresaDireccion,
+        $EmpresaId,
         $Existe
-    );
-
-    // establecer parametros y ejecutar cambios
-    $NombreE   = $_POST['NombreE'];
-    $RazonSE = $_POST['RazonS'];
-    $RFCE = $_POST['RFCE'];
-    $idtipo = $_POST['tipoEmpresa'];
-    $Direccion = $_POST['direccion'];
-    $idEmpresa = $_GET['id'];
-    $Existe = 1;
+    );   
     $stmtAgregarEmpresa->execute();
 
     /// ***** Verificar Usuario */
     // preparar y parametrar
     $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
-    $stmtVerificarUsuario->bind_param("s",$user);
-
-    // establecer parametros y ejecutar cambios
-    $user = $_POST['user'];
+    $stmtVerificarUsuario->bind_param("s",$CuentaUser);
     $stmtVerificarUsuario->execute();
 
     $stmtVerificarUsuario->store_result();
