@@ -53,7 +53,7 @@ $mysqli->close();
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Bienvenido a SisVinTec</title>
-   
+
     <!-- Bootstrap core CSS -->
     <link href="../Estilos/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -112,10 +112,10 @@ $mysqli->close();
     <section class="jumbotron" style="text-align: center;">
         <div class="container">
             <h1>SisVinTec</h1>
-            <p class="lead">Sistema para Vinculacion del TECMM</p><br>
+            <p disabled class="lead">Sistema para Vinculacion del TECMM</p><br>
         </div>
         <hr>
-        <p class="lead">Consultar Proyecto</p>
+        <p disabled class="lead">Consultar Proyecto</p>
         <hr>
     </section>
     <section class="cuerpo">
@@ -126,27 +126,27 @@ $mysqli->close();
 
             <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
             <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['ProyectoNombre']; ?></p>
+                <p disabled class="form-control"><?php echo $getProyecto['ProyectoNombre']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">Tipo de proyecto:</label>
             <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['ProyectoTipo']; ?></p>
+                <p disabled class="form-control"><?php echo $getProyecto['ProyectoTipo']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">Area:</label>
             <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['ProyectoArea']; ?></p>
+                <p disabled class="form-control"><?php echo $getProyecto['ProyectoArea']; ?></p>
             </div>
 
             <label for="nombre" class="col-lg-3 control-label">Duración:</label>
             <div class="col-lg-9">
-                <p class="form-control"><?php echo $getProyecto['ProyectoDuracion']; ?></p>
+                <p disabled class="form-control"><?php echo $getProyecto['ProyectoDuracion']; ?></p>
             </div>
 
             <label class="col-lg-3 control-label">Descripción:</label>
             <div class="col-lg-9 m-2">
-                <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
+                <textarea disabled name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
             </div>
 
             <!-- Objetivos -->
@@ -154,11 +154,11 @@ $mysqli->close();
             <hr>
             <label class="col-lg-3 control-label">Objetivo Especifico:</label>
             <div class="col-lg-9">
-                <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoObjetivoEspecifico']; ?></textarea>
+                <textarea disabled name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoObjetivoEspecifico']; ?></textarea>
             </div>
             <label class="col-lg-3 control-label">Objetivo General:</label>
             <div class="col-lg-9">
-                <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoObjetivoGeneral']; ?></textarea>
+                <textarea disabled name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoObjetivoGeneral']; ?></textarea>
             </div>
 
         </div>
@@ -239,7 +239,7 @@ $mysqli->close();
 
                 $.ajax({
                     url: "/Admon/FncDatabase/AsignarAlumno.php?idP=" +
-                    IdProyecto + "&idA=" + IdAlumno + "&action=asig",
+                        IdProyecto + "&idA=" + IdAlumno + "&action=asig",
                     async: false, //This is deprecated in the latest version of jquery must use now callbacks
                     dataType: 'json',
                     success: function(resp) {
@@ -259,7 +259,7 @@ $mysqli->close();
 
     <footer>
         <div class="contenedor">
-            <p>Copyright &copy; BCB</p>
+            <p disabled>Copyright &copy; BCB</p>
         </div>
     </footer>
     <!-- Bootstrap core JavaScript -->
