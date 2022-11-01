@@ -24,8 +24,15 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 // Listar campos a recibir desde la pagina Editar Alumno
 $camposHTML = array(
-    'user', 'pass', 'NombreA', 'NumeroC',
-    'Correo', 'Direccion', 'Area', 'Carrera', 'postActualizarAlumno'
+    'cuenta-user', 
+    'cuenta-password', 
+    'alumno-nombre', 
+    'alumno-numero-control',
+    'alumno-correo', 
+    'alumno-direccion', 
+    'alumno-area-id', 
+    'alumno-carrera-id', 
+    'postActualizarAlumno'
 );
 
 // Verificar campos recibidos
@@ -42,8 +49,18 @@ foreach ($camposHTML as $key) {
     }
 }
 
-// ***** Iniciar Transición */
-$mysqli->begin_transaction();
+// Crear variables de datos recibidos
+$cuentaTipo = 1;
+$cuentaUser = $_POST['cuenta-user'];
+$cuentaPassword = $_POST['cuenta-password'];
+$AlumnoId = $_GET['id'];
+$AlumnoNombre = $_POST['alumno-nombre'];
+$AlumnoNumeroControl = $_POST['alumno-numero-control'];
+$AlumnoCorreo = $_POST['alumno-correo'];
+$AlumnoDireccion = $_POST['alumno-direccion'];
+$AlumnoAreaId = $_POST['alumno-area-id'];
+$AlumnoCarreraId = $_POST['alumno-carrera-id'];
+$Existe = 1;
 
 // Crear consulta
 $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
@@ -59,6 +76,9 @@ Nombre = ?, Num_Control = ?,  Correo = ?,
 Direccion = ?, id_Area = ?, id_Carrera = ? 
 WHERE id_Login = ? AND Existe = ? ; ";
 
+// ***** Iniciar Transición */
+$mysqli->begin_transaction();
+
 try {
 
     // ***** Registrar Usuario */
@@ -67,18 +87,11 @@ try {
     $stmtActualizarUsuario->bind_param(
         "issii",
         $tipo,
-        $user,
-        $pass,
-        $idAlumno,
+        $cuentaUser,
+        $cuentaPassword,
+        $AlumnoId,
         $Existe
     );
-
-    // establecer parametros y ejecutar cambios
-    $tipo = 1;
-    $user = $_POST['user'];
-    $pass = $_POST['pass'];
-    $idAlumno = $_GET['id'];
-    $Existe = 1;
     $stmtActualizarUsuario->execute();
 
 
@@ -87,34 +100,21 @@ try {
     $stmtActualizarAlumno = $mysqli->prepare($consultaActualizarAlumno);
     $stmtActualizarAlumno->bind_param(
         "ssssiiii",
-        $NombreA,
-        $NumeroC,
-        $Correo,
-        $Direccion,
-        $Area,
-        $Carrera,
-        $idAlumno,
+        $AlumnoNombre,
+        $AlumnoNumeroControl,
+        $AlumnoCorreo,
+        $AlumnoCorreo,
+        $AlumnoAreaId,
+        $AlumnoCarreraId,
+        $AlumnoId,
         $Existe
     );
-
-    // establecer parametros y ejecutar cambios
-    $NombreA   = $_POST['NombreA'];
-    $NumeroC = $_POST['NumeroC'];
-    $Correo = $_POST['Correo'];
-    $Direccion = $_POST['Direccion'];
-    $Area = $_POST['Area'];
-    $Carrera = $_POST['Carrera'];
-    $idAlumno = $_GET['id'];
-    $Existe = 1;
     $stmtActualizarAlumno->execute();
 
     // ***** Verificar Usuario */
     // preparar y parametrar
     $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
-    $stmtVerificarUsuario->bind_param("s",$user);
-
-    // establecer parametros y ejecutar cambios
-    $user = $_POST['user'];
+    $stmtVerificarUsuario->bind_param("s",$cuentaUser);
     $stmtVerificarUsuario->execute();
 
     $stmtVerificarUsuario->store_result();
