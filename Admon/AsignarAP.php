@@ -193,7 +193,7 @@ $mysqli->close();
     <section class="cuerpo">
         <div class="container">
             <a class="btn btn-primary" href="/Admon/ConsultarProyectos.php" role="button">Regresar</a>
-            <a class="btn btn-info" href="/Admon/ConsultarProyectos.php" role="button">Consultar proyectos</a>
+            <a class="btn btn-info" href="/Admon/ConProyecto.php?IdProyecto=<?php echo $IdProyecto; ?>" role="button">Consultar</a>
         </div>
     </section>
 
