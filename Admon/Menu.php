@@ -48,7 +48,7 @@
                                 Alumnos <span class='caret'></span></a>
                               <ul class='dropdown-menu' role='menu'>
                                   <li class='dropdown dropdown-submenu'>
-                                          <li><a href='AgrAlu.php'>Registrar</a></li>
+                                          <li><a href='AgrAlu.php'>Agregar</a></li>
                                           <li><a href='ConsultarAlumnos.php'>Consultar/Eliminar</a></li>
                                       
                                   </li>

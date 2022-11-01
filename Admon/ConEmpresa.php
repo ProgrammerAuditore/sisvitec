@@ -179,7 +179,7 @@ $mysqli->close();
         <div class="container">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a class="btn btn-success" href="/Admon/AgrTrabajador.php?IdEmpresa=<?php echo $IdEmpresa; ?>" role="button">Registrar</a>
+                    <a class="btn btn-success" href="/Admon/AgrTrabajador.php?IdEmpresa=<?php echo $IdEmpresa; ?>" role="button">Agregar</a>
                     <h5>Información de trabajadores</h5>
                 </div>
                 <table class="table table-hover table-responsive table-bordered" id="tbl-trabajadores">
