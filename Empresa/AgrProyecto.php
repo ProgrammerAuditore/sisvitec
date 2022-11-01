@@ -102,7 +102,7 @@ $IDE = $_SESSION['idE'];
         </div>
         <hr>
         <br><br>
-        <input class="btn btn-success" type="submit" name="postAgregarProyecto" value="Agregar">
+        <input class="btn btn-success" type="submit" name="postAgregarProyecto" value="Registrar">
       </form>
     </div>
   </section>

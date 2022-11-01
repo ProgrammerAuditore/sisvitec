@@ -112,7 +112,8 @@ $IdEmpresa = $_GET['IdEmpresa'];
                 <!-- Botones (Para acciones) -->
                 <hr>
                 <br><br>
-                <input class="btn btn-success" type="submit" name="postAgregarTrabajador" value="Agregar">
+                <input class="btn btn-success" type="submit" name="postAgregarTrabajador" value="Registrar">
+                <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Consultar / Eliminar</a>
 
         </div>
         </form>

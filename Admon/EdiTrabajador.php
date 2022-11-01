@@ -128,6 +128,7 @@ $mysqli->close();
                 <hr>
                 <br><br>
                 <input class="btn btn-warning" type="submit" name="postActualizarTrabajador" value="Actualizar">
+                <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Consultar / Eliminar</a>
 
         </div>
         </form>

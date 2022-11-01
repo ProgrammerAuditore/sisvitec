@@ -118,7 +118,8 @@ session_start();
 
         <hr>
         <br><br>
-        <input class="btn btn-success" type="submit" name="postCrearAlumno" value="Agregar">
+        <input class="btn btn-success" type="submit" name="postCrearAlumno" value="Registrar">
+        <a class="btn btn-primary" href="/Admon/ConsultarAlumnos.php" role="button">Consultar / Eliminar</a>
       </form>
     </div>
 

@@ -178,8 +178,8 @@ $mysqli = $mysql->_ObtenerConexion();
 
                 <hr>
                 <br><br>
-                <input class="btn btn-primary" type="submit" name="postAgregarEmpresa" value="Guardar">
-                <a class="btn btn-primary" href="ConsultarEmpresa.php" role="button">Consultar o Eliminar</a>
+                <input class="btn btn-success" type="submit" name="postAgregarEmpresa" value="Registrar">
+                <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Consultar / Eliminar</a>
             </form>
         </div>
     </section>

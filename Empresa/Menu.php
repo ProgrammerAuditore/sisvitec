@@ -37,7 +37,7 @@
                                 Proyecto <span class='caret'></span></a>
                               <ul class='dropdown-menu' role='menu'>
                                   <li class='dropdown dropdown-submenu'>
-                                          <li><a href='AgrProyecto.php'>Agregar</a></li>
+                                          <li><a href='AgrProyecto.php'>Registrar</a></li>
                                           <li><a href='ConsultarProyecto.php'>Consultar</a></li>
                                       </ul>
                                   </li>

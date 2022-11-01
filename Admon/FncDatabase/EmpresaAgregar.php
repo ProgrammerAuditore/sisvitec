@@ -44,7 +44,7 @@ foreach ($camposHTML as $key) {
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
         $goTo .= "?action=error";
-        $goTo .= "&title=$title no agregado.";
+        $goTo .= "&title=$title no registrado.";
         $goTo .= "&msg=Verifique que los campos sean validos y no vacios.";
         $goTo .= $againTo;
         $mysqli->close();
@@ -201,7 +201,7 @@ try {
         // En caso de existir el usuario
         $mysqli->rollback();
         $goTo .= "?action=error";
-        $goTo .= "&title=$title no agregado.";
+        $goTo .= "&title=$title no registrado.";
         $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
         $goTo .= "<b>Ya está registrado.<b>";
         $goTo .= $againTo;
@@ -211,7 +211,7 @@ try {
         // En caso de no tener errores
         $mysqli->commit();
         $goTo .= "?action=success";
-        $goTo .= "&title=$title agregado.";
+        $goTo .= "&title=$title registrado.";
     }
 } catch (mysqli_sql_exception $exception) {
 

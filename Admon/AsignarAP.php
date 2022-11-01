@@ -148,7 +148,6 @@ $mysqli->close();
                 <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
             </div>
 
-
             <!-- Objetivos -->
             <span style="font-weight:bold;color:#000080;">Objetivos&nbsp;</span>
             <hr>
@@ -160,10 +159,6 @@ $mysqli->close();
             <div class="col-lg-9">
                 <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoObjetivoGeneral']; ?></textarea>
             </div>
-        </div>
-    </section>
-    <section class="cuerpo">
-        <div class="container">
 
         </div>
     </section>
@@ -171,7 +166,7 @@ $mysqli->close();
     <!-- Listado de alumnos-->
     <section class="cuerpo">
         <div class="container">
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <span> </span>
                     <h5>Listado de alumnos</h5>
@@ -192,6 +187,12 @@ $mysqli->close();
                     </table>
                 </div>
             </div>
+        </div>
+    </section>
+    <section class="cuerpo">
+        <div class="container">
+            <a class="btn btn-primary" href="/Admon/ConsultarProyectos.php" role="button">Regresar</a>
+            <a class="btn btn-info" href="" role="button">Ver alumnos asignados</a>
         </div>
     </section>
 

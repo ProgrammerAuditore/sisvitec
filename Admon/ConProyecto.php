@@ -175,7 +175,7 @@ $mysqli->close();
             <!-- Botones (Para acciones) -->
             <hr>
             <br><br>
-            <a class="btn btn-primary" href="/Admon/ConProyecto.php" role="button">Volver</a>
+            <a class="btn btn-primary" href="/Admon/ConsultarProyectos.php" role="button">Regresar</a>
         </div>
     </section>
     <footer>

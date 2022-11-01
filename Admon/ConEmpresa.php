@@ -127,70 +127,49 @@ $mysqli->close();
         <hr>
     </section>
 
-    <!-- Botones (Para acciones) -->
-    <section class="cuerpo">
-        <div class="container">
-            <br>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Volver</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Información de general -->
     <section class="cuerpo">
         <div class="container">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <a class="btn btn-warning" href="/Admon/EdiEmpresa.php?IdEmpresa=<?php echo $_GET['IdEmpresa']; ?>" role="button">Editar</a>
-                    <h5>Información de general</h5>
-                </div>
-                <div class="panel-body">
 
-                    <!-- Información de registro -->
-                    <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
-                    <hr>
-                    <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
-                    <div class="col-lg-9">
-                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
-                    </div>
+            <!-- Informacion de registro  -->
+            <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+            <hr>
+            <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
+            <div class="col-lg-9">
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
+            </div>
 
-                    <label class="col-lg-3 control-label">Contrasena:</label>
-                    <div class="col-lg-9">
-                        <p class="form-control" disabled><?php echo "******"; ?></p>
-                    </div>
+            <label class="col-lg-3 control-label">Contrasena:</label>
+            <div class="col-lg-9">
+                <p class="form-control" disabled><?php echo "******"; ?></p>
+            </div>
 
-                    <!-- Información de la empresa -->
-                    <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
-                    <hr>
-                    <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
-                    <div class="col-lg-9">
-                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaNombre']; ?></p>
-                    </div>
+            <!-- Información de la empresa -->
+            <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
+            <hr>
+            <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
+            <div class="col-lg-9">
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaNombre']; ?></p>
+            </div>
 
-                    <label for="nombre" class="col-lg-3 control-label">Tipo de Convenio:</label>
-                    <div class="col-lg-9">
-                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaTipoConvenio']; ?></p>
-                    </div>
+            <label for="nombre" class="col-lg-3 control-label">Tipo de Convenio:</label>
+            <div class="col-lg-9">
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaTipoConvenio']; ?></p>
+            </div>
 
-                    <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
-                    <div class="col-lg-9">
-                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRazonSocial']; ?></p>
-                    </div>
+            <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
+            <div class="col-lg-9">
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRazonSocial']; ?></p>
+            </div>
 
-                    <label for="nombre" class="col-lg-3 control-label">RFC:</label>
-                    <div class="col-lg-9">
-                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRFC']; ?></p>
-                    </div>
+            <label for="nombre" class="col-lg-3 control-label">RFC:</label>
+            <div class="col-lg-9">
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRFC']; ?></p>
+            </div>
 
-                    <label class="col-lg-3 control-label">Dirección:</label>
-                    <div class="col-lg-9 m-2">
-                        <p class="form-control" disabled><?php echo $getEmpresa['EmpresaDireccion']; ?></p>
-                    </div>
-
-                </div>
+            <label class="col-lg-3 control-label">Dirección:</label>
+            <div class="col-lg-9 m-2">
+                <p class="form-control" disabled><?php echo $getEmpresa['EmpresaDireccion']; ?></p>
             </div>
         </div>
     </section>
@@ -198,9 +177,9 @@ $mysqli->close();
     <!-- Información de trabajadores -->
     <section class="cuerpo">
         <div class="container">
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a class="btn btn-success" href="/Admon/AgrTrabajador.php?IdEmpresa=<?php echo $IdEmpresa; ?>" role="button">Agregar</a>
+                    <a class="btn btn-success" href="/Admon/AgrTrabajador.php?IdEmpresa=<?php echo $IdEmpresa; ?>" role="button">Registrar</a>
                     <h5>Información de trabajadores</h5>
                 </div>
                 <table class="table table-hover table-responsive table-bordered" id="tbl-trabajadores">
@@ -240,6 +219,14 @@ $mysqli->close();
         </div>
     </section>
 
+    <!-- Botones (Acciones) -->
+    <section class="cuerpo">
+        <div class="container">
+            <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Regresar</a>
+            <a class="btn btn-warning" href="/Admon/EdiEmpresa.php?IdEmpresa=<?php echo $_GET['IdEmpresa']; ?>" role="button">Editar</a>
+        </div>
+    </section>
+
     <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
         <script>
             Swal.fire({
@@ -270,7 +257,7 @@ $mysqli->close();
                 }
 
                 window.location.href = window.location.href;
-                
+
             })
         </script>
     <?php } ?>

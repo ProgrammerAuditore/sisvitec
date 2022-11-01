@@ -62,7 +62,7 @@ $mysqli->close();
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
 
-  
+
 </head>
 
 <body>
@@ -119,7 +119,6 @@ $mysqli->close();
           <input value=<?php echo $getUsuario['Direccion'];   ?> type="text" disabled class="form-control" id="name" name="Direccion"><br>
         </div>
 
-
         <label class="col-lg-3 control-label">Area De Desarrollo :</label>
         <div class="col-lg-9">
           <div class="selector-pai">
@@ -161,7 +160,7 @@ $mysqli->close();
 
         <hr>
         <br><br>
-        <a class="btn btn-primary" href="/Admon/ConsultarAlumnos.php" role="button">Volver</a>
+        <a class="btn btn-primary" href="/Admon/ConsultarAlumnos.php" role="button">Regresar</a>
         <a class="btn btn-warning" href="/Admon/EdiAlumno.php?IdUsuario=<?php echo $getUsuario['id_Login']; ?>" role="button">Editar</a>
       </form>
     </div>

@@ -154,10 +154,12 @@ $mysqli->close();
                 <!-- Botones (Para acciones) -->
                 <hr>
                 <br><br>
+                <a class="btn btn-primary" href="/Admon/ConsultarEmpresas.php" role="button">Regresar</a>
                 <input class="btn btn-warning" type="submit" name="postActualizarEmpresa" value="Actualizar">
         </div>
         </form>
     </section>
+    
     <footer>
         <div class="contenedor">
             <p>Copyright &copy; BCB</p>

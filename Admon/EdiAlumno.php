@@ -156,6 +156,7 @@ $getUsuario = $result->fetch_assoc();
 
         <hr>
         <br><br>
+        <a class="btn btn-primary" href="/Admon/ConsultarAlumnos.php" role="button">Regresar</a>
         <input class="btn btn-warning" type="submit" name="postActualizarAlumno" value="Actualizar">
       </form>
     </div>
