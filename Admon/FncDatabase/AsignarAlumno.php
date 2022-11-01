@@ -7,10 +7,10 @@ $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
 
 // response para Ajax
-$estado = array();
-$estado['icon'] = "";
-$estado['title'] = "";
-$estado['msg'] = "";
+$responseAjax = array();
+$responseAjax['icon'] = "";
+$responseAjax['title'] = "";
+$responseAjax['msg'] = "";
 
 // Verificar la conexion
 if ($mysqli->connect_errno) {
@@ -22,9 +22,9 @@ $camposHTML = array('idA', 'idP', 'action');
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
     if (!isset($_GET[$key]) || empty(trim($_GET[$key]))) {
-        $estado['icon'] = "danger";
-        $estado['title'] = "Alumno no asignado.";
-        $estado['msg'] = "Error al recibir parametros GET.";
+        $responseAjax['icon'] = "danger";
+        $responseAjax['title'] = "Alumno no asignado.";
+        $responseAjax['msg'] = "Error al recibir parametros GET.";
     }
 }
 
@@ -69,16 +69,16 @@ try {
             // ***** Efectuar cambios */
             // En caso de no tener errores
             $mysqli->commit();
-            $estado['icon'] = "success";
-            $estado['title'] = "Alumno asignado al proyecto.";
+            $responseAjax['icon'] = "success";
+            $responseAjax['title'] = "Alumno asignado al proyecto.";
         } else {
 
             // ***** Deshacer cambios */
             // En caso de tener errores
             $mysqli->rollback();
-            $estado['icon'] = "warning";
-            $estado['title'] = "Alumno no asignado.";
-            $estado['msg'] = "Posiblemente este asignado en otro proyecto.";
+            $responseAjax['icon'] = "warning";
+            $responseAjax['title'] = "Alumno no asignado.";
+            $responseAjax['msg'] = "Posiblemente este asignado en otro proyecto.";
         }
     } else {
 
@@ -94,16 +94,16 @@ try {
             // ***** Efectuar cambios */
             // En caso de no tener errores
             $mysqli->commit();
-            $estado['icon'] = "success";
-            $estado['title'] = "Alumno eliminado del proyecto.";
+            $responseAjax['icon'] = "success";
+            $responseAjax['title'] = "Alumno eliminado del proyecto.";
         } else {
 
             // ***** Deshacer cambios */
             // En caso de tener errores
             $mysqli->rollback();
-            $estado['icon'] = "danger";
-            $estado['title'] = "Error en la consulta.";
-            $estado['msg'] = "Es posible que este registro no exista.";
+            $responseAjax['icon'] = "danger";
+            $responseAjax['title'] = "Error en la consulta.";
+            $responseAjax['msg'] = "Es posible que este registro no exista.";
         }
     }
 } catch (mysqli_sql_exception $exception) {
@@ -111,11 +111,11 @@ try {
     // ***** Deshacer cambios */
     // En caso de tener errores
     $mysqli->rollback();
-    $estado['icon'] = "danger";
-    $estado['title'] = "Alumno no asignado.";
-    $estado['msg'] = "Error en la consulta SQL.";
+    $responseAjax['icon'] = "danger";
+    $responseAjax['title'] = "Alumno no asignado.";
+    $responseAjax['msg'] = "Error en la consulta SQL.";
 }
 
 $mysqli->close();
 $stmtAsingarAlumno->close();
-echo json_encode($estado);
+echo json_encode($responseAjax);
