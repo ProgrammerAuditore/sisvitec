@@ -25,17 +25,21 @@ foreach ($camposHTML as $key) {
 $alumnoNombre = $_GET['nombre'];
 
 // Crear consulta
-$consultaBuscarAlumno = "SELECT  
+$consultaBuscarAlumno = "SELECT
+alu.id_Alumnos AS AlumnoId,
 alu.Nombre AS AlumnoNombre, 
 alu.Num_Control AS AlumnoNumControl, 
 alu.Nombre AS AlumnoArea, 
 alu.Correo AS AlumnoCorreo, 
 car.Nombre AS AlumnoCarrera, 
 lng.User AS CuentaUser 
-FROM `alumnos` AS alu 
+FROM `alumnos` AS alu
 LEFT JOIN `area` AS ar ON ar.id_Area = alu.id_Area    
 LEFT JOIN `carrera` AS car ON car.id_carrera = alu.id_Carrera   
-LEFT JOIN `login` AS lng ON lng.id_Login = alu.id_Login;";
+LEFT JOIN `login` AS lng ON lng.id_Login = alu.id_Login
+WHERE NOT EXISTS 
+(SELECT * FROM `alu_proyect` AS t2 
+WHERE alu.id_Alumnos = t2.id_Alumno);";
 
 // ***** Buscar Alumno */
 $resultado = $mysqli->query($consultaBuscarAlumno);
@@ -53,6 +57,7 @@ if ($resultado->num_rows > 0) {
         $data['correo'] = $row['AlumnoCorreo'];
         $data['carrera'] = $row['AlumnoCarrera'];
         $data['user'] = $row['CuentaUser'];
+        $data['id'] = $row['AlumnoId'];
         array_push($skillData, $data);
     }
 }

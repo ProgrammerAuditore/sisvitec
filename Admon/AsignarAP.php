@@ -186,7 +186,6 @@ $mysqli->close();
                                 <th>Area</th>
                                 <th>Correo</th>
                                 <th>Carrera</th>
-                                <th>User</th>
                                 <th>Asingar</th>
                             </tr>
                         </thead>
@@ -197,30 +196,61 @@ $mysqli->close();
     </section>
 
     <script>
-        $(document).ready(function () {  
-            $('#tbl-trabajadores').DataTable({
-            ajax: {
-                url: './FncDatabase/ListarAlumnos.php?nombre=x',
-                dataSrc: ''
-            },
-            columns: [
-                { data: 'numero' },
-                { data: 'nombre' },
-                { data: 'numero_control' },
-                { data: 'area' },
-                { data: 'correo' },
-                { data: 'carrera' },
-                { data: 'user' },
-                {
-                    targets: -1,
-                    data: null,
-                    defaultContent: "<a role=button class='btn btn-success'>Asignar</a>",
+        $(document).ready(function() {
+            var tabla = $('#tbl-trabajadores').DataTable({
+                ajax: {
+                    url: './FncDatabase/ListarAlumnos.php?nombre=x',
+                    dataSrc: ''
                 },
-            ]
-        });
-        });
-        
+                columns: [{
+                        data: 'numero'
+                    },
+                    {
+                        data: 'nombre'
+                    },
+                    {
+                        data: 'numero_control'
+                    },
+                    {
+                        data: 'area'
+                    },
+                    {
+                        data: 'correo'
+                    },
+                    {
+                        data: 'carrera'
+                    },
+                    {
+                        targets: -1,
+                        data: null,
+                        defaultContent: "<a role=button class='btn btn-success'>Asignar</a>",
+                    },
+                ]
+            });
 
+            $('#tbl-trabajadores tbody').on('click', 'a', function(e) {
+                let alumno = tabla.row($(this).parents('tr')).data();
+                var searchParams = new URLSearchParams(window.location.search);
+                var IdProyecto = searchParams.get('IdProyecto');
+                var IdAlumno = alumno.id;
+
+                $.ajax({
+                    url: "/Admon/FncDatabase/AsignarAlumno.php?idP=" + IdProyecto + "&idA=" + IdAlumno,
+                    async: false, //This is deprecated in the latest version of jquery must use now callbacks
+                    dataType: 'json',
+                    success: function(resp) {
+                        Swal.fire({
+                            icon: resp.icon,
+                            title: resp.title,
+                            html: resp.msg
+                        }).then((r) => {
+                            window.location.reload();
+                        });
+                    }
+                });
+
+            });
+        });
     </script>
 
     <footer>
