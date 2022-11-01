@@ -1,126 +1,236 @@
 <?php
-      session_start();
-    include'conexion.php';
-    $mysql = new Conexion();
-    $mysqli= $mysql->_ObtenerConexion();
-    ?>
+// Iniciar session, hacer conexion  a la base de datos
+// y obtener la conexion
+session_start();
+include 'conexion.php';
+$mysql = new Conexion();
+$mysqli = $mysql->_ObtenerConexion();
+
+//****  Verificar que existe el parametro IdUsuario */
+if (!isset($_GET['IdProyecto']) || empty($_GET['IdProyecto'])) {
+    header("Location: ./ConsultaAlumno.php");
+}
+
+//****  Obtener todo los datos del usuario */
+// Obtener el IdUsuario
+$IdProyecto = $_GET['IdProyecto'];
+
+// Crear consulta
+$consultaQ = "SELECT 
+p.Nombre AS ProyectoNombre,
+p.Tipo_Proyect AS ProyectoTipo, 
+a.Nombre AS ProyectoArea,
+p.Duracion AS ProyectoDuracion, 
+p.Descripcion AS ProyectoDescripcion, 
+p.Objetivo_Espesifico AS ProyectoObjetivoEspecifico, 
+p.Objetivo_General AS ProyectoObjetivoGeneral
+FROM proyecto AS p 
+Left JOIN area AS a ON p.id_Area=a.id_Area 
+WHERE p.id_Proyecto = $IdProyecto ; ";
+
+// Obtener resultado de la consulta
+$result = $mysqli->query($consultaQ);
+
+//****  Verificar si existe registro del proyecto */
+if ($result->num_rows <= 0) {
+    header("Location: /Admon/ConsultarProyectos.php");
+}
+
+// Obtener los registros del proyecto
+$getProyecto = $result->fetch_assoc();
+//print var_dump($getProyecto);
+
+$mysqli->close();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+
+<head>
+    <meta charset="windows-1251">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Bienvenido a SACEUA</title>
+    <title>Bienvenido a SisVinTec</title>
     <!-- Bootstrap core CSS -->
-      <link href="../Estilos/dist/css/bootstrap.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <link href="../Estilos/EstilosAgregar.css" rel="stylesheet">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  </head>
-  <body>
-      <?php
-          include'Menu.php'; 
-       ?>
-      <section class="jumbotron">
-          <div class="container">
-              <h1>SACEUA</h1>
-              <p class="lead">Sistema Academico de Centro de Estudio Universitario ARKOS</p><br>
-          </div>
-          <hr>
-           <p class="lead">Asignar Alumnos</p>
-              <hr>
-      </section>
-      <section class="jumbotron">
-          <div class="container">
-                          <?php
-              $id = $_GET['id'];
-              if(!$mysqli)
-            {
-                die('error de conexion de servidor:' .mysql_error());
-            }
-                $result = mysqli_query($mysqli,"SELECT p.Nombre,a.Nombre as idArea,p.Descripcion,e.Nombre as idema,p.Duracion,p.id_Area From proyecto as p 
-LEFT JOIN area as a ON p.id_Area = a.id_Area
-LEFT JOIN empresa as e on p.id_Empresa=e.id_empresa
-Where p.id_Proyecto=".$id);
-  if(!$result)
-            {
-                echo "error de consulta: ".mysqli_error();
-                exit();
-            }
-            else
-            {
-            $row = mysqli_fetch_row($result);
-            }
-              ?>
-          <form action="InsertarAlumnosP.php" method="POST" role="form" class="form-datos">
-              <label class="col-lg-3 control-label">Nombre Proyecto:</label>
-              <div class="col-lg-9">
-                  <select name="Clave" id="combo1" class="form-control" disabled>
-                      <option selected value="<?php echo $row[0]; ?>"><?php echo $row[0]; ?></option><br>
+    <link href="../Estilos/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="../Estilos/EstilosAgregar.css" rel="stylesheet">
 
-                      </select><br>
-                  </div>
-              <label class="col-lg-3 control-label">Area:</label>
-              <div class="col-lg-9">
-                  <input type="text" value="<?php echo $row[1]; ?>" name="Grupo" placeholder="ingresa nombre de grupo" onKeyUp="this.value=this.value.toUpperCase();" class="form-control" disabled><br>
-                  </div>
-              <label class="col-lg-3 control-label">Descripcion:</label>
-              <input type="hidden" value="<?php echo $id;?>" name="id" class="form">
-                  <div class="col-lg-9" >
-                      <select name="Periodo" class="form-control" disabled>
-                <option selected><?php echo $row[2]; ?>&nbsp;<?php echo $row[2]; ?></option><br>
-                </select><br>
-                  </div>
-                                <label class="col-lg-3 control-label">Nombre Empresa:</label>
-              <input type="hidden" value="<?php echo $id;?>" name="id" class="form">
-                  <div class="col-lg-9" >
-                      <select name="Periodo" class="form-control" disabled>
-                <option  selected><?php echo $row[3]; ?>&nbsp;<?php echo $row[3]; ?></option><br>
-                </select><br>
-                  </div>
-              <label class="col-lg-3 control-label">Duracion Proyecto en Semanas:</label>
-               <div class="col-lg-9">
-                      <select name="Carrera" id="combo1" class="form-control" onchange="gennumcon(this.value);" disabled>
-                <option selected value="" ><?php echo $row[4]; ?></option><br>
-                  </select>
-                  <br>
-              </div>
-              <br><br>
-              <div name="div_dinamico" id="div_dinamico" class="div_dinamico">
-                    <?php
-                    if(!$mysqli)
-                    {
-                        die('error de conexion de servidor: '.mysql_error());
-                    }
-                    $result1 = mysqli_query($mysqli,"SELECT a.id_Alumnos,a.Nombre,a.Num_Control,c.Nombre as Carrera FROM alumnos as a LEFT JOIN carrera as c ON a.id_Carrera= c.id_carrera WHERE id_Area=".$row[5]);   
-                    if(!$result1)
-                    {
-                        echo "error de consulta: ".mysqli_error();
-                    }
-                    $vas=0;
-                        echo "<table border = '1' align = 'center' width='70%' class='table table-bordered table-condensed'><tr align='center' class='table table-hover'>
-                        <td><font color='black'>Numero de control</td>
-                        <td><font color='black'>Nombre alumno</td>
-                        <td><font color='black'>Carrera</td>
-                        <td><font color='black'>Asignar</td>
-                        </tr>";
-                                  while ($row3 = mysqli_fetch_row($result1))
-                                      { 
-                                         echo "<tr><td>".$row3[2]."</td><td>".$row3[1]."</td><td>".$row3[3]."</td>
-                                        <td><input type='checkbox' name='Alumno[]' value='".$row3[0]."' checked></td></tr>"; 
-                                      } 
+    <!-- JQuery -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 
-                    
-                ?>
+    <!-- Ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
 
-               
-              </div>
-             <input class="btn btn-primary" type="submit" name="enviar" value="Guardar" > 
-     </form>
+    <!-- Bootstrap Icons v5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- sweetalert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- https://datatables.net/ -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+
+</head>
+
+<style>
+    textarea {
+        resize: none;
+        margin: 0.5em 0px;
+    }
+
+    section.cuerpo {
+        margin: 0px 0px 2em 0px;
+    }
+
+    td.btn-acciones {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    div.panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+</style>
+
+<body>
+    <?php
+    include 'Menu.php';
+    ?>
+    <section class="jumbotron" style="text-align: center;">
+        <div class="container">
+            <h1>SisVinTec</h1>
+            <p class="lead">Sistema para Vinculacion del TECMM</p><br>
+        </div>
+        <hr>
+        <p class="lead">Consultar Proyecto</p>
+        <hr>
+    </section>
+    <section class="cuerpo">
+        <div class="container">
+            <!-- Informacion del proyecto -->
+            <span style="font-weight:bold;color:#000080;">Informacion del proyecto&nbsp;</span>
+            <hr>
+
+            <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
+            <div class="col-lg-9">
+                <p class="form-control"><?php echo $getProyecto['ProyectoNombre']; ?></p>
+            </div>
+
+            <label for="nombre" class="col-lg-3 control-label">Tipo de proyecto:</label>
+            <div class="col-lg-9">
+                <p class="form-control"><?php echo $getProyecto['ProyectoTipo']; ?></p>
+            </div>
+
+            <label for="nombre" class="col-lg-3 control-label">Area:</label>
+            <div class="col-lg-9">
+                <p class="form-control"><?php echo $getProyecto['ProyectoArea']; ?></p>
+            </div>
+
+            <label for="nombre" class="col-lg-3 control-label">Duración:</label>
+            <div class="col-lg-9">
+                <p class="form-control"><?php echo $getProyecto['ProyectoDuracion']; ?></p>
+            </div>
+
+            <label class="col-lg-3 control-label">Descripción:</label>
+            <div class="col-lg-9 m-2">
+                <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
+            </div>
+
+
+            <!-- Objetivos -->
+            <span style="font-weight:bold;color:#000080;">Objetivos&nbsp;</span>
+            <hr>
+            <label class="col-lg-3 control-label">Objetivo Especifico:</label>
+            <div class="col-lg-9">
+                <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoObjetivoEspecifico']; ?></textarea>
+            </div>
+            <label class="col-lg-3 control-label">Objetivo General:</label>
+            <div class="col-lg-9">
+                <textarea readonly name="descripcion" class="form-control"><?php echo $getProyecto['ProyectoObjetivoGeneral']; ?></textarea>
+            </div>
+        </div>
+    </section>
+    <section class="cuerpo">
+        <div class="container">
+
+        </div>
+    </section>
+
+    <!-- Listado de alumnos-->
+    <section class="cuerpo">
+        <div class="container">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span> </span>
+                    <h5>Listado de alumnos</h5>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover table-responsive table-bordered" id="tbl-trabajadores">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Número de control</th>
+                                <th>Area</th>
+                                <th>Correo</th>
+                                <th>Carrera</th>
+                                <th>User</th>
+                                <th>Asingar</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        $(document).ready(function () {  
+            $('#tbl-trabajadores').DataTable({
+            ajax: {
+                url: './FncDatabase/ListarAlumnos.php?nombre=x',
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'numero' },
+                { data: 'nombre' },
+                { data: 'numero_control' },
+                { data: 'area' },
+                { data: 'correo' },
+                { data: 'carrera' },
+                { data: 'user' },
+                {
+                    targets: -1,
+                    data: null,
+                    defaultContent: "<a role=button class='btn btn-success'>Asignar</a>",
+                },
+            ]
+        });
+        });
+        
+
+    </script>
+
+    <footer>
+        <div class="contenedor">
+            <p>Copyright &copy; BCB</p>
+        </div>
+    </footer>
+    <!-- Bootstrap core JavaScript -->
+    <script src="../Estilos/dist/js/jquery.js"></script>
     <script src="../Estilos/dist/js/bootstrap.min.js"></script>
-               </div>
-      </section>  
-  </body>
+</body>
+
 </html>
