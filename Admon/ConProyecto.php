@@ -284,7 +284,8 @@ $mysqli->close();
                 var IdAlumno = alumno.id;
 
                 $.ajax({
-                    url: "/Admon/FncDatabase/AsignarAlumno.php?idP=" + IdProyecto + "&idA=" + IdAlumno,
+                    url: "/Admon/FncDatabase/AsignarAlumno.php?idP=" 
+                    + IdProyecto + "&idA=" + IdAlumno + "&action=noasig",
                     async: false, //This is deprecated in the latest version of jquery must use now callbacks
                     dataType: 'json',
                     success: function(resp) {

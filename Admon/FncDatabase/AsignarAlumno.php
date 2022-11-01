@@ -17,7 +17,7 @@ if ($mysqli->connect_errno) {
     die("Error en la conexion" . $mysqli->connect_error);
 }
 // Listar campos a recibir desde la pagina Editar Alumno
-$camposHTML = array('idA', 'idP');
+$camposHTML = array('idA', 'idP', 'action');
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
@@ -31,10 +31,15 @@ foreach ($camposHTML as $key) {
 // Crear variables de campos recibidos
 $alumnoId = $_GET['idA'];
 $proyectoId = $_GET['idP'];
+$tipoAccion = $_GET['action'];
 
 // Crear consulta
 $consultaVerificarAsignacion = "SELECT * FROM 
 `alu_proyect` WHERE id_Alumno = $alumnoId ; ";
+
+// Crear consulta 
+$consultaDesAsignarAlumno = "DELETE FROM `alu_proyect` 
+WHERE id_Alumno = ? AND id_Proyecto = ? ; ";
 
 // Crear consulta
 $consultaAsignarAlumno = "INSERT INTO `alu_proyect` 
@@ -45,37 +50,56 @@ $mysqli->begin_transaction();
 
 try {
 
-    // ***** Verificar asignación */
-    // preparar y parametrar
-    $sqlVerificarAsignacion = $mysqli->query($consultaVerificarAsignacion);
-    $rowAsignacion = $sqlVerificarAsignacion->num_rows;
+    if ($tipoAccion == "asig") {
+        // ***** Asignar un alumno a un proyecto */
+        // preparar y parametrar
+        $stmtAsingarAlumno = $mysqli->prepare($consultaAsignarAlumno);
+        $stmtAsingarAlumno->bind_param("ii", $alumnoId, $proyectoId);
+        $stmtAsingarAlumno->execute();
 
-    // ***** Asignar un alumno a un proyecto */
-    // preparar y parametrar
-    $stmtAsingarAlumno = $mysqli->prepare($consultaAsignarAlumno);
-    $stmtAsingarAlumno->bind_param("ii", $alumnoId, $proyectoId);
-    $stmtAsingarAlumno->execute();
+        // Verificar si se asigno correctamente
+        if ($stmtAsingarAlumno->affected_rows > 0) {
 
-    // Verificar si se asigno correctamente
-    if ($stmtAsingarAlumno->affected_rows > 0 && $rowAsignacion === 0) {
+            // ***** Verificar asignación */
+            // preparar y parametrar
+            $sqlVerificarAsignacion = $mysqli->query($consultaVerificarAsignacion);
+            $rowAsignacion = $sqlVerificarAsignacion->num_rows;
 
-        // ***** Efectuar cambios */
-        // En caso de no tener errores
-        $mysqli->commit();
-        $estado['icon'] = "success";
-        $estado['title'] = "Alumno asignado al proyecto.";
+            if ($rowAsignacion === 0) {
 
+                // ***** Efectuar cambios */
+                // En caso de no tener errores
+                $mysqli->commit();
+                $estado['icon'] = "success";
+                $estado['title'] = "Alumno asignado al proyecto.";
+            } else {
+                // ***** Deshacer cambios */
+                // En caso de tener errores
+                $mysqli->rollback();
+                $estado['icon'] = "warning";
+                $estado['title'] = "Alumno no asignado.";
+                $estado['msg'] = "Posiblemente este asignado en otro proyecto.";
+            }
+        }
     } else {
 
-        // ***** Deshacer cambios */
-        // En caso de tener errores
-        $mysqli->rollback();
-        $estado['icon'] = "warning";
-        $estado['title'] = "Alumno no asignado.";
-        $estado['msg'] = "Posiblemente este asignado en otro proyecto.";
+        // ***** Eliminar un alumno de un proyecto */
+        // preparar y parametrar
+        $stmtAsingarAlumno = $mysqli->prepare($consultaDesAsignarAlumno);
+        $stmtAsingarAlumno->bind_param("ii", $alumnoId, $proyectoId);
+        $stmtAsingarAlumno->execute();
+
+        // Verificar si se asigno correctamente
+        if ($stmtAsingarAlumno->affected_rows > 0) {
+
+            // ***** Efectuar cambios */
+            // En caso de no tener errores
+            $mysqli->commit();
+            $estado['icon'] = "success";
+            $estado['title'] = "Alumno eliminado del proyecto.";
+        } 
 
     }
-
 } catch (mysqli_sql_exception $exception) {
 
     // ***** Deshacer cambios */
