@@ -189,10 +189,11 @@ $mysqli->close();
             </div>
         </div>
     </section>
+
     <section class="cuerpo">
         <div class="container">
             <a class="btn btn-primary" href="/Admon/ConsultarProyectos.php" role="button">Regresar</a>
-            <a class="btn btn-info" href="" role="button">Ver alumnos asignados</a>
+            <a class="btn btn-info" href="/Admon/ConsultarProyectos.php" role="button">Consultar proyectos</a>
         </div>
     </section>
 

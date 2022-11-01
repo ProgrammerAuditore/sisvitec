@@ -17,6 +17,7 @@ $IdProyecto = $_GET['IdProyecto'];
 
 // Crear consulta
 $consultaQ = "SELECT 
+p.id_Proyecto AS ProyectoId,
 p.Nombre AS ProyectoNombre,
 p.Tipo_Proyect AS ProyectoTipo, 
 a.Nombre AS ProyectoArea,
@@ -78,6 +79,22 @@ $mysqli->close();
     textarea {
         resize: none;
         margin: 0.5em 0px;
+    }
+
+    section.cuerpo {
+        margin: 0px 0px 2em 0px;
+    }
+
+    td.btn-acciones {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    div.panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
     }
 </style>
 
@@ -171,13 +188,17 @@ $mysqli->close();
             <div class="col-lg-9 m-2">
                 <a class="btn btn-primary" href="#" role="button">Ver más</a>
             </div>
-
-            <!-- Botones (Para acciones) -->
-            <hr>
-            <br><br>
-            <a class="btn btn-primary" href="/Admon/ConsultarProyectos.php" role="button">Regresar</a>
         </div>
     </section>
+    
+    <!-- Botones (Para acciones) -->
+    <section class="cuerpo">
+        <div class="container">
+            <a class="btn btn-primary" href="/Admon/ConsultarProyectos.php" role="button">Regresar</a>
+            <a class="btn btn-warning" href="/Admon/AsignarAP.php?IdProyecto=<?php echo $IdProyecto; ?>" role="button">Asignar alumnos</a>
+        </div>
+    </section>
+
     <footer>
         <div class="contenedor">
             <p>Copyright &copy; BCB</p>
