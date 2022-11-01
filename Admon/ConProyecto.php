@@ -66,13 +66,25 @@ $mysqli->close();
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="../Estilos/EstilosAgregar.css" rel="stylesheet">
 
+    <!-- JQuery -->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 
+    <!-- Ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
+
+    <!-- Bootstrap Icons v5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- sweetalert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- https://datatables.net/ -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 </head>
 
 <style>
@@ -190,7 +202,34 @@ $mysqli->close();
             </div>
         </div>
     </section>
-    
+
+    <!-- Listado de asignados -->
+    <section class="cuerpo">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span> </span>
+                    <h5>Lista de alumnos asignados</h5>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover table-responsive table-bordered" id="tbl-trabajadores">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Número de control</th>
+                                <th>Area</th>
+                                <th>Correo</th>
+                                <th>Carrera</th>
+                                <th>Asingar</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Botones (Para acciones) -->
     <section class="cuerpo">
         <div class="container">
@@ -204,6 +243,66 @@ $mysqli->close();
             <p>Copyright &copy; BCB</p>
         </div>
     </footer>
+
+    <script>
+        $(document).ready(function() {
+            var tabla = $('#tbl-trabajadores').DataTable({
+                ajax: {
+                    url: './FncDatabase/ListarAlumnos.php?lista=asig&idP=<?php echo $IdProyecto; ?>',
+                    dataSrc: ''
+                },
+                columns: [{
+                        data: 'numero'
+                    },
+                    {
+                        data: 'nombre'
+                    },
+                    {
+                        data: 'numero_control'
+                    },
+                    {
+                        data: 'area'
+                    },
+                    {
+                        data: 'correo'
+                    },
+                    {
+                        data: 'carrera'
+                    },
+                    {
+                        targets: -1,
+                        data: null,
+                        defaultContent: "<a role=button class='btn btn-danger'>Eliminar</a>",
+                    },
+                ]
+            });
+
+            $('#tbl-trabajadores tbody').on('click', 'a', function(e) {
+                let alumno = tabla.row($(this).parents('tr')).data();
+                var searchParams = new URLSearchParams(window.location.search);
+                var IdProyecto = searchParams.get('IdProyecto');
+                var IdAlumno = alumno.id;
+
+                $.ajax({
+                    url: "/Admon/FncDatabase/AsignarAlumno.php?idP=" + IdProyecto + "&idA=" + IdAlumno,
+                    async: false, //This is deprecated in the latest version of jquery must use now callbacks
+                    dataType: 'json',
+                    success: function(resp) {
+                        Swal.fire({
+                            icon: resp.icon,
+                            title: resp.title,
+                            html: resp.msg
+                        }).then((r) => {
+                            window.location.reload();
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
+
+
     <!-- Bootstrap core JavaScript -->
     <script src="../Estilos/dist/js/jquery.js"></script>
     <script src="../Estilos/dist/js/bootstrap.min.js"></script>

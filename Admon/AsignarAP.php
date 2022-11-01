@@ -53,6 +53,7 @@ $mysqli->close();
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Bienvenido a SisVinTec</title>
+   
     <!-- Bootstrap core CSS -->
     <link href="../Estilos/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -201,7 +202,7 @@ $mysqli->close();
         $(document).ready(function() {
             var tabla = $('#tbl-trabajadores').DataTable({
                 ajax: {
-                    url: './FncDatabase/ListarAlumnos.php?nombre=x',
+                    url: './FncDatabase/ListarAlumnos.php?lista=noasig&idP=<?php echo $IdProyecto; ?>',
                     dataSrc: ''
                 },
                 columns: [{

@@ -11,7 +11,7 @@ if ($mysqli->connect_errno) {
     die("Error en la conexion" . $mysqli->connect_error);
 }
 // Listar campos a recibir desde la pagina Editar Alumno
-$camposHTML = array('nombre');
+$camposHTML = array('lista', 'idP');
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
@@ -22,10 +22,12 @@ foreach ($camposHTML as $key) {
 }
 
 // Crear variables de campos recibidos
-$alumnoNombre = $_GET['nombre'];
+$litaTipo = $_GET['lista'];
+
+$proyectoId = $_GET['idP'];
 
 // Crear consulta
-$consultaBuscarAlumno = "SELECT
+$consultaListarAlumnosNoAsignados = "SELECT
 alu.id_Alumnos AS AlumnoId,
 alu.Nombre AS AlumnoNombre, 
 alu.Num_Control AS AlumnoNumControl, 
@@ -41,8 +43,37 @@ WHERE NOT EXISTS
 (SELECT * FROM `alu_proyect` AS t2 
 WHERE alu.id_Alumnos = t2.id_Alumno);";
 
+$consultaListarAlumnosAsignados = "SELECT
+alu.id_Alumnos AS AlumnoId,
+alu.Nombre AS AlumnoNombre, 
+alu.Num_Control AS AlumnoNumControl, 
+alu.Nombre AS AlumnoArea, 
+alu.Correo AS AlumnoCorreo, 
+car.Nombre AS AlumnoCarrera, 
+lng.User AS CuentaUser 
+FROM `alumnos` AS alu
+LEFT JOIN `area` AS ar ON ar.id_Area = alu.id_Area    
+LEFT JOIN `carrera` AS car ON car.id_carrera = alu.id_Carrera   
+LEFT JOIN `login` AS lng ON lng.id_Login = alu.id_Login 
+LEFT JOIN `alu_proyect` AS asig ON asig.id_Alumno = alu.id_Alumnos
+WHERE asig.id_Alumno = alu.id_Alumnos AND asig.id_Proyecto = $proyectoId;";
+
+// Seleccionar consulta
+$consulta = NULL;
+
+switch ($litaTipo) {
+    case "asig":
+        $consulta = $consultaListarAlumnosAsignados;
+        break;
+    case "noasig":
+        $consulta = $consultaListarAlumnosNoAsignados;
+        break;
+    default:
+        $consulta = $consultaListarAlumnosNoAsignados;
+}
+
 // ***** Buscar Alumno */
-$resultado = $mysqli->query($consultaBuscarAlumno);
+$resultado = $mysqli->query($consulta);
 $mysqli->close();
 
 $skillData = array();
