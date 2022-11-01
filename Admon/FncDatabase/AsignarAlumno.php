@@ -6,6 +6,7 @@ include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
 
+// response para Ajax
 $estado = array();
 $estado['icon'] = "";
 $estado['title'] = "";
@@ -13,7 +14,7 @@ $estado['msg'] = "";
 
 // Verificar la conexion
 if ($mysqli->connect_errno) {
-    //die("Error en la conexion" . $mysqli->connect_error);
+    die("Error en la conexion" . $mysqli->connect_error);
 }
 // Listar campos a recibir desde la pagina Editar Alumno
 $camposHTML = array('idA', 'idP');
@@ -32,26 +33,37 @@ $alumnoId = $_GET['idA'];
 $proyectoId = $_GET['idP'];
 
 // Crear consulta
-$consultaAsignarAlumno = "INSERT INTO `alu_proyect` (`id_Alumno`,`id_Proyecto`) VALUES (?, ?); ";
+$consultaVerificarAsignacion = "SELECT * FROM 
+`alu_proyect` WHERE id_Alumno = $alumnoId ; ";
+
+// Crear consulta
+$consultaAsignarAlumno = "INSERT INTO `alu_proyect` 
+(id_Alumno, id_Proyecto ) VALUES (?, ?) ; ";
 
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
 try {
 
-    // ***** Registrar Usuario */
+    // ***** Verificar asignación */
+    // preparar y parametrar
+    $sqlVerificarAsignacion = $mysqli->query($consultaVerificarAsignacion);
+    $rowAsignacion = $sqlVerificarAsignacion->num_rows;
+
+    // ***** Asignar un alumno a un proyecto */
     // preparar y parametrar
     $stmtAsingarAlumno = $mysqli->prepare($consultaAsignarAlumno);
     $stmtAsingarAlumno->bind_param("ii", $alumnoId, $proyectoId);
     $stmtAsingarAlumno->execute();
 
-    if ($stmtAsingarAlumno->affected_rows > 0) {
+    // Verificar si se asigno correctamente
+    if ($stmtAsingarAlumno->affected_rows > 0 && $rowAsignacion === 0) {
 
         // ***** Efectuar cambios */
         // En caso de no tener errores
         $mysqli->commit();
         $estado['icon'] = "success";
-        $estado['title'] = "Alumno asignado.";
+        $estado['title'] = "Alumno asignado al proyecto.";
 
     } else {
 
@@ -60,6 +72,7 @@ try {
         $mysqli->rollback();
         $estado['icon'] = "warning";
         $estado['title'] = "Alumno no asignado.";
+        $estado['msg'] = "Posiblemente este asignado en otro proyecto.";
 
     }
 
