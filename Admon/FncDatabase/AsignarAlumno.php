@@ -51,6 +51,12 @@ $mysqli->begin_transaction();
 try {
 
     if ($tipoAccion == "asig") {
+
+        // ***** Verificar asignación */
+        // preparar y parametrar
+        $sqlVerificarAsignacion = $mysqli->query($consultaVerificarAsignacion);
+        $rowAsignacion = $sqlVerificarAsignacion->num_rows;
+
         // ***** Asignar un alumno a un proyecto */
         // preparar y parametrar
         $stmtAsingarAlumno = $mysqli->prepare($consultaAsignarAlumno);
@@ -58,28 +64,21 @@ try {
         $stmtAsingarAlumno->execute();
 
         // Verificar si se asigno correctamente
-        if ($stmtAsingarAlumno->affected_rows > 0) {
+        if ($stmtAsingarAlumno->affected_rows > 0 && $rowAsignacion === 0) {
 
-            // ***** Verificar asignación */
-            // preparar y parametrar
-            $sqlVerificarAsignacion = $mysqli->query($consultaVerificarAsignacion);
-            $rowAsignacion = $sqlVerificarAsignacion->num_rows;
+            // ***** Efectuar cambios */
+            // En caso de no tener errores
+            $mysqli->commit();
+            $estado['icon'] = "success";
+            $estado['title'] = "Alumno asignado al proyecto.";
+        } else {
 
-            if ($rowAsignacion === 0) {
-
-                // ***** Efectuar cambios */
-                // En caso de no tener errores
-                $mysqli->commit();
-                $estado['icon'] = "success";
-                $estado['title'] = "Alumno asignado al proyecto.";
-            } else {
-                // ***** Deshacer cambios */
-                // En caso de tener errores
-                $mysqli->rollback();
-                $estado['icon'] = "warning";
-                $estado['title'] = "Alumno no asignado.";
-                $estado['msg'] = "Posiblemente este asignado en otro proyecto.";
-            }
+            // ***** Deshacer cambios */
+            // En caso de tener errores
+            $mysqli->rollback();
+            $estado['icon'] = "warning";
+            $estado['title'] = "Alumno no asignado.";
+            $estado['msg'] = "Posiblemente este asignado en otro proyecto.";
         }
     } else {
 
@@ -97,8 +96,15 @@ try {
             $mysqli->commit();
             $estado['icon'] = "success";
             $estado['title'] = "Alumno eliminado del proyecto.";
-        } 
+        } else {
 
+            // ***** Deshacer cambios */
+            // En caso de tener errores
+            $mysqli->rollback();
+            $estado['icon'] = "danger";
+            $estado['title'] = "Error en la consulta.";
+            $estado['msg'] = "Es posible que este registro no exista.";
+        }
     }
 } catch (mysqli_sql_exception $exception) {
 
