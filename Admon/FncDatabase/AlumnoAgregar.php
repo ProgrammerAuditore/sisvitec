@@ -15,12 +15,23 @@ if ($mysqli->connect_errno) {
 
 // Listar campos a recibir desde la pagina Editar Alumno
 $camposHTML = array(
-    'user', 'pass', 'NombreA', 'NumeroC',
-    'Correo', 'Direccion', 'Area', 'Carrera', 'postCrearAlumno'
+    'cuenta-usuario',
+    'cuenta-password',
+    'alumno-nombre',
+    'alumno-numero-control',
+    'alumno-correo',
+    'alumno-direccion',
+    'alumno-area-id',
+    'alumno-carrera-id',
+    'postCrearAlumno'
 );
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
+    
+    $_POST[$key] = trim($_POST[$key]);
+    $_POST[$key] = htmlentities($_POST[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
         $goTo .= "?action=error";
@@ -33,8 +44,17 @@ foreach ($camposHTML as $key) {
     }
 }
 
-// ***** Iniciar Transición */
-$mysqli->begin_transaction();
+// Crear variables de datos recibidos
+$CuentaTipo = 1; // <=== Tipo alumno;
+$CuentaUsuario = htmlspecialchars($_POST['cuenta-usuario'], ENT_QUOTES);
+$CuentaPassorwd = htmlspecialchars($_POST['cuenta-password'], ENT_QUOTES);
+$AlumnoNombre =  htmlspecialchars($_POST['alumno-direccion'], ENT_QUOTES);
+$AlumnoNumeroControl = htmlspecialchars($_POST['alumno-numero-control'], ENT_QUOTES);
+$AlumnoCorreo = filter_var($_POST['alumno-correo'], FILTER_SANITIZE_EMAIL);
+$AlumnoDireccion = htmlspecialchars($_POST['alumno-direccion'], ENT_QUOTES);
+$AlumnoAreaId = filter_var($_POST['alumno-area-id'], FILTER_SANITIZE_NUMBER_INT);
+$AlumnoCarreraId = filter_var($_POST['alumno-carrera-id'], FILTER_SANITIZE_NUMBER_INT);
+$Existe = 1;
 
 $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 
@@ -49,54 +69,56 @@ $consultaCrearAlumno = "INSERT INTO `alumnos`
 `Direccion`, `id_Area`, `id_Carrera`, `id_Login`, `Existe`) 
 VALUES (?,?,?,?,?,?,?,?); ";
 
+// ***** Iniciar Transición */
+$mysqli->begin_transaction();
+
 try {
 
     // ***** Registrar Usuario */
     // preparar y parametrar
     $stmtCrearUsuario = $mysqli->prepare($consultaCrearUsuario);
-    $stmtCrearUsuario->bind_param("issi", $tipo, $user, $pass, $Existe);
-
-    // establecer parametros y ejecutar cambios
-    $tipo = 1; // <=== Tipo alumno
-    $user = $_POST['user'];
-    $pass = $_POST['pass'];
-    $Existe = 1;
+    $stmtCrearUsuario->bind_param(
+        "issi",
+        $CuentaTipo,
+        $CuentaUsuario,
+        $CuentaPassorwd,
+        $Existe
+    );
     $stmtCrearUsuario->execute();
 
     // ***** Obtener ID Login del usuario creado recientemente */
     $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
     $rowLogin = $queryObtenerIdLogin->fetch_array();
+    $CuentaLoginId = $rowLogin['max_login'];
 
     // ***** Registrar Alumno */
     // preparar y parametrar
     $stmtCrearAlumno = $mysqli->prepare($consultaCrearAlumno);
-    $stmtCrearAlumno->bind_param("ssssiiii", $NombreA, $NumeroC, $Correo, $Direccion, $Area, $Carrera, $idLogin, $Existe);
-
-    // establecer parametros y ejecutar cambios
-    $NombreA   = $_POST['NombreA'];
-    $NumeroC = $_POST['NumeroC'];
-    $Correo = $_POST['Correo'];
-    $Direccion = $_POST['Direccion'];
-    $Area = $_POST['Area'];
-    $Carrera = $_POST['Carrera'];
-    $idLogin  = $rowLogin['max_login'];
-    $Existe = 1;
+    $stmtCrearAlumno->bind_param(
+        "ssssiiii",
+        $AlumnoNombre,
+        $AlumnoNumeroControl,
+        $AlumnoCorreo,
+        $AlumnoDireccion,
+        $AlumnoAreaId,
+        $AlumnoCarreraId,
+        $CuentaLoginId,
+        $Existe
+    );
     $stmtCrearAlumno->execute();
 
     // ***** Verificar Usuario */
     // preparar y parametrar
     $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
-    $stmtVerificarUsuario->bind_param("s",$user);
-
-    // establecer parametros y ejecutar cambios
-    $user = $_POST['user'];
+    $stmtVerificarUsuario->bind_param("s", $CuentaUsuario);
     $stmtVerificarUsuario->execute();
 
+    // Obtener los resultados de la ejecucion SQL
     $stmtVerificarUsuario->store_result();
     $rowUsuario = $stmtVerificarUsuario->num_rows;
 
     if ($rowUsuario > 1) {
-        
+
         // ***** Deshacer cambios */
         // En caso de existir el usuario
         $mysqli->rollback();
@@ -105,7 +127,6 @@ try {
         $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
         $goTo .= "<b>Ya está registrado.<b>";
         $goTo .= $againTo;
-
     } else {
 
         // ***** Efectuar cambios */
@@ -113,7 +134,6 @@ try {
         $mysqli->commit();
         $goTo .= "?action=success";
         $goTo .= "&title=Alumno registrado.";
-
     }
 } catch (mysqli_sql_exception $exception) {
 

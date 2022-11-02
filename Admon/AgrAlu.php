@@ -44,43 +44,43 @@ session_start();
     <!-- Poner los datos del usuario -->
     <div class="container">
       <form class="form-datos" action="./FncDatabase/AlumnoAgregar.php" method="POST" role="form">
-        <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+        <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
         <hr>
 
-        <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
+        <label for="cuenta-usuario" class="col-lg-3 control-label">Usuario:</label>
         <div class="col-lg-9">
-          <input type="text" value="" placeholder="Usuario" name="user" class="form-control" id="nombre"><br>
+          <input type="text" value="" placeholder="Usuario" name="cuenta-usuario" class="form-control" id="cuenta-usuario"><br>
         </div>
 
-        <label class="col-lg-3 control-label">Contrasena:</label>
+        <label for="cuenta-password" class="col-lg-3 control-label">Contraseñaa:</label>
         <div class="col-lg-9">
-          <input value="" type="password" placeholder="Contraseña" name="pass" class="form-control" data-toggle="password"><br>
-        </div>
-        <label class="col-lg-3 control-label">Nombre Alumno</label>
-        <div class="col-lg-9">
-          <input value="" type="text" class="form-control" id="name" name="NombreA"><br>
+          <input value="" type="password" placeholder="Contraseña" name="cuenta-password" id="cuenta-password" class="form-control" data-toggle="cuenta-password"><br>
         </div>
 
-        <label class="col-lg-3 control-label">Numero De Control</label>
+        <label for="alumno-nombre" class="col-lg-3 control-label">Nombre De Alumno:</label>
         <div class="col-lg-9">
-          <input value="" type="text" class="form-control" id="name" name="NumeroC"><br>
+          <input value="" type="text" class="form-control" id="alumno-nombre" name="alumno-nombre" placeholder="Nombre alumno"><br>
         </div>
 
-        <label class="col-lg-3 control-label">Correo Electronico</label>
+        <label for="alumno-numero-control" class="col-lg-3 control-label">Número De Control:</label>
         <div class="col-lg-9">
-          <input value="" type="text" class="form-control" id="name" name="Correo"><br>
+          <input value="" type="text" class="form-control" id="alumno-numero-control" name="alumno-numero-control" placeholder="Número de control"><br>
         </div>
 
-        <label class="col-lg-3 control-label">Direccion</label>
+        <label for="alumno-correo" class="col-lg-3 control-label">Correo Electronico:</label>
         <div class="col-lg-9">
-          <input value="" type="text" class="form-control" id="name" name="Direccion"><br>
+          <input value="" type="text" class="form-control" id="alumno-correo" name="alumno-correo" placeholder="Correo electronico"><br>
         </div>
 
+        <label for="alumno-direccion" class="col-lg-3 control-label">Dirección:</label>
+        <div class="col-lg-9">
+          <input value="" type="text" class="form-control" id="alumno-direccion" name="alumno-direccion" placeholder="Dirección"><br>
+        </div>
 
-        <label class="col-lg-3 control-label">Area De Desarrollo :</label>
+        <label for="alumno-area-id" class="col-lg-3 control-label">Area De Desarrollo:</label>
         <div class="col-lg-9">
           <div class="selector-pai">
-            <select name="Area" class="form-control">
+            <select name="alumno-area-id" id="alumno-area-id" class="form-control">
               <script type="text/javascript">
                 $(document).ready(function() {
                   $.ajax({
@@ -95,10 +95,11 @@ session_start();
             </select><br>
           </div>
         </div>
-        <label class="col-lg-3 control-label">Carrera :</label>
+
+        <label for="alumno-carrera-id" class="col-lg-3 control-label">Carrera:</label>
         <div class="col-lg-9">
           <div class="selector-pas">
-            <select name="Carrera" class="form-control">
+            <select name="alumno-carrera-id" id="alumno-carrera-id" class="form-control">
               <script type="text/javascript">
                 $(document).ready(function() {
                   $.ajax({
