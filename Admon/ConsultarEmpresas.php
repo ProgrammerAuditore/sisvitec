@@ -1,9 +1,36 @@
 <?php
+// Iniciar session, hacer conexion  a la base de datos
+// y obtener la conexion
 session_start();
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
-error_reporting(0);
+
+// Crear consulta
+$consultaQ = "SELECT 
+lng.User AS EmpresaUser,
+lng.Password AS EmpresaPassword,
+e.Nombre AS EmpresaNombre,
+e.Tipo_Empresa AS EmpresaTipoConvenio,
+e.Razon_Social AS EmpresaRazonSocial,
+e.Direccion AS EmpresaDireccion,
+e.RFC AS EmpresaRFC,
+e.id_Empresa AS EmpresaId,
+sat.Nombre AS EmpresaTipoSAT
+FROM empresa AS e 
+LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
+LEFT JOIN `tipo_sat` AS sat ON sat.id_tipo = e.id_tipo ; ";
+
+// Obtener resultado de la consulta
+$result = $mysqli->query($consultaQ);
+
+//****  Verificar si existe registro del proyecto */
+if ($result->num_rows <= 0) {
+  header("Location: /Admon/ConsultarProyectos.php");
+}
+
+$mysqli->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +53,14 @@ error_reporting(0);
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
+<style>
+  .btn-acciones {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+</style>
+
 <body>
   <?php
   include 'Menu.php';
@@ -37,8 +72,8 @@ error_reporting(0);
       <p class="lead">Usuario Administrador</p>
     </div>
     <div class="col-12 col-md-12">
-
     </div>
+
     <div class="row">
       <div class="col-12 col-md-12">
         <hr>
@@ -47,45 +82,37 @@ error_reporting(0);
           <thead>
             <tr align='center' class='table table-hover'>
               <th>#</th>
+              <th>Usuario</th>
               <th>Nombre Empresas</th>
               <th>Razon Social</th>
               <th>Direccion Fiscal</th>
-              <th>Consultar Empresa</th>
-              <th>Editar Empresa</th>
-              <th>Eliminar</th>
+              <th>Acciones</th>
             </tr>
           </thead>
-          <?php
-          $mysql = new conexion();
-          $con = $mysql->_ObtenerConexion();
-          if (!$con) {
-            die('error de conexion de servidor:' . mysql_error());
-          }
-          $consulta = "SELECT emp.id_empresa,emp.Nombre,emp.Razon_Social,emp.Direccion,log.id_Login FROM empresa as emp LEFT JOIN login as log ON emp.id_login=log.id_Login Where emp.Existe=1";
-          $resultado = mysqli_query($con, $consulta);
-          $contador = 0;
-          while ($misdatos = mysqli_fetch_assoc($resultado)) {
-            $contador++;
-          ?>
-            <tr>
-              <td><?php echo $contador ?></td>
-              <td><?php echo $misdatos["Nombre"]; ?></td>
-              <td><?php echo $misdatos["Razon_Social"]; ?></td>
-              <td><?php echo $misdatos["Direccion"]; ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-primary' href=ConEmpresa.php?IdEmpresa=" . $misdatos["id_empresa"] . "><font color='#ffffff'>Consultar</font></a>" ?></td>
-
-              <td><?php echo "<a style='margin:3px' class='btn btn-warning' href=EdiEmpresa.php?IdEmpresa=" . $misdatos["id_empresa"] . "><font color='#ffffff'>Editar</font></a>" ?></td>
-              <td><?php echo "<a style='margin:3px' class='btn btn-danger' href=?IdEmpresa=" . $misdatos["id_empresa"] . "&action=delete ><font color='#ffffff'>Eliminar</font></a>" ?></td>
-
-            </tr>
-
-          <?php } ?>
-
+          <tbody>
+            <?php
+            $filas = 0;
+            while ($getEmpresas = $result->fetch_assoc()) {
+              $filas++;
+            ?>
+              <tr>
+                <td><?php echo $filas ?></td>
+                <td><?php echo $getEmpresas['EmpresaUser'] ?></td>
+                <td><?php echo $getEmpresas['EmpresaNombre'] ?></td>
+                <td><?php echo $getEmpresas['EmpresaRazonSocial'] ?></td>
+                <td><?php echo $getEmpresas['EmpresaDireccion'] ?></td>
+                <td class="btn-acciones">
+                  <a href="<?php echo "/Admon/ConEmpresa.php?IdEmpresa=" . $getEmpresas['EmpresaId']; ?>" class="btn btn-primary" role="button">Consultar</a>
+                  <a href="<?php echo "/Admon/EdiEmpresa.php?IdEmpresa=" . $getEmpresas['EmpresaId']; ?>" class="btn btn-warning" role="button">Editar</a>
+                  <a href="?action=delete&IdEmpresa=<?php echo $getEmpresas['EmpresaId']; ?>" class="btn btn-danger" role="button">Eliminar</a>
+                </td>
+              </tr>
+            <?php } ?>
           </tbody>
         </table>
-        <!-- Fin Contenido -->
       </div>
     </div>
+    <!-- Fin Contenido -->
   </section>
 
   <?php if (isset($_GET['action'])) { ?>

@@ -8,6 +8,7 @@ $mysqli = $mysql->_ObtenerConexion();
 
 // Crear consulta
 $consultaQ = "SELECT
+lng.User AS AlumnoUsuario,
 alu.id_Login AS AlumnoLoginId,
 alu.id_Alumnos AS AlumnoId,
 alu.Nombre AS AlumnoNombre,
@@ -17,6 +18,7 @@ car.Nombre AS AlumnoCarrera,
 are.Nombre AS AlumnoArea 
 FROM alumnos AS alu 
 LEFT JOIN carrera AS car ON alu.id_Carrera=car.id_carrera
+LEFT JOIN `login` AS lng ON lng.id_Login=alu.id_Login
 LEFT JOIN area AS are ON alu.id_Area = are.id_Area; ";
 
 // Obtener resultado de la consulta
@@ -46,6 +48,14 @@ $mysqli->close();
 
 </head>
 
+<style>
+  .btn-acciones {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+</style>
+
 <body>
   <?php
   include 'Menu.php';
@@ -57,9 +67,10 @@ $mysqli->close();
       <p class="lead">SISVINTEC</p><br>
       <p class="lead">Usuario Administrador</p>
     </div>
+    
     <div class="col-12 col-md-12">
-
     </div>
+
     <div class="row">
       <div class="col-12 col-md-12">
         <hr>
@@ -68,13 +79,12 @@ $mysqli->close();
           <thead>
             <tr align='center' class='table table-hover'>
               <th>#</th>
+              <th>Usuario</th>
               <th>Nombre</th>
               <th>Numero De Control</th>
               <th>Correo Electronico</th>
               <th>Area</th>
-              <th>Consultar </th>
-              <th>Editar</th>
-              <th>Eliminar</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -85,18 +95,15 @@ $mysqli->close();
             ?>
               <tr>
                 <td><?php echo $filas ?></td>
+                <td><?php echo $getAlumnos['AlumnoUsuario'] ?></td>
                 <td><?php echo $getAlumnos['AlumnoNombre'] ?></td>
                 <td><?php echo $getAlumnos['AlumnoNumControl'] ?></td>
                 <td><?php echo $getAlumnos['AlumnoCorreo'] ?></td>
                 <td><?php echo $getAlumnos['AlumnoArea'] ?></td>
-                <td>
+                <td class="btn-acciones">
                   <a class="btn btn-primary" href="./ConAlumno.php?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>" role="button">Consultar</a>
-                </td>
-                <td>
                   <a class="btn btn-warning" href="./EdiAlumno.php?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>" role="button">Editar</a>
-                </td>
-                <td>
-                  <a class="btn btn-danger" href="?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>&action=delete" role="button">Editar</a>
+                  <a class="btn btn-danger" href="?IdUsuario=<?php echo $getAlumnos['AlumnoLoginId']; ?>&action=delete" role="button">Eliminar</a>
                 </td>
               </tr>
             <?php } ?>
