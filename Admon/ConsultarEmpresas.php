@@ -22,14 +22,23 @@ LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
 LEFT JOIN `tipo_sat` AS sat ON sat.id_tipo = e.id_tipo ; ";
 
 // Obtener resultado de la consulta
-$result = $mysqli->query($consultaQ);
+$resultado = $mysqli->query($consultaQ);
+$mysqli->close();
 
-//****  Verificar si existe registro del proyecto */
-if ($result->num_rows <= 0) {
-  header("Location: /Admon/ConsultarProyectos.php");
+$skillData = array();
+$fila = 0;
+while ($row = $resultado->fetch_assoc()) {
+  $fila++;
+  $data['fila'] = $fila;
+  $data['nombre'] = $row['EmpresaNombre'];
+  $data['razon_social'] = $row['EmpresaRazonSocial'];
+  $data['direccion'] = $row['EmpresaDireccion'];
+  $data['user'] = $row['EmpresaUser'];
+  $data['id'] = $row['EmpresaId'];
+  array_push($skillData, $data);
 }
 
-$mysqli->close();
+$getEmpresasJson = json_encode($skillData);
 
 ?>
 <!DOCTYPE html>
@@ -41,16 +50,32 @@ $mysqli->close();
   <meta name="description" content="">
   <meta name="author" content="">
   <title>SISVINTEC - EMPRESAS</title>
+
   <!-- Bootstrap core CSS -->
   <link href="../Estilos/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="../Estilos/EstilosAgregar.css" rel="stylesheet">
 
+  <!-- JQuery -->
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+
+  <!-- Ajax -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
+
+  <!-- Bootstrap Icons v5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
   <!-- sweetalert2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- https://datatables.net/ -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
 </head>
 
 <style>
@@ -76,40 +101,22 @@ $mysqli->close();
 
     <div class="row">
       <div class="col-12 col-md-12">
-        <hr>
-        <hr>
-        <table class="table table-hover">
-          <thead>
-            <tr align='center' class='table table-hover'>
-              <th>#</th>
-              <th>Usuario</th>
-              <th>Nombre Empresas</th>
-              <th>Razon Social</th>
-              <th>Direccion Fiscal</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $filas = 0;
-            while ($getEmpresas = $result->fetch_assoc()) {
-              $filas++;
-            ?>
-              <tr>
-                <td><?php echo $filas ?></td>
-                <td><?php echo $getEmpresas['EmpresaUser'] ?></td>
-                <td><?php echo $getEmpresas['EmpresaNombre'] ?></td>
-                <td><?php echo $getEmpresas['EmpresaRazonSocial'] ?></td>
-                <td><?php echo $getEmpresas['EmpresaDireccion'] ?></td>
-                <td class="btn-acciones">
-                  <a href="<?php echo "/Admon/ConEmpresa.php?IdEmpresa=" . $getEmpresas['EmpresaId']; ?>" class="btn btn-primary" role="button">Consultar</a>
-                  <a href="<?php echo "/Admon/EdiEmpresa.php?IdEmpresa=" . $getEmpresas['EmpresaId']; ?>" class="btn btn-warning" role="button">Editar</a>
-                  <a href="?action=delete&IdEmpresa=<?php echo $getEmpresas['EmpresaId']; ?>" class="btn btn-danger" role="button">Eliminar</a>
-                </td>
-              </tr>
-            <?php } ?>
-          </tbody>
-        </table>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <table class="table table-hover table-responsive table-bordered" id="tbl-empresas">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Usuario</th>
+                  <th>Nombre</th>
+                  <th>Razon Social</th>
+                  <th>Dirección Fiscal</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Fin Contenido -->
@@ -128,36 +135,90 @@ $mysqli->close();
     </script>
   <?php } ?>
 
-  <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
-    <script>
+  <script>
+    $(document).ready(function() {
+      var tabla = $('#tbl-empresas').DataTable({
+        language: {
+                url: "//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+        },
+        data: <?php echo $getEmpresasJson; ?>,
+        columns: [{
+            data: 'fila'
+          },
+          {
+            data: 'user'
+          },
+          {
+            data: 'nombre'
+          },
+          {
+            data: 'razon_social'
+          },
+          {
+            data: 'direccion'
+          },
+          {
+            targets: -1,
+            data: null,
+            defaultContent: "<div class='btn-acciones'>" +
+              "<a role=button id='btn-consultar-empresa' class='btn btn-primary'><i class='bi bi-eye-fill'></i></a>" +
+              "<a role=button id='btn-editar-empresa' class='btn btn-warning'><i class='bi bi-pencil-fill'></i></a>" +
+              "<a role=button id='btn-eliminar-empresa' class='btn btn-danger'><i class='bi bi-trash-fill'></i></a>" +
+              "</div>",
+          },
+        ]
+      });
+
+      $('#tbl-empresas tbody').on('click', '#btn-consultar-empresa', function(e) {
+        fncConsultarEmpresa(tabla.row($(this).parents('tr')).data().id);
+      });
+
+      $('#tbl-empresas tbody').on('click', '#btn-editar-empresa', function(e) {
+        fncEditarEmpresa(tabla.row($(this).parents('tr')).data().id);
+      });
+
+      $('#tbl-empresas tbody').on('click', '#btn-eliminar-empresa', function(e) {
+        fncEliminarEmpresa(tabla.row($(this).parents('tr')).data().id);
+      });
+
+    });
+
+    function fncConsultarEmpresa(id_empresa) {
+      window.location.href = "/Admon/ConEmpresa.php?IdEmpresa=" + id_empresa;
+    }
+
+    function fncEditarEmpresa(id_empresa) {
+      window.location.href = "/Admon/EdiEmpresa.php?IdEmpresa=" + id_empresa;
+    }
+
+    function fncEliminarEmpresa(id_empresa) {
       Swal.fire({
-        title: 'Confirmar',
-        text: "¿Seguro que desear eliminar está empresa?",
+        title: 'Estás seguro de eliminarlo?',
+        text: "Sé eliminará de manera permanente.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si'
+        confirmButtonText: 'Si, eliminalo!'
       }).then((result) => {
-
-        var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
-
         if (result.isConfirmed) {
           $.ajax({
-            url: "./FncDatabase/EmpresaEliminar.php?id=<?php echo $_GET['IdEmpresa']; ?>"
-          });
-          Swal.fire({
-            icon: 'success',
-            title: 'Empresa eliminado.',
-          }).then((r) => {
-            window.location.reload();
+            method: "GET",
+            url: "/Admon/FncDatabase/EmpresaEliminar.php?id=" + id_empresa,
+            success: function(resp) {
+              Swal.fire(
+                'Eliminado!',
+                'La empresa se elimino exitosamente.',
+                'success'
+              ).then((result) => {
+                window.location.reload();
+              });
+            }
           });
         }
-
-      })
-    </script>
-  <?php } ?>
+      });
+    }
+  </script>
 
   <footer>
     <div class="contenedor">
