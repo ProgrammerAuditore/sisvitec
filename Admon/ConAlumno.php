@@ -5,10 +5,20 @@ session_start();
 include 'conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
+$goTo = "Location:/Admon/ConsultarAlumnos.php";
+$againTo = "<br/><hr><a href=/Admon/EdiAlumno.php?IdUsuario={$_GET['IdUsuario']}>Volver a intentarlo.</a>";
+
 
 //****  Verificar que existe el parametro IdUsuario */
 if (!isset($_GET['IdUsuario']) || empty($_GET['IdUsuario'])) {
-  header("Location: ./ConsultaAlumno.php");
+  // En caso de recibir campos incorrectos
+  $goTo .= "?action=error";
+  $goTo .= "&title=Alumno no actualizado.";
+  $goTo .= "&msg=Verifique que los campos sean validos y no vacios.";
+  $goTo .= $againTo;
+  $mysqli->close();
+  header($goTo);
+  exit();
 }
 
 //****  Obtener todo los datos del usuario */
@@ -37,7 +47,14 @@ $result = $mysqli->query($consultaQ);
 
 //****  Verificar si existe registro del usuario */
 if ($result->num_rows <= 0) {
-  header("Location: ./ConsultaAlumno.php");
+  // En caso de recibir campos incorrectos
+  $goTo .= "?action=error";
+  $goTo .= "&title=Alumno no actualizado.";
+  $goTo .= "&msg=Verifique que los campos sean validos y no vacios.";
+  $goTo .= $againTo;
+  $mysqli->close();
+  header($goTo);
+  exit();
 }
 
 //print var_dump($result->fetch_assoc());
