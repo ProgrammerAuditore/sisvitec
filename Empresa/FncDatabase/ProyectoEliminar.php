@@ -35,12 +35,12 @@ try {
     $id = $_GET['id'];
     $stmt->execute();
 
-    // ***** Efectuar cambios */
+    // Efectuar cambios
     $mysqli->commit();
 
 } catch (mysqli_sql_exception $exception) {
 
-    // ***** Deshacer cambios */
+    // Deshacer cambios
     $mysqli->rollback();
     //print $exception;
     //throw $exception;

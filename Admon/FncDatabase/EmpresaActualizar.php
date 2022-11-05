@@ -116,7 +116,7 @@ try {
 
     if ($rowUsuario > 1) {
 
-        // ***** Deshacer cambios */
+        // Deshacer cambios
         // En caso de existir el usuario
         $mysqli->rollback();
         $goTo .= "?action=error";
@@ -127,7 +127,7 @@ try {
 
     } else {
 
-        // ***** Efectuar cambios */
+        // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
         $goTo .= "?action=success";
@@ -136,7 +136,7 @@ try {
     }
 } catch (mysqli_sql_exception $exception) {
 
-    // ***** Deshacer cambios */
+    // Deshacer cambios
     // En caso de un error en la base de datos
     $mysqli->rollback();
     $goTo .= "?action=error";

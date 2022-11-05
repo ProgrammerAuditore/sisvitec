@@ -16,38 +16,37 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: ../ConsultaAlumno.php");
     exit();
 }
-  
+
+// Crear variables de parametros recibidos
+$idAlumno = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+$Existe = 1;
+
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
-// Crear consulta
-$consultaQ = "DELETE FROM `alumnos`  
-WHERE id_Login = ? AND Existe = 1 ; ";
-
-// preparar y parametrar
-$stmt = $mysqli->prepare($consultaQ);
-$stmt->bind_param("i", $idAlumno);
-
 try {
 
-    // establecer parametros y ejecutar cambios
-    $idAlumno = $_GET['id'];
-    $stmt->execute();
-    
+    // Crear consulta
+    $consultaQ = "DELETE FROM `alumnos` 
+    WHERE id_Login = ? AND Existe = ? ; ";
 
-    // ***** Efectuar cambios */
+    // preparar y parametrar
+    $stmt = $mysqli->prepare($consultaQ);
+    $stmt->bind_param("ii", $idAlumno, $Existe);
+    $stmt->execute();
+
+
+    // Efectuar cambios
     $mysqli->commit();
 
 } catch (mysqli_sql_exception $exception) {
 
-    // ***** Deshacer cambios */
+    // Deshacer cambios
     $mysqli->rollback();
-    
-    print $exception;
+    //print $exception;
     //throw $exception;
+    
 }
 
 $mysqli->close();
 $stmt->close();
-?>
-

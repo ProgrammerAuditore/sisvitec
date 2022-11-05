@@ -21,17 +21,22 @@ $camposHTML = array('idA', 'idP', 'action');
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
+
+    $_GET[$key] = trim($_GET[$key]);
+    $_GET[$key] = htmlentities($_GET[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
     if (!isset($_GET[$key]) || empty(trim($_GET[$key]))) {
         $responseAjax['icon'] = "danger";
         $responseAjax['title'] = "Alumno no asignado.";
         $responseAjax['msg'] = "Error al recibir parametros GET.";
     }
+
 }
 
 // Crear variables de campos recibidos
-$alumnoId = $_GET['idA'];
-$proyectoId = $_GET['idP'];
-$tipoAccion = $_GET['action'];
+$alumnoId = filter_var($_GET['idA'], FILTER_SANITIZE_NUMBER_INT);
+$proyectoId = filter_var($_GET['idP'], FILTER_SANITIZE_NUMBER_INT);
+$tipoAccion = htmlspecialchars($_GET['action'], ENT_QUOTES);
 
 // Crear consulta
 $consultaVerificarAsignacion = "SELECT * FROM 
@@ -66,14 +71,14 @@ try {
         // Verificar si se asigno correctamente
         if ($stmtAsingarAlumno->affected_rows > 0 && $rowAsignacion === 0) {
 
-            // ***** Efectuar cambios */
+            // Efectuar cambios
             // En caso de no tener errores
             $mysqli->commit();
             $responseAjax['icon'] = "success";
             $responseAjax['title'] = "Alumno asignado al proyecto.";
         } else {
 
-            // ***** Deshacer cambios */
+            // Deshacer cambios
             // En caso de tener errores
             $mysqli->rollback();
             $responseAjax['icon'] = "warning";
@@ -91,14 +96,14 @@ try {
         // Verificar si se asigno correctamente
         if ($stmtAsingarAlumno->affected_rows > 0) {
 
-            // ***** Efectuar cambios */
+            // Efectuar cambios
             // En caso de no tener errores
             $mysqli->commit();
             $responseAjax['icon'] = "success";
             $responseAjax['title'] = "Alumno eliminado del proyecto.";
         } else {
 
-            // ***** Deshacer cambios */
+            // Deshacer cambios
             // En caso de tener errores
             $mysqli->rollback();
             $responseAjax['icon'] = "danger";
@@ -108,7 +113,7 @@ try {
     }
 } catch (mysqli_sql_exception $exception) {
 
-    // ***** Deshacer cambios */
+    // Deshacer cambios
     // En caso de tener errores
     $mysqli->rollback();
     $responseAjax['icon'] = "danger";

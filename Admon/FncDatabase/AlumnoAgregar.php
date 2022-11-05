@@ -119,7 +119,7 @@ try {
 
     if ($rowUsuario > 1) {
 
-        // ***** Deshacer cambios */
+        // Deshacer cambios
         // En caso de existir el usuario
         $mysqli->rollback();
         $goTo .= "?action=error";
@@ -129,7 +129,7 @@ try {
         $goTo .= $againTo;
     } else {
 
-        // ***** Efectuar cambios */
+        // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
         $goTo .= "?action=success";
@@ -137,7 +137,7 @@ try {
     }
 } catch (mysqli_sql_exception $exception) {
 
-    // ***** Deshacer cambios */
+    // Deshacer cambios
     $mysqli->rollback();
     $goTo .= "?action=error";
     $goTo .= "&title=Alumno no actualizado.";
