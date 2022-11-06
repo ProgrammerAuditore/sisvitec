@@ -15,11 +15,18 @@ alu.Nombre AS AlumnoNombre,
 alu.Num_Control AS AlumnoNumeroControl,
 alu.Correo AS AlumnoCorreo,
 car.Nombre AS AlumnoCarrera, 
-are.Nombre AS AlumnoArea 
+are.Nombre AS AlumnoArea,
+IF(ISNULL(pro.ProNombre)=1, 'Sin Asignar', pro.ProNombre) AS AlumnoProyecto
 FROM `alumnos` AS alu 
 LEFT JOIN `carrera` AS car ON alu.id_Carrera=car.id_carrera
 LEFT JOIN `login` AS lng ON lng.id_Login=alu.id_Login
-LEFT JOIN `area` AS are ON alu.id_Area = are.id_Area; ";
+LEFT JOIN `area` AS are ON alu.id_Area = are.id_Area
+LEFT JOIN (
+	SELECT p.Nombre AS ProNombre, a.id_Alumnos AS ProAlumno
+	FROM alu_proyect AS x
+	LEFT JOIN proyecto AS p ON p.id_Proyecto=x.id_Proyecto
+	LEFT JOIN alumnos AS a ON a.id_Alumnos=x.id_Alumno
+) AS pro ON pro.ProAlumno = alu.id_Alumnos; ";
 
 // Obtener resultado de la consulta
 $resultado = $mysqli->query($consultaQ);
@@ -35,6 +42,7 @@ while ($row = $resultado->fetch_assoc()) {
   $data['correo'] = $row['AlumnoCorreo'];
   $data['carrera'] = $row['AlumnoCarrera'];
   $data['usuario'] = $row['AlumnoUsuario'];
+  $data['proyecto'] = $row['AlumnoProyecto'];
   $data['login_id'] = $row['AlumnoLoginId'];
   array_push($skillData, $data);
 }
@@ -115,6 +123,7 @@ $getAlumnosJson = json_encode($skillData);
                   <th>Numero De Control</th>
                   <th>Carrera</th>
                   <th>Correo Electronico</th>
+                  <th>Proyecto Asignado</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -162,6 +171,9 @@ $getAlumnosJson = json_encode($skillData);
           },
           {
             data: 'correo'
+          },
+          {
+            data: 'proyecto'
           },
           {
             targets: -1,
