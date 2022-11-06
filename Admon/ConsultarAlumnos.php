@@ -199,8 +199,8 @@ $getAlumnosJson = json_encode($skillData);
 
     function fncEliminarAlumno(login_id_alumno) {
       Swal.fire({
-        title: 'Estás seguro de eliminarlo?',
-        text: "Sé eliminará el alumno de manera permanente.",
+        title: 'Estás seguro de eliminarlo definitivamente?',
+        html: "Se borrará de todos los proyectos realizados y asignados.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

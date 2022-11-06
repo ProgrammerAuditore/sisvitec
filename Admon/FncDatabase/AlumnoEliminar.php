@@ -11,10 +11,19 @@ if ($mysqli->connect_errno) {
     die("Error en la conexion" . $mysqli->connect_error);
 }
 
-//****  Verificar que existe el parametro IdUsuario */
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: ../ConsultaAlumno.php");
-    exit();
+// Listar campos a recibir desde la pagina Editar Alumno
+$camposHTML = array('id');
+
+// Verificar campos recibidos
+foreach ($camposHTML as $key) {
+
+    $_GET[$key] = trim($_GET[$key]);
+    $_GET[$key] = htmlentities($_GET[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
+    if (!isset($_GET[$key]) || empty(trim($_GET[$key]))) {
+        $mysqli->close();
+        exit();
+    }
 }
 
 // Crear variables de parametros recibidos
@@ -26,18 +35,31 @@ $mysqli->begin_transaction();
 
 try {
 
+    //***** Eliminar un alumno */
     // Crear consulta
-    $consultaQ = "DELETE FROM `alumnos` 
+    $consultaEliminarAlumno = "DELETE FROM `alumnos` 
     WHERE id_Login = ? AND Existe = ? ; ";
 
     // preparar y parametrar
-    $stmt = $mysqli->prepare($consultaQ);
-    $stmt->bind_param("ii", $idAlumno, $Existe);
-    $stmt->execute();
+    $stmtEliminarAlumno = $mysqli->prepare($consultaEliminarAlumno);
+    $stmtEliminarAlumno->bind_param("ii", $idAlumno, $Existe);
 
+    //***** Eliminar la cuenta */
+    // Crear consulta
+    $consultaEliminarCuenta = "DELETE FROM `login` 
+    WHERE id_Login = ? AND Existe = ? ; ";
 
-    // Efectuar cambios
-    $mysqli->commit();
+    // preparar y parametrar
+    $stmtEliminarCuenta = $mysqli->prepare($consultaEliminarCuenta);
+    $stmtEliminarCuenta->bind_param("ii", $idAlumno, $Existe);
+
+    if ($stmtEliminarAlumno->execute() &&  $stmtEliminarCuenta->execute()) {
+        // Efectuar cambios
+        $mysqli->commit();
+    }else {
+        // Deshacer cambios
+        $mysqli->rollback();   
+    }
 
 } catch (mysqli_sql_exception $exception) {
 
@@ -45,8 +67,9 @@ try {
     $mysqli->rollback();
     //print $exception;
     //throw $exception;
-    
+
 }
 
 $mysqli->close();
-$stmt->close();
+$stmtEliminarAlumno->close();
+$stmtEliminarCuenta->close();
