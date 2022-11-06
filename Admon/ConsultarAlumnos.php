@@ -16,10 +16,10 @@ alu.Num_Control AS AlumnoNumeroControl,
 alu.Correo AS AlumnoCorreo,
 car.Nombre AS AlumnoCarrera, 
 are.Nombre AS AlumnoArea 
-FROM alumnos AS alu 
-LEFT JOIN carrera AS car ON alu.id_Carrera=car.id_carrera
+FROM `alumnos` AS alu 
+LEFT JOIN `carrera` AS car ON alu.id_Carrera=car.id_carrera
 LEFT JOIN `login` AS lng ON lng.id_Login=alu.id_Login
-LEFT JOIN area AS are ON alu.id_Area = are.id_Area; ";
+LEFT JOIN `area` AS are ON alu.id_Area = are.id_Area; ";
 
 // Obtener resultado de la consulta
 $resultado = $mysqli->query($consultaQ);

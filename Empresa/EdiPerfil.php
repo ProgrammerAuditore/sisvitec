@@ -21,7 +21,7 @@ e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
 e.id_Empresa AS EmpresaID,
 sat.Nombre AS EmpresaTipoSAT
-FROM empresa AS e 
+FROM `empresa` AS e 
 LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
 LEFT JOIN `tipo_sat` AS sat ON sat.id_tipo = e.id_tipo
 WHERE e.id_empresa = $IdEmpresa ; ";

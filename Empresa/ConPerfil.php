@@ -17,7 +17,7 @@ e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
 e.id_Empresa AS EmpresaID
-FROM empresa AS e 
+FROM `empresa` AS e 
 LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
 WHERE e.id_empresa = $IdEmpresa ; ";
 

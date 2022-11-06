@@ -15,8 +15,8 @@ p.Nombre aS ProyectoNombre,
 a.Nombre AS ProyectoArea,
 p.Descripcion AS ProyectoDescripcion,
 p.Duracion AS ProyectoDuracion 
-FROM proyecto AS p 
-LEFT JOIN area AS a ON p.id_Area=a.id_Area 
+FROM `proyecto` AS p 
+LEFT JOIN `area` AS a ON p.id_Area=a.id_Area 
 WHERE p.id_Empresa=$IDE";
 
 // Obtener resultado de la consulta

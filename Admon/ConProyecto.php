@@ -31,7 +31,7 @@ e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
 e.id_Empresa AS EmpresaId
-FROM proyecto AS p 
+FROM `proyecto` AS p 
 Left JOIN empresa AS e ON e.id_empresa=p.id_Empresa
 Left JOIN area AS a ON p.id_Area=a.id_Area 
 WHERE p.id_Proyecto = $IdProyecto ; ";

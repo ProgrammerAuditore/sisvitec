@@ -24,7 +24,7 @@ p.Duracion AS ProyectoDuracion,
 p.Descripcion AS ProyectoDescripcion, 
 p.Objetivo_Espesifico AS ProyectoObjetivoEspecifico, 
 p.Objetivo_General AS ProyectoObjetivoGeneral
-FROM proyecto AS p 
+FROM `proyecto` AS p 
 Left JOIN area AS a ON p.id_Area=a.id_Area 
 WHERE p.id_Proyecto = $IdProyecto ; ";
 

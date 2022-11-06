@@ -14,9 +14,9 @@ p.Duracion AS ProyectoDuracion,
 p.Tipo_Proyect AS ProyectoTipo,  
 a.Nombre AS ProyectoArea, 
 emp.Nombre AS ProyectoEmpresa 
-FROM proyecto AS p  
+FROM `proyecto` AS p  
 LEFT JOIN `empresa` AS emp ON emp.id_empresa = p.id_Empresa 
-LEFT JOIN area AS a ON p.id_Area = a.id_Area ; ";
+LEFT JOIN `area` AS a ON p.id_Area = a.id_Area ; ";
 
 // Obtener resultado de la consulta
 $resultado = $mysqli->query($consultaQ);
