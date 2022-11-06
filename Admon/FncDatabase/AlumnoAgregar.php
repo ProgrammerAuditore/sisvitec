@@ -56,6 +56,8 @@ $AlumnoAreaId = filter_var($_POST['alumno-area-id'], FILTER_SANITIZE_NUMBER_INT)
 $AlumnoCarreraId = filter_var($_POST['alumno-carrera-id'], FILTER_SANITIZE_NUMBER_INT);
 $Existe = 1;
 
+$consultaVerificarAlumno = "SELECT * FROM `alumnos` WHERE Num_Control = ? ; ";
+
 $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 
 $consultaObtenerIdLogin = "SELECT MAX(id_Login) AS max_login FROM `login` ; ";
@@ -117,14 +119,24 @@ try {
     $stmtVerificarUsuario->store_result();
     $rowUsuario = $stmtVerificarUsuario->num_rows;
 
-    if ($rowUsuario > 1) {
+    // ***** Verificar Alumno */
+    // preparar y parametrar
+    $stmtVerificarAlumno = $mysqli->prepare($consultaVerificarAlumno);
+    $stmtVerificarAlumno->bind_param("s", $AlumnoNumeroControl);
+    $stmtVerificarAlumno->execute();
+
+    // Obtener los resultados de la ejecucion SQL
+    $stmtVerificarAlumno->store_result();
+    $rowAlumno = $stmtVerificarAlumno->num_rows;
+
+    if ($rowUsuario > 1 || $rowAlumno > 1) {
 
         // Deshacer cambios
         // En caso de existir el usuario
         $mysqli->rollback();
         $goTo .= "?action=error";
         $goTo .= "&title=Alumno no registrado.";
-        $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
+        $goTo .= "&msg=El usuario <mark>$CuentaUsuario</mark> con número de control <mark>$AlumnoNumeroControl</mark><br/>";
         $goTo .= "<b>Ya está registrado.<b>";
         $goTo .= $againTo;
     } else {
@@ -150,4 +162,5 @@ $mysqli->close();
 $stmtCrearUsuario->close();
 $stmtCrearAlumno->close();
 $stmtVerificarUsuario->close();
+$stmtVerificarAlumno->close();
 header($goTo);
