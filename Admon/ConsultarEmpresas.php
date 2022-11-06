@@ -8,6 +8,7 @@ $mysqli = $mysql->_ObtenerConexion();
 
 // Crear consulta
 $consultaQ = "SELECT 
+lng.id_Login AS EmpresaId,
 lng.User AS EmpresaUser,
 lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
@@ -15,7 +16,6 @@ e.Tipo_Empresa AS EmpresaTipoConvenio,
 e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
-e.id_Empresa AS EmpresaId,
 sat.Nombre AS EmpresaTipoSAT
 FROM empresa AS e 
 LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login

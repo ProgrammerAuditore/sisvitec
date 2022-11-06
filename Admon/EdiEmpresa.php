@@ -17,6 +17,7 @@ $IdEmpresa = $_GET['IdEmpresa'];
 
 // Crear consulta
 $consultaQ = "SELECT 
+lng.id_Login AS EmpresaId,
 lng.User AS EmpresaUser,
 lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
@@ -24,12 +25,11 @@ e.Tipo_Empresa AS EmpresaTipoConvenio,
 e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
-e.id_Empresa AS EmpresaID,
 sat.Nombre AS EmpresaTipoSAT
 FROM empresa AS e 
 LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
-LEFT JOIN `tipo_sat` AS sat ON sat.id_tipo = e.id_tipo
-WHERE e.id_empresa = $IdEmpresa ; ";
+LEFT JOIN `tipo_sat` AS sat ON sat.id_tipo = e.id_tipo 
+WHERE e.id_login = $IdEmpresa ; ";
 
 // Obtener resultado de la consulta
 $result = $mysqli->query($consultaQ);

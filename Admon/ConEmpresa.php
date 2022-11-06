@@ -8,28 +8,42 @@ $mysqli = $mysql->_ObtenerConexion();
 
 //****  Verificar que existe el parametro IdUsuario */
 if (!isset($_GET['IdEmpresa']) || empty($_GET['IdEmpresa'])) {
-    header("Location: ./ConsultaAlumno.php");
+    header("Location:Location:/Admon/ConsultarEmpresas.php");
 }
 
 //****  Obtener todo los datos del usuario */
 // Obtener el IdUsuario
-$IdEmpresa = $_GET['IdEmpresa'];
+$empresaIdLogin = $_GET['IdEmpresa'];
 
 // Crear consulta
 $consultaQ = "SELECT 
+lng.id_Login AS EmpresaLoginId,
 lng.User AS EmpresaUser,
 lng.Password AS EmpresaPassword,
+e.id_Empresa AS EmpresaId,
 e.Nombre AS EmpresaNombre,
 e.Tipo_Empresa AS EmpresaTipoConvenio,
 e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
-e.RFC AS EmpresaRFC,
-e.id_Empresa AS EmpresaID
+e.RFC AS EmpresaRFC
 FROM empresa AS e 
 LEFT JOIN `login` AS lng ON lng.id_Login = e.id_login
-WHERE e.id_empresa = $IdEmpresa ; ";
+WHERE e.id_login = $empresaIdLogin ; ";
+
+// Obtener resultado de la consulta
+$result = $mysqli->query($consultaQ);
+
+//****  Verificar si existe registro del proyecto */
+if ($result->num_rows <= 0) {
+    header("Location:/Admon/ConsultarEmpresas.php");
+}
+
+// Obtener los registros del proyecto
+$getEmpresa = $result->fetch_assoc();
+//print var_dump($getEmpresa);
 
 // Crear consulta
+$empresaId = $getEmpresa['EmpresaId'];
 $consultaGetTrabajadores = "SELECT
 t.id_Trabajador AS TrabajadorId,  
 t.Nombre AS TrabajadorNombre,  
@@ -40,19 +54,7 @@ e.Nombre AS TrabajadorEmpresa,
 t.Tel AS TrabajadorTelefono  
 FROM `trabajador` AS t    
 LEFT JOIN `empresa` AS e ON e.id_empresa = t.id_Empresa  
-WHERE t.id_Empresa = $IdEmpresa ; ";
-
-// Obtener resultado de la consulta
-$result = $mysqli->query($consultaQ);
-
-//****  Verificar si existe registro del proyecto */
-if ($result->num_rows <= 0) {
-    header("Location: /Admon/ConsultarProyectos.php");
-}
-
-// Obtener los registros del proyecto
-$getEmpresa = $result->fetch_assoc();
-//print var_dump($getEmpresa);
+WHERE t.id_Empresa = $empresaId ; ";
 
 // *** Obtener el registro de los trabajadores ***/
 // Obtener resultado de la consulta
@@ -179,7 +181,7 @@ $mysqli->close();
         <div class="container">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a class="btn btn-success" href="/Admon/AgrTrabajador.php?IdEmpresa=<?php echo $IdEmpresa; ?>" role="button">Agregar</a>
+                    <a class="btn btn-success" href="/Admon/AgrTrabajador.php?IdEmpresa=<?php echo $empresaId; ?>" role="button">Agregar</a>
                     <h5>Información de trabajadores</h5>
                 </div>
                 <table class="table table-hover table-responsive table-bordered" id="tbl-trabajadores">
@@ -208,7 +210,7 @@ $mysqli->close();
                                 <td><?php echo $getTrabajadores['TrabajadorTelefono']; ?></td>
                                 <td class="btn-acciones">
                                     <a href="/Admon/EdiTrabajador.php?IdTrabajador=<?php echo $getTrabajadores['TrabajadorId']; ?>" class="btn btn-warning" role="button"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="?IdEmpresa=<?php echo $IdEmpresa; ?>&IdTrabajador=<?php echo $getTrabajadores['TrabajadorId']; ?>&action=delete" class="btn btn-danger" role="button"><i class="bi bi-x-square"></i></a>
+                                    <a href="?IdEmpresa=<?php echo $empresaIdLogin; ?>&IdTrabajador=<?php echo $getTrabajadores['TrabajadorId']; ?>&action=delete" class="btn btn-danger" role="button"><i class="bi bi-x-square"></i></a>
                                 </td>
                             </tr>
                         <?php } ?>
