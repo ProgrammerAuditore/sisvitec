@@ -49,7 +49,7 @@ foreach ($camposHTML as $key) {
 
 // Crear variables de campos recibidos
 $CuentaTipo = 1;
-$EmpresaId = $_GET['id'];
+$EmpresaIdLogin = $_GET['id'];
 $CuentaUser = $_POST['cuenta-user'];
 $CuentaPassword = $_POST['cuenta-password'];
 $EmpresaNombre = $_POST['empresa-nombre'];
@@ -70,7 +70,7 @@ WHERE id_Login = ? AND Existe = ?; ";
 $consultaActualizarEmpresa = "UPDATE empresa SET    
 Nombre = ?, Razon_Social  = ?,   
 RFC  = ?, tipo_empresa  = ?, Direccion  = ?  
-WHERE id_empresa = ? AND Existe = ? ; ";
+WHERE id_login = ? AND Existe = ? ; ";
 
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
@@ -85,7 +85,7 @@ try {
         $CuentaTipo,
         $CuentaUser,
         $CuentaPassword,
-        $EmpresaId,
+        $EmpresaIdLogin,
         $Existe
     );
     $stmtActualizarUsuario->execute();
@@ -100,7 +100,7 @@ try {
         $EmpresaRFC,
         $EmpresaTipoConvenio,
         $EmpresaDireccion,
-        $EmpresaId,
+        $EmpresaIdLogin,
         $Existe
     );   
     $stmtAgregarEmpresa->execute();
