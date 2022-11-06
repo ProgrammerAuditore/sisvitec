@@ -11,43 +11,66 @@ if ($mysqli->connect_errno) {
     die("Error en la conexion" . $mysqli->connect_error);
 }
 
-//****  Verificar que existe el parametro IdUsuario */
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: ../ConsultaAlumno.php");
-    exit();
+// Listar campos a recibir desde la pagina Editar Alumno
+$camposHTML = array('id');
+
+// Verificar campos recibidos
+foreach ($camposHTML as $key) {
+
+    $_GET[$key] = trim($_GET[$key]);
+    $_GET[$key] = htmlentities($_GET[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
+    if (!isset($_GET[$key]) || empty(trim($_GET[$key]))) {
+        $mysqli->close();
+        exit();
+    }
 }
-  
+
+// Crear variables de parametros recibidos
+$empresaIdLogin = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+$Existe = 1;
+
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
-// Crear consulta
-$consultaQ = "DELETE FROM `empresa`  
-WHERE id_empresa = ? AND Existe = ? ; ";
-
-// preparar y parametrar
-$stmt = $mysqli->prepare($consultaQ);
-$stmt->bind_param("ii", $idEmpresa, $Existe);
 
 try {
 
-    // establecer parametros y ejecutar cambios
-    $idEmpresa = $_GET['id'];
-    $Existe = 1;
-    $stmt->execute();
-    
-    // Efectuar cambios
-    $mysqli->commit();
+    // ***** Eliminar empresa */
+    // Crear consulta
+    $consultaEliminarEmpresa = "DELETE FROM `empresa`  
+    WHERE id_login = ? AND Existe = ? ; ";
 
+    // preparar y parametrar
+    $stmtEliminarEmpresa = $mysqli->prepare($consultaEliminarEmpresa);
+    $stmtEliminarEmpresa->bind_param("ii", $empresaIdLogin, $Existe);
+
+    // ***** Eliminar cuenta */
+    // Crear consulta
+    $consultaEliminarCuenta = "DELETE FROM `login`  
+    WHERE id_Login = ? AND Existe = ? ; ";
+
+    // preparar y parametrar
+    $stmtEliminarCuenta = $mysqli->prepare($consultaEliminarCuenta);
+    $stmtEliminarCuenta->bind_param("ii", $empresaIdLogin, $Existe);
+
+    if ($stmtEliminarEmpresa->execute() && $stmtEliminarCuenta->execute()) {
+        // Efectuar cambios
+        $mysqli->commit();
+    } else {
+        // Deshacer cambios
+        $mysqli->rollback();
+    }
+    
 } catch (mysqli_sql_exception $exception) {
 
     // Deshacer cambios
     $mysqli->rollback();
-    
-    print $exception;
+    //print $exception;
     //throw $exception;
+
 }
 
 $mysqli->close();
-$stmt->close();
-?>
-
+$stmtEliminarEmpresa->close();
+$stmtEliminarCuenta->close();
