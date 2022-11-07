@@ -100,7 +100,7 @@ $mysqli->close();
       <form action=<?php echo "/Empresa/FncDatabase/ProyectoActualizar.php?id=$IdProyecto"; ?> class="form-datos" method="POST" role="form">
 
         <!-- Información del proyecto -->
-        <span style="font-weight:bold;color:#000080;">Información de Registro De Proyecto&nbsp;</span>
+        <span style="font-weight:bold;color:#000080;">Información del proyecto&nbsp;</span>
         <hr>
 
         <label class="col-lg-3 control-label">Nombre Del Proyecto: </label>

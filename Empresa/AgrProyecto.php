@@ -45,7 +45,7 @@ $IDE = $_SESSION['idE'];
   <section class="cuerpo">
     <div class="container">
       <form class="form-datos" action="<?php echo "/Empresa/FncDatabase/ProyectoAgregar.php?id=$IDE" ?>" method="POST" role="form">
-        <span style="font-weight:bold;color:#000080;">Información general&nbsp;</span>
+        <span style="font-weight:bold;color:#000080;">Información del proyecto&nbsp;</span>
         <hr>
 
         <label class="col-lg-3 control-label">Nombre Del Proyecto: </label>
