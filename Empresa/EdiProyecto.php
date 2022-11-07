@@ -86,14 +86,12 @@ $mysqli->close();
   </section>
   <section class="cuerpo">
     <div class="container">
-      <form 
-      action=<?php echo "/Empresa/FncDatabase/ProyectoActualizar.php?id=$IdProyecto"; ?>
-      class="form-datos"  method="POST" role="form">
+      <form action=<?php echo "/Empresa/FncDatabase/ProyectoActualizar.php?id=$IdProyecto"; ?> class="form-datos" method="POST" role="form">
         <span style="font-weight:bold;color:#000080;">Informacion de Registro De Proyecto&nbsp;</span>
         <hr>
         <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoNombre']; ?>  type="text" class="form-control" id="name" name="proyecto-nombre"><br>
+          <input value=<?php echo $getProyecto['ProyectoNombre']; ?> type="text" class="form-control" id="name" name="proyecto-nombre"><br>
         </div>
         <label class="col-lg-3 control-label">Area De Desarrollo :</label>
         <div class="col-lg-9">
@@ -116,24 +114,35 @@ $mysqli->close();
         </div>
         <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoDescripcion']; ?>  type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
+          <input value=<?php echo $getProyecto['ProyectoDescripcion']; ?> type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
         </div>
 
         <label class="col-lg-3 control-label">Objetivo General Del Proyecto</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoObjGeneral']; ?>  type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
+          <input value=<?php echo $getProyecto['ProyectoObjGeneral']; ?> type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
         </div>
         <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto :</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoObjEspecifico']; ?>  type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
+          <input value=<?php echo $getProyecto['ProyectoObjEspecifico']; ?> type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
         </div>
         <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoDuracion']; ?>  type="text" class="form-control" name="proyecto-duracion"><br>
+          <select name="proyecto-duracion" class="form-control">
+            <!-- Crear 25 opciones -->
+            <Option select value="">Seleccione</Option>
+            <?php
+            for ($i = 1; $i <= 25; $i++) {
+              if( $getProyecto['ProyectoDuracion'] == $i ){
+                echo "<Option selected value='$i'>$i</Option>";
+              } else{
+            ?>
+              <Option value="<?php echo $i; ?>"><?php echo $i; ?></Option>
+            <?php }} ?>
+          </select><br>
         </div>
         <label class="col-lg-3 control-label">Tipo de Proyecto</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoTipo']; ?>  type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
+          <input value=<?php echo $getProyecto['ProyectoTipo']; ?> type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
         </div>
         <hr>
         <br><br>
