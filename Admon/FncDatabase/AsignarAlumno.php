@@ -23,6 +23,7 @@ $camposHTML = array('idA', 'idP', 'action');
 foreach ($camposHTML as $key) {
 
     $_GET[$key] = trim($_GET[$key]);
+    $_GET[$key] = strtr($_GET[$key], $words_mex_encode);
     $_GET[$key] = htmlentities($_GET[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
 
     if (!isset($_GET[$key]) || empty(trim($_GET[$key]))) {
@@ -36,7 +37,7 @@ foreach ($camposHTML as $key) {
 // Crear variables de campos recibidos
 $alumnoId = filter_var($_GET['idA'], FILTER_SANITIZE_NUMBER_INT);
 $proyectoId = filter_var($_GET['idP'], FILTER_SANITIZE_NUMBER_INT);
-$tipoAccion = htmlspecialchars($_GET['action'], ENT_QUOTES);
+$tipoAccion = strtr(htmlspecialchars($_GET['action'], ENT_QUOTES), $words_mex_decode);
 
 // Crear consulta
 $consultaVerificarAsignacion = "SELECT * FROM 

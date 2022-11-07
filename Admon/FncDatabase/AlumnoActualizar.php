@@ -39,6 +39,7 @@ $camposHTML = array(
 foreach ($camposHTML as $key) {
 
     $_POST[$key] = trim($_POST[$key]);
+    $_POST[$key] = strtr($_POST[$key], $words_mex_encode);
     $_POST[$key] = htmlentities($_POST[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
 
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
@@ -56,13 +57,13 @@ foreach ($camposHTML as $key) {
 
 // Crear variables de datos recibidos
 $cuentaTipo = 1;
-$cuentaUser = htmlspecialchars($_POST['cuenta-user'], ENT_QUOTES);
-$cuentaPassword = htmlspecialchars($_POST['cuenta-password'], ENT_QUOTES);
+$cuentaUser = strtr(htmlspecialchars($_POST['cuenta-user'], ENT_QUOTES), $words_mex_decode);
+$cuentaPassword = strtr(htmlspecialchars($_POST['cuenta-password'], ENT_QUOTES), $words_mex_decode);
 $AlumnoId = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
-$AlumnoNombre = htmlspecialchars($_POST['alumno-nombre'], ENT_QUOTES);
-$AlumnoNumeroControl = htmlspecialchars($_POST['alumno-numero-control'], ENT_QUOTES);
-$AlumnoCorreo = htmlspecialchars($_POST['alumno-correo'], ENT_QUOTES);
-$AlumnoDireccion = htmlspecialchars($_POST['alumno-direccion'], ENT_QUOTES);
+$AlumnoNombre = strtr(htmlspecialchars($_POST['alumno-nombre'], ENT_QUOTES), $words_mex_decode);
+$AlumnoNumeroControl = strtr(htmlspecialchars($_POST['alumno-numero-control'], ENT_QUOTES), $words_mex_decode);
+$AlumnoCorreo = strtr(htmlspecialchars($_POST['alumno-correo'], ENT_QUOTES), $words_mex_decode);
+$AlumnoDireccion = strtr(htmlspecialchars($_POST['alumno-direccion'], ENT_QUOTES), $words_mex_decode);
 $AlumnoAreaId = filter_var($_POST['alumno-area-id'], FILTER_SANITIZE_NUMBER_INT);
 $AlumnoCarreraId = filter_var($_POST['alumno-carrera-id'], FILTER_SANITIZE_NUMBER_INT);
 $Existe = 1;

@@ -11,13 +11,15 @@ if ($mysqli->connect_errno) {
     die("Error en la conexion" . $mysqli->connect_error);
 }
 
-// Listar campos a recibir desde la pagina Editar Alumno
+// Listar campos a recibir
+// Solo números enteros
 $camposHTML = array('id');
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
 
     $_GET[$key] = trim($_GET[$key]);
+    $_GET[$key] = strtr($_GET[$key], $words_mex_encode);
     $_GET[$key] = htmlentities($_GET[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
 
     if (!isset($_GET[$key]) || empty(trim($_GET[$key]))) {

@@ -15,6 +15,7 @@ if ($mysqli->connect_errno) {
 $camposHTML = array('id');
 
 // Verificar campos recibidos
+// Solo números enteros
 foreach ($camposHTML as $key) {
 
     $_GET[$key] = trim($_GET[$key]);

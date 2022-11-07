@@ -35,6 +35,11 @@ $camposHTML = array(
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
+
+    $_POST[$key] = trim($_POST[$key]);
+    $_POST[$key] = strtr($_POST[$key], $words_mex_encode);
+    $_POST[$key] = htmlentities($_POST[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
         $goTo .= "?action=error";
@@ -48,15 +53,15 @@ foreach ($camposHTML as $key) {
 }
 
 // Crear variables de campos recibidos
-$CuentaTipo = 1;
-$EmpresaIdLogin = $_GET['id'];
-$CuentaUser = $_POST['cuenta-user'];
-$CuentaPassword = $_POST['cuenta-password'];
-$EmpresaNombre = $_POST['empresa-nombre'];
-$EmpresaTipoConvenio = $_POST['empresa-tipo-convenio'];
-$EmpresaRazonSocial = $_POST['empresa-razon-social'];
-$EmpresaRFC = $_POST['empresa-rfc'];
-$EmpresaDireccion = $_POST['empresa-direccion'];
+$CuentaTipo = 2;
+$EmpresaIdLogin = filter_var(trim($_GET['id']), FILTER_SANITIZE_NUMBER_INT);
+$CuentaUser = strtr(htmlspecialchars($_POST['cuenta-user'], ENT_QUOTES), $words_mex_decode);
+$CuentaPassword = strtr(htmlspecialchars($_POST['cuenta-password'], ENT_QUOTES), $words_mex_decode);
+$EmpresaNombre = strtr(htmlspecialchars($_POST['empresa-nombre'], ENT_QUOTES), $words_mex_decode);
+$EmpresaTipoConvenio = strtr(htmlspecialchars($_POST['empresa-tipo-convenio'], ENT_QUOTES), $words_mex_decode);
+$EmpresaRazonSocial = strtr(htmlspecialchars($_POST['empresa-razon-social'], ENT_QUOTES), $words_mex_decode);
+$EmpresaRFC = strtr(htmlspecialchars($_POST['empresa-rfc'], ENT_QUOTES), $words_mex_decode);
+$EmpresaDireccion = strtr(htmlspecialchars($_POST['empresa-direccion'], ENT_QUOTES), $words_mex_decode);
 $Existe = 1;
 
 $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
@@ -102,13 +107,13 @@ try {
         $EmpresaDireccion,
         $EmpresaIdLogin,
         $Existe
-    );   
+    );
     $stmtAgregarEmpresa->execute();
 
     /// ***** Verificar Usuario */
     // preparar y parametrar
     $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
-    $stmtVerificarUsuario->bind_param("s",$CuentaUser);
+    $stmtVerificarUsuario->bind_param("s", $CuentaUser);
     $stmtVerificarUsuario->execute();
 
     $stmtVerificarUsuario->store_result();
@@ -124,7 +129,6 @@ try {
         $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
         $goTo .= "<b>Ya está registrado.<b>";
         $goTo .= $againTo;
-
     } else {
 
         // Efectuar cambios
@@ -132,7 +136,6 @@ try {
         $mysqli->commit();
         $goTo .= "?action=success";
         $goTo .= "&title=$title actualizado.";
-
     }
 } catch (mysqli_sql_exception $exception) {
 

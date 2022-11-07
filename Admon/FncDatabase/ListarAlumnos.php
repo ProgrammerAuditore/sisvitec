@@ -15,6 +15,11 @@ $camposHTML = array('lista', 'idP');
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
+    
+    $_GET[$key] = trim($_GET[$key]);
+    $_GET[$key] = strtr($_GET[$key], $words_mex_encode);
+    $_GET[$key] = htmlentities($_GET[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
     if (!isset($_GET[$key]) || empty(trim($_GET[$key]))) {
         print "Error en el campo";
         exit();
@@ -22,9 +27,8 @@ foreach ($camposHTML as $key) {
 }
 
 // Crear variables de campos recibidos
-$litaTipo = $_GET['lista'];
-
-$proyectoId = $_GET['idP'];
+$litaTipo = strtr(htmlspecialchars($_GET['lista'], ENT_QUOTES), $words_mex_decode);
+$proyectoId = filter_var(trim($_GET['idP']), FILTER_SANITIZE_NUMBER_INT);
 
 // Crear consulta
 $consultaListarAlumnosNoAsignados = "SELECT

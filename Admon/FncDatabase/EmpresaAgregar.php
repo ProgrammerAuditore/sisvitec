@@ -41,6 +41,11 @@ $camposHTML = array(
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
+
+    $_POST[$key] = trim($_POST[$key]);
+    $_POST[$key] = strtr($_POST[$key], $words_mex_encode);
+    $_POST[$key] = htmlentities($_POST[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
         $goTo .= "?action=error";
@@ -55,31 +60,31 @@ foreach ($camposHTML as $key) {
 
 // Crear variables de campos recibidos
 $CuentaTipo = 2; // <==== Tipo empresa
-$CuentaUsuario = $_POST['cuenta-usuario'];
-$CuentaPassword = $_POST['cuenta-password'];
+$CuentaUsuario =strtr(htmlspecialchars($_POST['cuenta-usuario'], ENT_QUOTES), $words_mex_decode);
+$CuentaPassword = strtr(htmlspecialchars($_POST['cuenta-password'], ENT_QUOTES), $words_mex_decode);
 
-$EmpresaNombre   = $_POST['empresa-nombre'];
-$EmpresaRazonSocial = $_POST['empresa-razon-social'];
-$EmpresaRFC = $_POST['empresa-rfc'];
-$EmpresaTipoSAT = intval($_POST['empresa-tipo-sat']);
-$EmpresaDireccion = $_POST['empresa-direccion'];
-$EmpresaMagnitud = $_POST['empresa-magnitud'];
-$EmpresaAlcance = $_POST['empresa-alcance'];
-$EmpresaGiro = $_POST['empresa-giro'];
-$EmpresaMision = $_POST['empresa-mision'];
-$EmpresaTipoConvenio = $_POST['empresa-tipo-convenio'];
+$EmpresaNombre   = strtr(htmlspecialchars($_POST['empresa-nombre'], ENT_QUOTES), $words_mex_decode);
+$EmpresaRazonSocial = strtr(htmlspecialchars($_POST['empresa-razon-social'], ENT_QUOTES), $words_mex_decode);
+$EmpresaRFC = strtr(htmlspecialchars($_POST['empresa-rfc'], ENT_QUOTES), $words_mex_decode);
+$EmpresaTipoSAT = intval(filter_var($_POST['empresa-tipo-sat'], FILTER_SANITIZE_NUMBER_INT));
+$EmpresaDireccion = strtr(htmlspecialchars($_POST['empresa-direccion'], ENT_QUOTES), $words_mex_decode);
+$EmpresaMagnitud = strtr(htmlspecialchars($_POST['empresa-magnitud'], ENT_QUOTES), $words_mex_decode);
+$EmpresaAlcance = strtr(htmlspecialchars($_POST['empresa-alcance'], ENT_QUOTES), $words_mex_decode);
+$EmpresaGiro = strtr(htmlspecialchars($_POST['empresa-giro'], ENT_QUOTES), $words_mex_decode);
+$EmpresaMision = strtr(htmlspecialchars($_POST['empresa-mision'], ENT_QUOTES), $words_mex_decode);
+$EmpresaTipoConvenio = strtr(htmlspecialchars($_POST['empresa-tipo-convenio'], ENT_QUOTES), $words_mex_decode);
 
-$RepresentanteNombre = $_POST["representante-nombre"];
-$RepresentanteRFC = $_POST["representante-rfc"];
-$RepresentanteCorreo = $_POST["representante-correo"];
+$RepresentanteNombre = strtr(htmlspecialchars($_POST["representante-nombre"], ENT_QUOTES), $words_mex_decode);
+$RepresentanteRFC = strtr(htmlspecialchars($_POST["representante-rfc"], ENT_QUOTES), $words_mex_decode);
+$RepresentanteCorreo = strtr(htmlspecialchars($_POST["representante-correo"], ENT_QUOTES), $words_mex_decode);
 $RepresentantePuesto = "Representante Legal";
-$RepresentanteTelefono = $_POST["representante-telefono"];
+$RepresentanteTelefono = strtr(htmlspecialchars($_POST["representante-telefono"], ENT_QUOTES), $words_mex_decode);
 
-$RecursosHumanosNombre = $_POST["recursoshumanos-nombre"];
-$RecursosHumanosRFC = $_POST["recursoshumanos-rfc"];
-$RecursosHumanosCorreo = $_POST["recursoshumanos-correo"];
+$RecursosHumanosNombre = strtr(htmlspecialchars($_POST["recursoshumanos-nombre"], ENT_QUOTES), $words_mex_decode);
+$RecursosHumanosRFC = strtr(htmlspecialchars($_POST["recursoshumanos-rfc"], ENT_QUOTES), $words_mex_decode);
+$RecursosHumanosCorreo = strtr(htmlspecialchars($_POST["recursoshumanos-correo"], ENT_QUOTES), $words_mex_decode);
 $RecursosHumanosPuesto = "Recursos Humanos";
-$RecursosHumanosTelefono = $_POST["recursoshumanos-telefono"];
+$RecursosHumanosTelefono = strtr(htmlspecialchars($_POST["recursoshumanos-telefono"], ENT_QUOTES), $words_mex_decode);
 $Existe = 1;
 
 $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
