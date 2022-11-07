@@ -26,6 +26,7 @@ LEFT JOIN (
 	FROM alu_proyect AS x
 	LEFT JOIN proyecto AS p ON p.id_Proyecto=x.id_Proyecto
 	LEFT JOIN alumnos AS a ON a.id_Alumnos=x.id_Alumno
+  GROUP BY x.id_Alumno
 ) AS pro ON pro.ProAlumno = alu.id_Alumnos; ";
 
 // Obtener resultado de la consulta
