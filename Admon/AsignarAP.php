@@ -25,7 +25,7 @@ p.Descripcion AS ProyectoDescripcion,
 p.Objetivo_Espesifico AS ProyectoObjetivoEspecifico, 
 p.Objetivo_General AS ProyectoObjetivoGeneral
 FROM `proyecto` AS p 
-Left JOIN area AS a ON p.id_Area=a.id_Area 
+LEFT JOIN `area` AS a ON p.id_Area=a.id_Area 
 WHERE p.id_Proyecto = $IdProyecto ; ";
 
 // Obtener resultado de la consulta

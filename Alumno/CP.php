@@ -58,7 +58,7 @@
         {
             die('error de conexion de servidor:'.mysql_error());
         }
-            $consulta = "SELECT p.Nombre as NombreP,a.Nombre,p.Descripcion,p.Duracion FROM proyecto as p Left JOIN area as a ON p.id_Area=a.id_Area ;";
+            $consulta = "SELECT p.Nombre as NombreP,a.Nombre,p.Descripcion,p.Duracion FROM proyecto as p LEFT JOIN area as a ON p.id_Area=a.id_Area ;";
             $resultado = mysqli_query($con , $consulta);
             $contador=0; 
             while($misdatos = mysqli_fetch_assoc($resultado)){ $contador++;?>

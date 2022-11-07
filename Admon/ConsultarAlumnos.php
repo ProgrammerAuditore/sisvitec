@@ -23,10 +23,10 @@ LEFT JOIN `login` AS lng ON lng.id_Login=alu.id_Login
 LEFT JOIN `area` AS are ON alu.id_Area = are.id_Area
 LEFT JOIN (
 	SELECT p.Nombre AS ProNombre, a.id_Alumnos AS ProAlumno
-	FROM alu_proyect AS x
-	LEFT JOIN proyecto AS p ON p.id_Proyecto=x.id_Proyecto
-	LEFT JOIN alumnos AS a ON a.id_Alumnos=x.id_Alumno
-  GROUP BY x.id_Alumno
+	FROM `alu_proyect` AS alpro
+	LEFT JOIN `proyecto` AS p ON p.id_Proyecto=alpro.id_Proyecto
+	LEFT JOIN `alumnos` AS a ON a.id_Alumnos=alpro.id_Alumno
+  GROUP BY alpro.id_Alumno
 ) AS pro ON pro.ProAlumno = alu.id_Alumnos; ";
 
 // Obtener resultado de la consulta
