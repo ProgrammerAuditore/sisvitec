@@ -119,12 +119,12 @@ $mysqli->close();
         </div>
       </div>
 
-      <label for="turno" class="col-lg-3 control-label">Duracion en Semanas: </label>
+      <label for="turno" class="col-lg-3 control-label">Duración en Semanas: </label>
       <div class="col-lg-9">
         <p disabled class="form-control"><?php echo $getProyecto['ProyectoDuracion']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Descripcion Del Proyecto: </label>
+      <label class="col-lg-3 control-label">Descripción Del Proyecto: </label>
       <div class="col-lg-9">
         <textarea disabled class="form-control" id="proyecto-descripcion" name="proyecto-descripcion"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
       </div>

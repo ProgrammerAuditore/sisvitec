@@ -133,7 +133,7 @@ $mysqli->close();
           </div>
         </div>
 
-        <label for="turno" class="col-lg-3 control-label">Duracion en Semanas: </label>
+        <label for="turno" class="col-lg-3 control-label">Duración en Semanas: </label>
         <div class="col-lg-9">
           <select name="proyecto-duracion" class="form-control">
             <!-- Crear 25 opciones -->
@@ -150,7 +150,7 @@ $mysqli->close();
           </select><br>
         </div>
 
-        <label class="col-lg-3 control-label">Descripcion Del Proyecto: </label>
+        <label class="col-lg-3 control-label">Descripción Del Proyecto: </label>
         <div class="col-lg-9">
           <textarea class="form-control" id="proyecto-descripcion" name="proyecto-descripcion"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
         </div>

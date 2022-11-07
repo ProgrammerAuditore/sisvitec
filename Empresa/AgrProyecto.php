@@ -45,14 +45,14 @@ $IDE = $_SESSION['idE'];
   <section class="cuerpo">
     <div class="container">
       <form class="form-datos" action="<?php echo "/Empresa/FncDatabase/ProyectoAgregar.php?id=$IDE" ?>" method="POST" role="form">
-        <span style="font-weight:bold;color:#000080;">Información de Registro De Proyecto&nbsp;</span>
+        <span style="font-weight:bold;color:#000080;">Información general&nbsp;</span>
         <hr>
 
-        <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
+        <label class="col-lg-3 control-label">Nombre Del Proyecto: </label>
         <div class="col-lg-9">
           <input type="text" class="form-control" id="name" name="proyecto-nombre"><br>
         </div>
-        <label class="col-lg-3 control-label">Area De Desarrollo :</label>
+        <label class="col-lg-3 control-label">Area De Desarrollo: </label>
         <div class="col-lg-9">
           <div class="selector-pais">
             <select name="proyecto-area" class="form-control">
@@ -71,24 +71,24 @@ $IDE = $_SESSION['idE'];
             </select><br>
           </div>
         </div>
-        <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
+        <label class="col-lg-3 control-label">Descripción Del Proyecto: </label>
         <div class="col-lg-9">
           <input type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
         </div>
 
-        <label class="col-lg-3 control-label">Objetivo General Del Proyecto</label>
+        <label class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
         <div class="col-lg-9">
           <input type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
         </div>
-        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto :</label>
+        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: </label>
         <div class="col-lg-9">
           <input type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
         </div>
-        <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
+        <label for="turno" class="col-lg-3 control-label">Duración en Semanas: </label>
         <div class="col-lg-9">
           <select name="proyecto-duracion" class="form-control">
             <!-- Crear 25 opciones -->
-            <Option select value="">Seleccione</Option>
+            <Option select value="">Seleccionar...</Option>
             <?php
             for ($i = 1; $i <= 25; $i++) {
             ?>
@@ -96,7 +96,7 @@ $IDE = $_SESSION['idE'];
             <?php } ?>
           </select><br>
         </div>
-        <label class="col-lg-3 control-label">Tipo de Proyecto</label>
+        <label class="col-lg-3 control-label">Tipo de Proyecto: </label>
         <div class="col-lg-9">
           <input type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
         </div>
