@@ -45,8 +45,8 @@
             <th>#</th>
               <th>Nombre Proyecto</th>
               <th>Area</th>
-              <th>Descripcion</th>
-              <th>Duracion / Semanas</th>
+              <th>Descripción</th>
+              <th>Duración / Semanas</th>
               <th>Editar Proyecto</th>
               <th>Eliminar</th>
           </tr>

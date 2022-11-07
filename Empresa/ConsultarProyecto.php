@@ -69,8 +69,8 @@ $mysqli->close();
               <th>#</th>
               <th>Nombre Proyecto</th>
               <th>Area</th>
-              <th>Descripcion</th>
-              <th>Duracion / Semanas</th>
+              <th>Descripción</th>
+              <th>Duración / Semanas</th>
               <th>Acciones</th>
             </tr>
           </thead>

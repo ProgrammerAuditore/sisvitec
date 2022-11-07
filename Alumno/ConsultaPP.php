@@ -52,7 +52,7 @@ error_reporting(0);
               <th>#</th>
               <th>Nombre Proyecto</th>
               <th>Area</th>
-              <th>Descripcion</th>
+              <th>Descripción</th>
               <th>Empresa Encargada</th>
             </tr>
           </thead>
