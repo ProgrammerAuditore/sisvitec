@@ -247,6 +247,9 @@ $mysqli->close();
     <script>
         $(document).ready(function() {
             var tabla = $('#tbl-trabajadores').DataTable({
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                },
                 ajax: {
                     url: './FncDatabase/ListarAlumnos.php?lista=asig&idP=<?php echo $IdProyecto; ?>',
                     dataSrc: ''
