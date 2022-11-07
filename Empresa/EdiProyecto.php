@@ -30,7 +30,7 @@ p.Descripcion AS ProyectoObjGeneral,
 p.Objetivo_Espesifico AS ProyectoObjEspecifico,
 p.Duracion AS ProyectoDuracion,
 p.Tipo_Proyect AS ProyectoTipo,
-a.Nombre AS ProyectoArea,
+a.id_Area AS ProyectoAreaId,
 e.Nombre AS ProyectoEmpresa
 FROM `proyecto` AS p  
 LEFT JOIN `empresa` AS e ON p.id_Empresa = e.id_empresa
@@ -97,8 +97,21 @@ $mysqli->close();
         </div>
         <label class="col-lg-3 control-label">Area De Desarrollo :</label>
         <div class="col-lg-9">
-          <div class="selector-pais">
-            <input value=<?php echo $getProyecto['ProyectoArea']; ?>  type="text" class="form-control" name="proyecto-area"><br>
+          <div id="seleccionar-proyecto-area">
+            <select name="proyecto-area" class="form-control">
+              <script type="text/javascript">
+                $(document).ready(function() {
+                  $.ajax({
+                    type: "POST",
+                    url: "AreasD.php?idArea=<?php echo $getProyecto['ProyectoAreaId']; ?>",
+                    success: function(response) {
+                      $('#seleccionar-proyecto-area select').html(response).fadeIn();
+                    }
+                  });
+
+                });
+              </script>
+            </select><br>
           </div>
         </div>
         <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
