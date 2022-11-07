@@ -126,7 +126,7 @@ $mysqli->close();
 
       <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
       <div class="col-lg-9">
-        <input value="<?php echo $getProyecto['ProyectoDescripcion']; ?>" disabled type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
+        <textarea disabled class="form-control" id="proyecto-descripcion" name="proyecto-descripcion"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
       </div>
 
       <!-- Objetivos -->

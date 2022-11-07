@@ -26,7 +26,7 @@ $consultaQ = "SELECT
 p.id_Proyecto AS ProyectoId,
 p.Nombre AS ProyectoNombre,
 p.Descripcion AS ProyectoDescripcion,
-p.Descripcion AS ProyectoObjGeneral,
+p.Objetivo_General AS ProyectoObjGeneral,
 p.Objetivo_Espesifico AS ProyectoObjEspecifico,
 p.Duracion AS ProyectoDuracion,
 p.Tipo_Proyect AS ProyectoTipo,
@@ -103,17 +103,17 @@ $mysqli->close();
         <span style="font-weight:bold;color:#000080;">Informacion de Registro De Proyecto&nbsp;</span>
         <hr>
 
-        <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
+        <label class="col-lg-3 control-label">Nombre Del Proyecto: </label>
         <div class="col-lg-9">
           <input value="<?php echo $getProyecto['ProyectoNombre']; ?>" type="text" class="form-control" id="name" name="proyecto-nombre"><br>
         </div>
 
-        <label class="col-lg-3 control-label">Tipo de Proyecto</label>
+        <label class="col-lg-3 control-label">Tipo de Proyecto: </label>
         <div class="col-lg-9">
           <input value="<?php echo $getProyecto['ProyectoTipo']; ?>" type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
         </div>
 
-        <label class="col-lg-3 control-label">Area De Desarrollo :</label>
+        <label class="col-lg-3 control-label">Area De Desarrollo: </label>
         <div class="col-lg-9">
           <div id="seleccionar-proyecto-area">
             <select name="proyecto-area" class="form-control">
@@ -133,7 +133,7 @@ $mysqli->close();
           </div>
         </div>
 
-        <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
+        <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:: </label>
         <div class="col-lg-9">
           <select name="proyecto-duracion" class="form-control">
             <!-- Crear 25 opciones -->
@@ -150,7 +150,7 @@ $mysqli->close();
           </select><br>
         </div>
 
-        <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
+        <label class="col-lg-3 control-label">Descripcion Del Proyecto: </label>
         <div class="col-lg-9">
           <textarea class="form-control" id="proyecto-descripcion" name="proyecto-descripcion"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
         </div>
@@ -158,12 +158,12 @@ $mysqli->close();
         <!-- Objetivos -->
         <span style="font-weight:bold;color:#000080;">Objetivos&nbsp;</span>
         <hr>
-        <label class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
+        <label class="col-lg-3 control-label">Objetivo General Del Proyecto: : </label>
         <div class="col-lg-9">
           <textarea class="form-control" id="proyecto-obj-general" name="proyecto-obj-general"><?php echo $getProyecto['ProyectoObjGeneral']; ?></textarea>
         </div>
 
-        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: </label>
+        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: : </label>
         <div class="col-lg-9">
           <textarea class="form-control" id="proyecto-obj-especifico" name="proyecto-obj-especifico"><?php echo $getProyecto['ProyectoObjEspecifico']; ?></textarea>
         </div>
