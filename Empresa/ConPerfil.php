@@ -10,7 +10,6 @@ $IdEmpresa = $_SESSION['idE'];
 // Crear consulta
 $consultaGetEmpresa = "SELECT 
 lng.User AS EmpresaUser,
-lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
 e.Tipo_Empresa AS EmpresaTipoConvenio,
 e.Razon_Social AS EmpresaRazonSocial,
@@ -108,14 +107,14 @@ $mysqli->close();
     <section class="cuerpo">
         <div class="container">
             <!-- Información de registro -->
-            <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+            <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
             <hr>
             <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
             <div class="col-lg-9">
                 <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
             </div>
 
-            <label class="col-lg-3 control-label">Contrasena:</label>
+            <label class="col-lg-3 control-label">Contraseña:</label>
             <div class="col-lg-9">
                 <p class="form-control" disabled><?php echo "******"; ?></p>
             </div>
@@ -133,7 +132,7 @@ $mysqli->close();
                 <p class="form-control" disabled><?php echo $getEmpresa['EmpresaTipoConvenio']; ?></p>
             </div>
 
-            <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
+            <label for="nombre" class="col-lg-3 control-label">Razón Social:</label>
             <div class="col-lg-9">
                 <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRazonSocial']; ?></p>
             </div>
@@ -151,7 +150,7 @@ $mysqli->close();
             <!-- Información de trabajadores -->
             <section class="cuerpo">
                 <div class="container">
-                    <span style="font-weight:bold;color:#000080;">Informacion de trabajadores&nbsp;</span>
+                    <span style="font-weight:bold;color:#000080;">Información de trabajadores&nbsp;</span>
                     <hr>
                     <table class="table table-hover table-responsive table-bordered">
                         <tbody>
@@ -159,9 +158,9 @@ $mysqli->close();
                                 <th>#</th>
                                 <th>Nombre</th>
                                 <th>RFC</th>
-                                <th>Correo</th>
+                                <th>Correo electrónico</th>
                                 <th>Puesto</th>
-                                <th>Telefono</th>
+                                <th>Teléfono</th>
                             </tr>
 
                             <?php

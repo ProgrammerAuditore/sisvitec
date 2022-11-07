@@ -109,7 +109,7 @@ $getEmpresasJson = json_encode($skillData);
                   <th>#</th>
                   <th>Usuario</th>
                   <th>Nombre</th>
-                  <th>Razon Social</th>
+                  <th>Razón Social</th>
                   <th>Dirección Fiscal</th>
                   <th>Acciones</th>
                 </tr>

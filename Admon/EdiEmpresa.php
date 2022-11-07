@@ -95,7 +95,7 @@ $mysqli->close();
             <form class="form-datos" action="<?php echo "./FncDatabase/EmpresaActualizar.php?id=$IdEmpresa"; ?>" method="POST" role="form">
 
                 <!-- Información de registro -->
-                <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+                <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
                 <hr>
                 <label for="cuenta-user" class="col-lg-3 control-label">Usuario:</label>
                 <div class="col-lg-9">
@@ -136,7 +136,7 @@ $mysqli->close();
                     </select><br>
                 </div>
 
-                <label for="empresa-razon-social" class="col-lg-3 control-label">Razon Social:</label>
+                <label for="empresa-razon-social" class="col-lg-3 control-label">Razón Social:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="empresa-razon-social" name="empresa-razon-social" type="text" placeholder="Razon social" value="<?php echo $getEmpresa['EmpresaRazonSocial']; ?>"><br>
                 </div>

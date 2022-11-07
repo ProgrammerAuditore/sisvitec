@@ -120,8 +120,8 @@ $mysqli->close();
     </section>
     <section class="cuerpo">
         <div class="container">
-            <!-- Informacion del proyecto -->
-            <span style="font-weight:bold;color:#000080;">Informacion del proyecto&nbsp;</span>
+            <!-- Información del proyecto -->
+            <span style="font-weight:bold;color:#000080;">Información del proyecto&nbsp;</span>
             <hr>
 
             <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
@@ -180,7 +180,7 @@ $mysqli->close();
                                 <th>Nombre</th>
                                 <th>Número de control</th>
                                 <th>Area</th>
-                                <th>Correo</th>
+                                <th>Correo electrónico</th>
                                 <th>Carrera</th>
                                 <th>Asingar</th>
                             </tr>

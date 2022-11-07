@@ -99,8 +99,8 @@ $mysqli->close();
     <div class="container">
       <form action=<?php echo "/Empresa/FncDatabase/ProyectoActualizar.php?id=$IdProyecto"; ?> class="form-datos" method="POST" role="form">
 
-        <!-- Informacion del proyecto -->
-        <span style="font-weight:bold;color:#000080;">Informacion de Registro De Proyecto&nbsp;</span>
+        <!-- Información del proyecto -->
+        <span style="font-weight:bold;color:#000080;">Información de Registro De Proyecto&nbsp;</span>
         <hr>
 
         <label class="col-lg-3 control-label">Nombre Del Proyecto: </label>
@@ -133,7 +133,7 @@ $mysqli->close();
           </div>
         </div>
 
-        <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:: </label>
+        <label for="turno" class="col-lg-3 control-label">Duracion en Semanas: </label>
         <div class="col-lg-9">
           <select name="proyecto-duracion" class="form-control">
             <!-- Crear 25 opciones -->
@@ -158,12 +158,12 @@ $mysqli->close();
         <!-- Objetivos -->
         <span style="font-weight:bold;color:#000080;">Objetivos&nbsp;</span>
         <hr>
-        <label class="col-lg-3 control-label">Objetivo General Del Proyecto: : </label>
+        <label class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
         <div class="col-lg-9">
           <textarea class="form-control" id="proyecto-obj-general" name="proyecto-obj-general"><?php echo $getProyecto['ProyectoObjGeneral']; ?></textarea>
         </div>
 
-        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: : </label>
+        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: </label>
         <div class="col-lg-9">
           <textarea class="form-control" id="proyecto-obj-especifico" name="proyecto-obj-especifico"><?php echo $getProyecto['ProyectoObjEspecifico']; ?></textarea>
         </div>

@@ -133,8 +133,8 @@ $mysqli->close();
     <section class="cuerpo">
         <div class="container">
 
-            <!-- Informacion de registro  -->
-            <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+            <!-- Información de registro  -->
+            <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
             <hr>
             <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
             <div class="col-lg-9">
@@ -159,7 +159,7 @@ $mysqli->close();
                 <p class="form-control" disabled><?php echo $getEmpresa['EmpresaTipoConvenio']; ?></p>
             </div>
 
-            <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
+            <label for="nombre" class="col-lg-3 control-label">Razón Social:</label>
             <div class="col-lg-9">
                 <p class="form-control" disabled><?php echo $getEmpresa['EmpresaRazonSocial']; ?></p>
             </div>
@@ -190,9 +190,9 @@ $mysqli->close();
                             <th>#</th>
                             <th>Nombre</th>
                             <th>RFC</th>
-                            <th>Correo</th>
+                            <th>Correo electrónico</th>
                             <th>Puesto</th>
-                            <th>Telefono</th>
+                            <th>Teléfono</th>
                             <th>Acciones</th>
                         </tr>
 

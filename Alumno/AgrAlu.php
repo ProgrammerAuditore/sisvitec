@@ -41,7 +41,7 @@
     <section class="cuerpo">
           <div class="container">
           <form  class="form-datos" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" role="form">
-             <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+             <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
               <hr>
                   <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
                   <div class="col-lg-9">
@@ -60,7 +60,7 @@
                   <div class="col-lg-9">
                       <input type="text" class="form-control" id="name" name="NombreE"><br>
                   </div>
-                  <label class="col-lg-3 control-label">Razon Social:</label>
+                  <label class="col-lg-3 control-label">Razón Social:</label>
                   <div class="col-lg-9">
                       <input type="text" class="form-control" id="nc" name="RazonS"><br>
                   </div>

@@ -43,7 +43,7 @@
           <tr align='center' class='table table-hover' >
             <th>#</th>
               <th>Nombre Empresas</th>
-              <th>Razon Social</th>
+              <th>Razón Social</th>
               <th>Direccion Fiscal</th>
               <th>Consultar Empresa</th>
               <th>Editar Empresa</th>

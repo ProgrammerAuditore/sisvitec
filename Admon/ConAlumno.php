@@ -109,7 +109,7 @@ $mysqli->close();
     <div class="container">
 
       <br>
-      <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+      <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
       <hr>
 
       <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
@@ -122,7 +122,7 @@ $mysqli->close();
         <p disabled class="form-control"><?php echo $getUsuario['CuentaPassword']; ?></p>
       </div>
 
-      <span style="font-weight:bold;color:#000080;">Informacion de alumno&nbsp;</span>
+      <span style="font-weight:bold;color:#000080;">Información de alumno&nbsp;</span>
       <hr>
 
       <label class="col-lg-3 control-label">Nombre Alumno</label>
@@ -135,7 +135,7 @@ $mysqli->close();
         <p disabled class="form-control"><?php echo $getUsuario['AlumnoNumeroControl']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Correo Electronico</label>
+      <label class="col-lg-3 control-label">Correo Electrónico </label>
       <div class="col-lg-9">
         <p disabled class="form-control"><?php echo $getUsuario['AlumnoCorreo']; ?></p>
       </div>

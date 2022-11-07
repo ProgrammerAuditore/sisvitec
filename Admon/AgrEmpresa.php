@@ -45,8 +45,8 @@ $mysqli = $mysql->_ObtenerConexion();
         <div class="container">
             <form class="form-datos" action="./FncDatabase/EmpresaAgregar.php" method="POST" role="form">
 
-                <!-- Informacion de registro  -->
-                <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+                <!-- Información de registro  -->
+                <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
                 <hr>
                 <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
                 <div class="col-lg-9">
@@ -64,7 +64,7 @@ $mysqli = $mysql->_ObtenerConexion();
                 <div class="col-lg-9">
                     <input type="text" class="form-control" id="empresa-nombre" name="empresa-nombre"><br>
                 </div>
-                <label class="col-lg-3 control-label">Razon Social:</label>
+                <label class="col-lg-3 control-label">Razón Social</label>
                 <div class="col-lg-9">
                     <input type="text" class="form-control" id="nc" name="empresa-razon-social"><br>
                 </div>

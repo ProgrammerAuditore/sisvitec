@@ -67,7 +67,7 @@ session_start();
           <input value="" type="text" class="form-control" id="alumno-numero-control" name="alumno-numero-control" placeholder="Número de control"><br>
         </div>
 
-        <label for="alumno-correo" class="col-lg-3 control-label">Correo Electronico:</label>
+        <label for="alumno-correo" class="col-lg-3 control-label">Correo Electrónico :</label>
         <div class="col-lg-9">
           <input value="" type="text" class="form-control" id="alumno-correo" name="alumno-correo" placeholder="Correo electronico"><br>
         </div>

@@ -112,10 +112,10 @@ $mysqli->close();
                     placeholder="Correo" value="<?php echo $getTrabajador['TrabajadorCorreo']; ?>"><br>
                 </div>
 
-                <label for="nombre" class="col-lg-3 control-label">Telefono:</label>
+                <label for="nombre" class="col-lg-3 control-label">Teléfono:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="trabajador-telefono" name="trabajador-telefono" type="text"
-                    placeholder="Telefono" value="<?php echo $getTrabajador['TrabajadorTelefono']; ?>"><br>
+                    placeholder="Teléfono" value="<?php echo $getTrabajador['TrabajadorTelefono']; ?>"><br>
                 </div>
 
                 <label for="nombre" class="col-lg-3 control-label">Puesto:</label>

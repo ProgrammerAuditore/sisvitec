@@ -13,7 +13,6 @@ $IdEmpresa = $_SESSION['idE'];
 // Crear consulta 
 $consultaQ = "SELECT 
 lng.User AS EmpresaUser,
-lng.Password AS EmpresaPassword,
 e.Nombre AS EmpresaNombre,
 e.Tipo_Empresa AS EmpresaTipoConvenio,
 e.Razon_Social AS EmpresaRazonSocial,
@@ -90,14 +89,14 @@ $mysqli->close();
             <form class="form-datos" action="<?php echo "./FncDatabase/PerfilActualizar.php?id=$IdEmpresa"; ?>" method="POST" role="form">
 
                 <!-- Información de registro -->
-                <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+                <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
                 <hr>
                 <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
                 <div class="col-lg-9">
                     <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
                 </div>
 
-                <label class="col-lg-3 control-label">Contrasena:</label>
+                <label class="col-lg-3 control-label">Contraseña:</label>
                 <div class="col-lg-9">
                     <p class="form-control" disabled><?php echo "******"; ?></p>
                 </div>
@@ -131,7 +130,7 @@ $mysqli->close();
                     </select><br>
                 </div>
 
-                <label for="nombre" class="col-lg-3 control-label">Razon Social:</label>
+                <label for="nombre" class="col-lg-3 control-label">Razón Social:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="RazonS" name="RazonS" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaRazonSocial']; ?>"><br>
                 </div>

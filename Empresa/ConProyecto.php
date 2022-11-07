@@ -26,7 +26,7 @@ $consultaQ = "SELECT
 p.id_Proyecto AS ProyectoId,
 p.Nombre AS ProyectoNombre,
 p.Descripcion AS ProyectoDescripcion,
-p.Descripcion AS ProyectoObjGeneral,
+p.Objetivo_General AS ProyectoObjGeneral,
 p.Objetivo_Espesifico AS ProyectoObjEspecifico,
 p.Duracion AS ProyectoDuracion,
 p.Tipo_Proyect AS ProyectoTipo,
@@ -98,33 +98,33 @@ $mysqli->close();
   <section class="cuerpo">
     <div class="container">
 
-      <!-- Informacion del proyecto -->
-      <span style="font-weight:bold;color:#000080;">Informacion del proyecto&nbsp;</span>
+      <!-- Información del proyecto -->
+      <span style="font-weight:bold;color:#000080;">Información del proyecto&nbsp;</span>
       <hr>
 
-      <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
+      <label class="col-lg-3 control-label">Nombre Del Proyecto: </label>
       <div class="col-lg-9">
-        <input value="<?php echo $getProyecto['ProyectoNombre']; ?>" disabled type="text" class="form-control" id="name" name="proyecto-nombre"><br>
+        <p disabled class="form-control"><?php echo $getProyecto['ProyectoNombre']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Tipo de Proyecto</label>
+      <label class="col-lg-3 control-label">Tipo de Proyecto: </label>
       <div class="col-lg-9">
-        <input value="<?php echo $getProyecto['ProyectoTipo']; ?>" disabled type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
+        <p disabled class="form-control"><?php echo $getProyecto['ProyectoTipo']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Area De Desarrollo :</label>
+      <label class="col-lg-3 control-label">Area De Desarrollo: </label>
       <div class="col-lg-9">
         <div class="selector-pais">
-          <input value="<?php echo $getProyecto['ProyectoArea']; ?>" disabled type="text" class="form-control" name="proyecto-area"><br>
+          <p disabled class="form-control"><?php echo $getProyecto['ProyectoArea']; ?></p>
         </div>
       </div>
 
-      <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
+      <label for="turno" class="col-lg-3 control-label">Duracion en Semanas: </label>
       <div class="col-lg-9">
-        <input value="<?php echo $getProyecto['ProyectoDuracion']; ?>" disabled type="text" class="form-control" name="proyecto-duracion"><br>
+        <p disabled class="form-control"><?php echo $getProyecto['ProyectoDuracion']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
+      <label class="col-lg-3 control-label">Descripcion Del Proyecto: </label>
       <div class="col-lg-9">
         <textarea disabled class="form-control" id="proyecto-descripcion" name="proyecto-descripcion"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
       </div>

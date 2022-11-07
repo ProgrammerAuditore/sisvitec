@@ -28,7 +28,7 @@
        ?>
       <section class="jumbotron">
           <div class="container">
-              <h1>Informacion De Empresa</h1>
+              <h1>Información De Empresa</h1>
               <p class="lead">SisVinTec</p><br>
           </div>
           <hr>
@@ -38,7 +38,7 @@
       </section>
       <section class="cuerpo">
           <div class="container">
-              <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+              <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
               <hr>
               <?php
              include 'conexion.php';
@@ -149,7 +149,7 @@
                 echo "<table width='100%'' border='1px' align='center' class='table table-striped table-bordered table-condensed'>    
         <tr align='center'>
         <td><font color='black'>Nombre</td>
-        <td><font color='black'>Telefono personal</td>
+        <td><font color='black'>Teléfono personal</td>
         <td><font color='black'>Celular</td>
         <td><font color='black'>Sexo</td>
         <td><font color='black'>Correo</td>

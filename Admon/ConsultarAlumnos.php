@@ -123,7 +123,7 @@ $getAlumnosJson = json_encode($skillData);
                   <th>Nombre</th>
                   <th>Numero De Control</th>
                   <th>Carrera</th>
-                  <th>Correo Electronico</th>
+                  <th>Correo Electrónico </th>
                   <th>Proyecto Asignado</th>
                   <th>Acciones</th>
                 </tr>

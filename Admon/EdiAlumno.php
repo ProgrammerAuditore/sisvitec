@@ -87,7 +87,7 @@ $getUsuario = $result->fetch_assoc();
     <div class="container">
       <form class="form-datos" action="<?php echo "./FncDatabase/AlumnoActualizar.php?id=$IdUsuario"; ?>" method="POST" role="form">
         <br>
-        <span style="font-weight:bold;color:#000080;">Informacion de registro&nbsp;</span>
+        <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
         <hr>
 
         <label for="cuenta-user" class="col-lg-3 control-label">Usuario:</label>
@@ -100,7 +100,7 @@ $getUsuario = $result->fetch_assoc();
           <input value="<?php echo $getUsuario['CuentaPassword']; ?>" type="password" placeholder="Contraseña" id="cuenta-password" name="cuenta-password" class="form-control" data-toggle="cuenta-password"><br>
         </div>
 
-        <span style="font-weight:bold;color:#000080;">Informacion de alumno&nbsp;</span>
+        <span style="font-weight:bold;color:#000080;">Información de alumno&nbsp;</span>
         <hr>
         
         <label for="alumno-nombre" class="col-lg-3 control-label">Nombre Alumno</label>
@@ -113,7 +113,7 @@ $getUsuario = $result->fetch_assoc();
           <input value="<?php echo $getUsuario['AlumnoNumeroControl']; ?>" type="text" class="form-control" id="alumno-numero-control" name="alumno-numero-control"><br>
         </div>
 
-        <label for="alumno-correo" class="col-lg-3 control-label">Correo Electronico</label>
+        <label for="alumno-correo" class="col-lg-3 control-label">Correo Electrónico </label>
         <div class="col-lg-9">
           <input value="<?php echo $getUsuario['AlumnoCorreo']; ?>" type="text" class="form-control" id="alumno-correo" name="alumno-correo"><br>
         </div>

@@ -97,10 +97,10 @@ $IdEmpresa = $_GET['IdEmpresa'];
                     placeholder="Correo" value=""><br>
                 </div>
 
-                <label for="nombre" class="col-lg-3 control-label">Telefono:</label>
+                <label for="nombre" class="col-lg-3 control-label">Teléfono:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="trabajador-telefono" name="trabajador-telefono" type="text"
-                    placeholder="Telefono" value=""><br>
+                    placeholder="Teléfono" value=""><br>
                 </div>
 
                 <label for="nombre" class="col-lg-3 control-label">Puesto:</label>
