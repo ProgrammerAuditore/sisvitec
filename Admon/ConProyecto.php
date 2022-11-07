@@ -30,10 +30,10 @@ e.Tipo_Empresa AS EmpresaTipo,
 e.Razon_Social AS EmpresaRazonSocial,
 e.Direccion AS EmpresaDireccion,
 e.RFC AS EmpresaRFC,
-e.id_Empresa AS EmpresaId
+e.id_login AS EmpresaId
 FROM `proyecto` AS p 
-Left JOIN empresa AS e ON e.id_empresa=p.id_Empresa
-Left JOIN area AS a ON p.id_Area=a.id_Area 
+Left JOIN `empresa` AS e ON e.id_empresa=p.id_Empresa
+Left JOIN `area` AS a ON p.id_Area=a.id_Area 
 WHERE p.id_Proyecto = $IdProyecto ; ";
 
 // Obtener resultado de la consulta
