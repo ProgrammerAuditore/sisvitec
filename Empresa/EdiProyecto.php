@@ -71,6 +71,17 @@ $mysqli->close();
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
 </head>
 
+<style>
+    textarea {
+        resize: none;
+        margin: 0.5em 0px;
+    }
+
+    section.cuerpo {
+        margin: 0px 0px 2em 0px;
+    }
+</style>
+
 <body>
   <?php
   include 'Menu.php';
@@ -87,12 +98,21 @@ $mysqli->close();
   <section class="cuerpo">
     <div class="container">
       <form action=<?php echo "/Empresa/FncDatabase/ProyectoActualizar.php?id=$IdProyecto"; ?> class="form-datos" method="POST" role="form">
+
+        <!-- Informacion del proyecto -->
         <span style="font-weight:bold;color:#000080;">Informacion de Registro De Proyecto&nbsp;</span>
         <hr>
+
         <label class="col-lg-3 control-label">Nombre Del Proyecto</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoNombre']; ?> type="text" class="form-control" id="name" name="proyecto-nombre"><br>
+          <input value="<?php echo $getProyecto['ProyectoNombre']; ?>" type="text" class="form-control" id="name" name="proyecto-nombre"><br>
         </div>
+
+        <label class="col-lg-3 control-label">Tipo de Proyecto</label>
+        <div class="col-lg-9">
+          <input value="<?php echo $getProyecto['ProyectoTipo']; ?>" type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
+        </div>
+
         <label class="col-lg-3 control-label">Area De Desarrollo :</label>
         <div class="col-lg-9">
           <div id="seleccionar-proyecto-area">
@@ -112,19 +132,7 @@ $mysqli->close();
             </select><br>
           </div>
         </div>
-        <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
-        <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoDescripcion']; ?> type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
-        </div>
 
-        <label class="col-lg-3 control-label">Objetivo General Del Proyecto</label>
-        <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoObjGeneral']; ?> type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
-        </div>
-        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto :</label>
-        <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoObjEspecifico']; ?> type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
-        </div>
         <label for="turno" class="col-lg-3 control-label">Duracion en Semanas:</label>
         <div class="col-lg-9">
           <select name="proyecto-duracion" class="form-control">
@@ -132,18 +140,34 @@ $mysqli->close();
             <Option select value="">Seleccione</Option>
             <?php
             for ($i = 1; $i <= 25; $i++) {
-              if( $getProyecto['ProyectoDuracion'] == $i ){
+              if ($getProyecto['ProyectoDuracion'] == $i) {
                 echo "<Option selected value='$i'>$i</Option>";
-              } else{
+              } else {
             ?>
-              <Option value="<?php echo $i; ?>"><?php echo $i; ?></Option>
-            <?php }} ?>
+                <Option value="<?php echo $i; ?>"><?php echo $i; ?></Option>
+            <?php }
+            } ?>
           </select><br>
         </div>
-        <label class="col-lg-3 control-label">Tipo de Proyecto</label>
+
+        <label class="col-lg-3 control-label">Descripcion Del Proyecto</label>
         <div class="col-lg-9">
-          <input value=<?php echo $getProyecto['ProyectoTipo']; ?> type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
+          <textarea class="form-control" id="proyecto-descripcion" name="proyecto-descripcion"><?php echo $getProyecto['ProyectoDescripcion']; ?></textarea>
         </div>
+
+        <!-- Objetivos -->
+        <span style="font-weight:bold;color:#000080;">Objetivos&nbsp;</span>
+        <hr>
+        <label class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
+        <div class="col-lg-9">
+          <textarea class="form-control" id="proyecto-obj-general" name="proyecto-obj-general"><?php echo $getProyecto['ProyectoObjGeneral']; ?></textarea>
+        </div>
+
+        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: </label>
+        <div class="col-lg-9">
+          <textarea class="form-control" id="proyecto-obj-especifico" name="proyecto-obj-especifico"><?php echo $getProyecto['ProyectoObjEspecifico']; ?></textarea>
+        </div>
+
         <hr>
         <br><br>
         <a class="btn btn-primary" href="/Empresa/ConsultarProyecto.php" role="button">Regresar</a>

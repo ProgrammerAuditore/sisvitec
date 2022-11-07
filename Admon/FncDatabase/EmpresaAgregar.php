@@ -82,11 +82,6 @@ $RecursosHumanosPuesto = "Recursos Humanos";
 $RecursosHumanosTelefono = $_POST["recursoshumanos-telefono"];
 $Existe = 1;
 
-
-
-// ***** Iniciar Transición */
-$mysqli->begin_transaction();
-
 $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 
 // Obtener Loggin ID
@@ -110,6 +105,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?); ";
 $consultaAgregarTrabajador = "INSERT INTO trabajador   
 (Nombre, RFC,  Correo, Puesto, id_Empresa, Existe, Tel )  
 VALUES (?,?,?,?,?,?,?); ";
+
+// ***** Iniciar Transición */
+$mysqli->begin_transaction();
 
 try {
 

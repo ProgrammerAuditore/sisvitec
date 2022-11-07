@@ -23,8 +23,6 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
     exit();
 }
 
-$idProyecto = $_GET['id'];
-
 // Listar campos a recibir desde la pagina Editar Alumno
 $camposHTML = array(
     'proyecto-nombre',
@@ -51,71 +49,67 @@ foreach ($camposHTML as $key) {
     }
 }
 
+// Crear variables de campos recibidos
+$idProyecto = $_GET['id'];
+$ProyectoNombre = $_POST["proyecto-nombre"];
+$ProyectoArea = $_POST["proyecto-area"];
+$ProyectoDescripcion = $_POST["proyecto-descripcion"];
+$ProyectoObjGeneral = $_POST["proyecto-obj-general"];
+$ProyectoObjEspecifico = $_POST["proyecto-obj-especifico"];
+$ProyectoDuracion = $_POST["proyecto-duracion"];
+$ProyectoTipo = $_POST["proyecto-tipo"];
+
+// Crear consulta
+$consultaVerificarProyecto = "SELECT * FROM `proyecto` WHERE id_Proyecto = ? ; ";
+
+// Crear consulta
+$consultaActualizarProyecto = "UPDATE `proyecto` SET  
+Nombre = ?, Descripcion = ?, Objetivo_General = ?, 
+Objetivo_Espesifico = ?, Tipo_Proyect = ?,
+id_Area = ?, Duracion = ?  WHERE id_Proyecto = ? ; ";
+
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
-// Crear consulta
-$consultaVerificarUsuario = "SELECT * FROM `empresa` 
-WHERE id_empresa = ? AND Existe = ? ; ";
-
-// Crear consulta
-$consultaAgregarProyecto = "UPDATE `proyecto` SET  
-`Nombre` = ?, `id_Area`= ?, `Descripcion`= ?,
-`Objetivo_General`= ?, `Objetivo_Espesifico`= ?, `Duracion`= ?,
-`Tipo_Proyect`= ? WHERE id_Proyecto = ?";
-
 try {
 
-    // ***** Registrar Proyecto */
+    // ***** Actualizar Proyecto */
     // preparar y parametrar
-    $stmtAgregarProyecto = $mysqli->prepare($consultaAgregarProyecto);
-    $stmtAgregarProyecto->bind_param(
-        "sisissis",
+    $stmtActualizarProyecto = $mysqli->prepare($consultaActualizarProyecto);
+    $stmtActualizarProyecto->bind_param(
+        "sssssiii",
         $ProyectoNombre,
-        $ProyectoArea,
         $ProyectoDescripcion,
-        $ProyectoIdEmpresa,
         $ProyectoObjGeneral,
         $ProyectoObjEspecifico,
+        $ProyectoTipo,
+        $ProyectoArea,
         $ProyectoDuracion,
-        $ProyectoTipo
+        $idProyecto,
     );
+    $stmtActualizarProyecto->execute();
 
-    // establecer parametros y ejecutar cambios
-    $ProyectoNombre = $_POST["proyecto-nombre"];
-    $ProyectoArea = $_POST["proyecto-area"];
-    $ProyectoDescripcion = $_POST["proyecto-descripcion"];
-    $ProyectoIdEmpresa = $_GET["id"];
-    $ProyectoObjGeneral = $_POST["proyecto-obj-general"];
-    $ProyectoObjEspecifico = $_POST["proyecto-obj-especifico"];
-    $ProyectoDuracion = $_POST["proyecto-duracion"];
-    $ProyectoTipo = $_POST["proyecto-tipo"];
-    $stmtAgregarProyecto->execute();
-
-    // ***** Verificar Usuario */
+    // ***** Verificar Proyecto */
     // preparar y parametrar
-    $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
-    $stmtVerificarUsuario->bind_param("ii",$idEmpresa ,$Existe);
+    $stmtVerificarProyecto = $mysqli->prepare($consultaVerificarProyecto);
+    $stmtVerificarProyecto->bind_param(
+        "i",
+        $idProyecto
+    );
+    $stmtVerificarProyecto->execute();
 
-    // establecer parametros y ejecutar cambios
-    $idEmpresa = $_GET['id']; // <==== ID empresa
-    $Exsite = 1; // <==== Existente
-    $stmtVerificarUsuario->execute();
+    $stmtVerificarProyecto->store_result();
+    $rowProyecto = $stmtVerificarProyecto->num_rows;
 
-    $stmtVerificarUsuario->store_result();
-    $rowUsuario = $stmtVerificarUsuario->num_rows;
-
-    if ($rowUsuario > 1) {
+    if ($rowProyecto > 1) {
 
         // Deshacer cambios
         // En caso de existir el usuario
         $mysqli->rollback();
         $goTo .= "?action=error";
         $goTo .= "&title=$title no actualizado.";
-        $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
-        $goTo .= "<b>Ya está registrado.<b>";
+        $goTo .= "Probablemente el proyecto no existe.";
         $goTo .= $againTo;
-
     } else {
 
         // Efectuar cambios
@@ -123,8 +117,8 @@ try {
         $mysqli->commit();
         $goTo .= "?action=success";
         $goTo .= "&title=$title actualizado.";
-
     }
+    
 } catch (mysqli_sql_exception $exception) {
 
     // Deshacer cambios
@@ -138,6 +132,6 @@ try {
 }
 
 $mysqli->close();
-$stmtAgregarProyecto->close();
-$stmtVerificarUsuario->close();
+$stmtActualizarProyecto->close();
+$stmtVerificarProyecto->close();
 header($goTo);
