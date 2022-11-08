@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexion.php';
+include '../conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
 ?>

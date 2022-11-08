@@ -41,7 +41,7 @@
               <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
               <hr>
               <?php
-             include 'conexion.php';
+             include '../conexion.php';
             $mysql = new Conexion();
             $con= $mysql->_ObtenerConexion();
               $id = $_GET['id'];

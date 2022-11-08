@@ -1,6 +1,6 @@
 <?php
     session_start(); 
-    include 'conexion.php';
+    include '../conexion.php';
     $mysql = new Conexion();
     $conn= $mysql->_ObtenerConexion();
     $id = $_GET['id'];

@@ -2,7 +2,7 @@
 
 // Iniciar session, hacer conexion  a la base de datos
 // y obtener la conexion
-include 'conexion.php';
+include '../../conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
 $title = "Empresa";

@@ -1,5 +1,5 @@
 <?php 
-  	include 'conexion.php';
+  	include '../conexion.php';
         $id=$_POST['id'];
         $Alumno=$_POST['Alumno'];
 	$mysql = new Conexion();

@@ -2,7 +2,7 @@
 // Iniciar session, hacer conexion  a la base de datos
 // y obtener la conexion
 session_start();
-include 'conexion.php';
+include '../conexion.php';
 $mysql = new Conexion();
 $mysqli = $mysql->_ObtenerConexion();
 $IdEmpresa = $_SESSION['idE'];
