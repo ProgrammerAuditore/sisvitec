@@ -49,7 +49,7 @@ foreach ($camposHTML as $key) {
 $CuentaTipo = 1; // <=== Tipo alumno;
 $CuentaUsuario = strtr(htmlspecialchars($_POST['cuenta-usuario'], ENT_QUOTES), $words_mex_decode);
 $CuentaPassorwd = strtr(htmlspecialchars($_POST['cuenta-password'], ENT_QUOTES), $words_mex_decode);
-$AlumnoNombre =  strtr(htmlspecialchars($_POST['alumno-direccion'], ENT_QUOTES), $words_mex_decode);
+$AlumnoNombre =  strtr(htmlspecialchars($_POST['alumno-nombre'], ENT_QUOTES), $words_mex_decode);
 $AlumnoNumeroControl = strtr(htmlspecialchars($_POST['alumno-numero-control'], ENT_QUOTES), $words_mex_decode);
 $AlumnoCorreo = filter_var($_POST['alumno-correo'], FILTER_SANITIZE_EMAIL);
 $AlumnoDireccion = strtr(htmlspecialchars($_POST['alumno-direccion'], ENT_QUOTES), $words_mex_decode);
