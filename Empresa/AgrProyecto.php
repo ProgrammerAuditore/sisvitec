@@ -29,6 +29,17 @@ $IDE = $_SESSION['idE'];
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
 </head>
 
+<style>
+  textarea {
+    resize: none;
+    margin: 0.5em 0px;
+  }
+
+  section.cuerpo {
+    margin: 0px 0px 2em 0px;
+  }
+</style>
+
 <body>
   <?php
   include 'Menu.php';
@@ -45,16 +56,24 @@ $IDE = $_SESSION['idE'];
   <section class="cuerpo">
     <div class="container">
       <form class="form-datos" action="<?php echo "/Empresa/FncDatabase/ProyectoAgregar.php?id=$IDE" ?>" method="POST" role="form">
+
+        <!-- Información del proyecto -->
         <span style="font-weight:bold;color:#000080;">Información del proyecto&nbsp;</span>
         <hr>
 
-        <label class="col-lg-3 control-label">Nombre Del Proyecto: </label>
+        <label for="proyecto-nombre" class="col-lg-3 control-label">Nombre Del Proyecto: </label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="name" name="proyecto-nombre"><br>
+          <input type="text" class="form-control" id="proyecto-nombre" name="proyecto-nombre"><br>
         </div>
-        <label class="col-lg-3 control-label">Area De Desarrollo: </label>
+
+        <label for="proyecto-tipo" class="col-lg-3 control-label">Tipo de Proyecto: </label>
         <div class="col-lg-9">
-          <div class="selector-pais">
+          <input type="text" class="form-control" id="proyecto-tipo" name="proyecto-tipo"><br>
+        </div>
+
+        <label for="proyecto-area" class="col-lg-3 control-label">Area De Desarrollo: </label>
+        <div class="col-lg-9">
+          <div id="seleccionar-proyecto-area">
             <select name="proyecto-area" class="form-control">
               <script type="text/javascript">
                 $(document).ready(function() {
@@ -62,7 +81,7 @@ $IDE = $_SESSION['idE'];
                     type: "POST",
                     url: "AreasD.php",
                     success: function(response) {
-                      $('.selector-pais select').html(response).fadeIn();
+                      $('#seleccionar-proyecto-area select').html(response).fadeIn();
                     }
                   });
 
@@ -71,20 +90,8 @@ $IDE = $_SESSION['idE'];
             </select><br>
           </div>
         </div>
-        <label class="col-lg-3 control-label">Descripción Del Proyecto: </label>
-        <div class="col-lg-9">
-          <input type="text" class="form-control" id="Descr" name="proyecto-descripcion"><br>
-        </div>
 
-        <label class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
-        <div class="col-lg-9">
-          <input type="text" class="form-control" id="OGDP" name="proyecto-obj-general"><br>
-        </div>
-        <label class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: </label>
-        <div class="col-lg-9">
-          <input type="text" class="form-control" id="OGEP" name="proyecto-obj-especifico"><br>
-        </div>
-        <label for="turno" class="col-lg-3 control-label">Duración en Semanas: </label>
+        <label for="proyecto-duracion" class="col-lg-3 control-label">Duración en Semanas: </label>
         <div class="col-lg-9">
           <select name="proyecto-duracion" class="form-control">
             <!-- Crear 25 opciones -->
@@ -96,13 +103,30 @@ $IDE = $_SESSION['idE'];
             <?php } ?>
           </select><br>
         </div>
-        <label class="col-lg-3 control-label">Tipo de Proyecto: </label>
+
+        <label for="proyecto-descripcion" class="col-lg-3 control-label">Descripción Del Proyecto: </label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="TP" name="proyecto-tipo"><br>
+          <textarea class="form-control" id="proyecto-descripcion" name="proyecto-descripcion"></textarea>
         </div>
+
+        <!-- Objetivos -->
+        <span style="font-weight:bold;color:#000080;">Objetivos&nbsp;</span>
+        <hr>
+
+        <label for="proyecto-obj-general" class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
+        <div class="col-lg-9">
+          <textarea class="form-control" id="proyecto-obj-general" name="proyecto-obj-general"></textarea>
+        </div>
+
+        <label for="proyecto-obj-especifico" class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: </label>
+        <div class="col-lg-9">
+          <textarea class="form-control" id="proyecto-obj-especifico" name="proyecto-obj-especifico"></textarea>
+        </div>
+
         <hr>
         <br><br>
         <input class="btn btn-success" type="submit" name="postAgregarProyecto" value="Registrar">
+        <a class="btn btn-primary" href="/Empresa/ConsultarProyecto.php" role="button">Consultar / Eliminar</a>
       </form>
     </div>
   </section>

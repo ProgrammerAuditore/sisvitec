@@ -132,6 +132,7 @@ $mysqli->close();
       <!-- Objetivos -->
       <span style="font-weight:bold;color:#000080;">Objetivos&nbsp;</span>
       <hr>
+      
       <label class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
       <div class="col-lg-9">
         <textarea disabled class="form-control" id="proyecto-obj-general" name="proyecto-obj-general"><?php echo $getProyecto['ProyectoObjGeneral']; ?></textarea>
