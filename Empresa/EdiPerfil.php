@@ -91,9 +91,9 @@ $mysqli->close();
                 <!-- Información de registro -->
                 <span style="font-weight:bold;color:#000080;">Información de registro&nbsp;</span>
                 <hr>
-                <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
+                <label for="cuenta-usuario" class="col-lg-3 control-label">Usuario:</label>
                 <div class="col-lg-9">
-                    <p class="form-control" disabled><?php echo $getEmpresa['EmpresaUser']; ?></p>
+                    <input readonly class="form-control" id="cuenta-usuario" name="cuenta-usuario" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaUser']; ?>"><br>
                 </div>
 
                 <label class="col-lg-3 control-label">Contraseña:</label>
@@ -104,15 +104,15 @@ $mysqli->close();
                 <!-- Información de la empresa -->
                 <span style="font-weight:bold;color:#000080;">Información de la empresa &nbsp;</span>
                 <hr>
-                <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
+                <label for="empresa-nombre" class="col-lg-3 control-label">Nombre:</label>
                 <div class="col-lg-9">
-                    <input class="form-control" id="nombre" name="NombreE" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaNombre']; ?>"><br>
+                    <input class="form-control" id="empresa-nombre" name="empresa-nombre" type="text" placeholder="Nombre" value="<?php echo $getEmpresa['EmpresaNombre']; ?>"><br>
                 </div>
 
                 <!-- Tipo de convenio -->
-                <label for="turno" class="col-lg-3 control-label">Tipo de Convenio:</label>
+                <label for="empresa-convenio-tipo" class="col-lg-3 control-label">Tipo de Convenio:</label>
                 <div class="col-lg-9">
-                    <select name="tipoEmpresa" class="form-control">
+                    <select name="empresa-convenio-tipo" class="form-control">
                         <?php
                         $opcionesConvenio = array(
                             "Seleccionar tipo de convenio...",
@@ -130,19 +130,19 @@ $mysqli->close();
                     </select><br>
                 </div>
 
-                <label for="nombre" class="col-lg-3 control-label">Razón Social:</label>
+                <label for="empresa-razon-social" class="col-lg-3 control-label">Razón Social:</label>
                 <div class="col-lg-9">
-                    <input class="form-control" id="RazonS" name="RazonS" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaRazonSocial']; ?>"><br>
+                    <input class="form-control" id="empresa-razon-social" name="empresa-razon-social" type="text" placeholder="Razón Social" value="<?php echo $getEmpresa['EmpresaRazonSocial']; ?>"><br>
                 </div>
 
-                <label for="nombre" class="col-lg-3 control-label">RFC:</label>
+                <label for="empresa-rfc" class="col-lg-3 control-label">RFC:</label>
                 <div class="col-lg-9">
-                    <input class="form-control" id="RFCE" name="RFCE" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaRFC']; ?>"><br>
+                    <input class="form-control" id="empresa-rfc" name="empresa-rfc" type="text" placeholder="RFC" value="<?php echo $getEmpresa['EmpresaRFC']; ?>"><br>
                 </div>
 
-                <label class="col-lg-3 control-label">Dirección:</label>
+                <label for="empresa-direccion" class="col-lg-3 control-label">Dirección:</label>
                 <div class="col-lg-9 m-2">
-                    <input class="form-control" id="direccion" name="direccion" type="text" placeholder="Usuario" value="<?php echo $getEmpresa['EmpresaDireccion']; ?>"><br>
+                    <input class="form-control" id="empresa-direccion" name="empresa-direccion" type="text" placeholder="Dirección" value="<?php echo $getEmpresa['EmpresaDireccion']; ?>"><br>
                 </div>
 
                 <!-- Botones (Para acciones) -->
@@ -152,7 +152,7 @@ $mysqli->close();
         </div>
         </form>
     </section>
-    
+
     <footer>
         <div class="contenedor">
             <p>Copyright &copy; BCB</p>

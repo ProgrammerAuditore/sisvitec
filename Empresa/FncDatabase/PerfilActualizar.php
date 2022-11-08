@@ -21,10 +21,14 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 
-// Listar campos a recibir desde la pagina Editar Alumno
+// Listar campos a recibir desde la pagina Editar Perfil
 $camposHTML = array(
-    'NombreE', 'tipoEmpresa',
-    'RazonS', 'RFCE', 'direccion',
+    'cuenta-usuario',
+    'empresa-nombre', 
+    'empresa-convenio-tipo',
+    'empresa-razon-social', 
+    'empresa-rfc', 
+    'empresa-direccion',
     'postActualizarEmpresa'
 );
 
@@ -34,7 +38,7 @@ foreach ($camposHTML as $key) {
         // En caso de recibir campos incorrectos
         $goTo .= "?action=error";
         $goTo .= "&title=$title no actualizado.";
-        $goTo .= "&msg=Verifique que los campos sean validos y no vacios.";
+        $goTo .= "&msg=Verifique que los campos $key sean validos y no vacios.";
         $goTo .= $againTo;
         $mysqli->close();
         header($goTo);
@@ -42,9 +46,17 @@ foreach ($camposHTML as $key) {
     }
 }
 
-// ***** Iniciar Transición */
-$mysqli->begin_transaction();
+// Crear variables de campos recibidos
+$empresaId = $_GET['id'];
+$cuentaUsuario = $_POST['cuenta-usuario'];
+$empresaNombre   = $_POST['empresa-nombre'];
+$empresaRazonSocial = $_POST['empresa-razon-social'];
+$empresaRFC = $_POST['empresa-rfc'];
+$empresaConvenioTipo = $_POST['empresa-convenio-tipo'];
+$empresaDireccion = $_POST['empresa-direccion'];
+$Existe = 1;
 
+// Crear Consulta
 $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 
 // Crear consulta
@@ -53,6 +65,9 @@ Nombre = ?, Razon_Social  = ?,
 RFC  = ?, tipo_empresa  = ?, Direccion  = ?  
 WHERE id_empresa = ? AND Existe = ? ; ";
 
+// ***** Iniciar Transición */
+$mysqli->begin_transaction();
+
 try {
 
     // ***** Actualizar Empresa */
@@ -60,32 +75,20 @@ try {
     $stmtAgregarEmpresa = $mysqli->prepare($consultaActualizarEmpresa);
     $stmtAgregarEmpresa->bind_param(
         "sssssii",
-        $NombreE,
-        $RazonSE,
-        $RFCE,
-        $idtipo,
-        $Direccion,
-        $idEmpresa,
+        $empresaNombre,
+        $empresaRazonSocial,
+        $empresaRFC,
+        $empresaConvenioTipo,
+        $empresaDireccion,
+        $empresaId,
         $Existe
     );
-
-    // establecer parametros y ejecutar cambios
-    $NombreE   = $_POST['NombreE'];
-    $RazonSE = $_POST['RazonS'];
-    $RFCE = $_POST['RFCE'];
-    $idtipo = $_POST['tipoEmpresa'];
-    $Direccion = $_POST['direccion'];
-    $idEmpresa = $_GET['id'];
-    $Existe = 1;
     $stmtAgregarEmpresa->execute();
 
     /// ***** Verificar Usuario */
     // preparar y parametrar
     $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
-    $stmtVerificarUsuario->bind_param("s",$user);
-
-    // establecer parametros y ejecutar cambios
-    $user = $_POST['user'];
+    $stmtVerificarUsuario->bind_param("s", $cuentaUsuario);
     $stmtVerificarUsuario->execute();
 
     $stmtVerificarUsuario->store_result();
@@ -98,18 +101,16 @@ try {
         $mysqli->rollback();
         $goTo .= "?action=error";
         $goTo .= "&title=$title no actualizado.";
-        $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
+        $goTo .= "&msg=El usuario <mark>$cuentaUsuario</mark><br/>";
         $goTo .= "<b>Ya está registrado.<b>";
         $goTo .= $againTo;
-
     } else {
 
         // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
         $goTo .= "?action=success";
-        $goTo .= "&title=$title actualizado.";
-
+        $goTo .= "&title=$title $empresaId actualizado.";
     }
 } catch (mysqli_sql_exception $exception) {
 
