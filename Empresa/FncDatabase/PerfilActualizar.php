@@ -34,6 +34,11 @@ $camposHTML = array(
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
+
+    $_POST[$key] = trim($_POST[$key]);
+    $_POST[$key] = strtr($_POST[$key], $words_mex_encode);
+    $_POST[$key] = htmlentities($_POST[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
         $goTo .= "?action=error";
@@ -47,13 +52,13 @@ foreach ($camposHTML as $key) {
 }
 
 // Crear variables de campos recibidos
-$empresaId = $_GET['id'];
-$cuentaUsuario = $_POST['cuenta-usuario'];
-$empresaNombre   = $_POST['empresa-nombre'];
-$empresaRazonSocial = $_POST['empresa-razon-social'];
-$empresaRFC = $_POST['empresa-rfc'];
-$empresaConvenioTipo = $_POST['empresa-convenio-tipo'];
-$empresaDireccion = $_POST['empresa-direccion'];
+$empresaId = filter_var(trim($_GET['id']), FILTER_SANITIZE_NUMBER_INT);
+$cuentaUsuario = strtr(htmlspecialchars($_POST['cuenta-usuario'], ENT_QUOTES), $words_mex_decode);
+$empresaNombre   = strtr(htmlspecialchars($_POST['empresa-nombre'], ENT_QUOTES), $words_mex_decode);
+$empresaRazonSocial = strtr(htmlspecialchars($_POST['empresa-razon-social'], ENT_QUOTES), $words_mex_decode);
+$empresaRFC = strtr(htmlspecialchars($_POST['empresa-rfc'], ENT_QUOTES), $words_mex_decode);
+$empresaConvenioTipo = strtr(htmlspecialchars($_POST['empresa-convenio-tipo'], ENT_QUOTES), $words_mex_decode);
+$empresaDireccion = strtr(htmlspecialchars($_POST['empresa-direccion'], ENT_QUOTES), $words_mex_decode);
 $Existe = 1;
 
 // Crear Consulta
@@ -110,7 +115,7 @@ try {
         // En caso de no tener errores
         $mysqli->commit();
         $goTo .= "?action=success";
-        $goTo .= "&title=$title $empresaId actualizado.";
+        $goTo .= "&title=$title actualizado.";
     }
 } catch (mysqli_sql_exception $exception) {
 
