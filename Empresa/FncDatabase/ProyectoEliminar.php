@@ -30,7 +30,10 @@ foreach ($camposHTML as $key) {
 // Crear variables de parametros recibidos
 $idProyecto = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
-// ***** Eliminar proyecto */
+
+// Crear consultr
+$consultaVerificarProyecto = "SELECT * FROM `proyecto` WHERE id_Proyecto = ? ; ";
+
 // Crear consulta
 $consultaEliminarProyecto = "DELETE FROM `proyecto`  
 WHERE id_Proyecto = ?; ";
@@ -40,17 +43,29 @@ $mysqli->begin_transaction();
 
 try {
 
+    // ***** Eliminar proyecto */
     // preparar y parametrar
     $stmtEliminarProyecto = $mysqli->prepare($consultaEliminarProyecto);
     $stmtEliminarProyecto->bind_param("i", $idProyecto);
 
-    if ($stmtEliminarProyecto->execute()) {
-    
+    // ***** Verificar Proyecto */
+    // preparar y parametrar
+    $stmtVerificarProyecto = $mysqli->prepare($consultaVerificarProyecto);
+    $stmtVerificarProyecto->bind_param(
+        "i",
+        $idProyecto
+    );
+    $stmtVerificarProyecto->execute();
+
+    $stmtVerificarProyecto->store_result();
+    $rowProyecto = $stmtVerificarProyecto->num_rows;
+
+    if ($rowProyecto > 1 && $stmtEliminarProyecto->execute()) {
         // Efectuar cambios
         $mysqli->commit();
-    
+    } else {
+        $mysqli->rollback();
     }
-
 } catch (mysqli_sql_exception $exception) {
 
     // Deshacer cambios

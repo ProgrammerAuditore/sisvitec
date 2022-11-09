@@ -38,6 +38,11 @@ $camposHTML = array(
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
+    
+    $_POST[$key] = trim($_POST[$key]);
+    $_POST[$key] = strtr($_POST[$key], $words_mex_encode);
+    $_POST[$key] = htmlentities($_POST[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
     if (!isset($_POST[$key]) || empty(trim($_POST[$key]))) {
         // En caso de recibir campos incorrectos
         $goTo .= "?action=error";
@@ -51,15 +56,14 @@ foreach ($camposHTML as $key) {
 }
 
 // Crear variables de campos recibidos
-$ProyectoNombre = $_POST["proyecto-nombre"];
-$ProyectoArea = $_POST["proyecto-area"];
-$ProyectoDescripcion = $_POST["proyecto-descripcion"];
-$ProyectoIdEmpresa = $_GET["id"];
-$ProyectoObjGeneral = $_POST["proyecto-obj-general"];
-$ProyectoObjEspecifico = $_POST["proyecto-obj-especifico"];
-$ProyectoDuracion = $_POST["proyecto-duracion"];
-$ProyectoTipo = $_POST["proyecto-tipo"];
-$idEmpresa = $_GET['id']; // <==== ID empresa
+$idEmpresa = filter_var(trim($_GET['id']), FILTER_SANITIZE_NUMBER_INT); // <==== ID empresa
+$ProyectoNombre = strtr(htmlspecialchars($_POST["proyecto-nombre"], ENT_QUOTES), $words_mex_decode);
+$ProyectoDescripcion = strtr(htmlspecialchars($_POST["proyecto-descripcion"], ENT_QUOTES), $words_mex_decode);
+$ProyectoArea = filter_var(trim($_POST["proyecto-area"]), FILTER_SANITIZE_NUMBER_INT);
+$ProyectoObjGeneral = strtr(htmlspecialchars($_POST["proyecto-obj-general"], ENT_QUOTES), $words_mex_decode);
+$ProyectoObjEspecifico = strtr(htmlspecialchars($_POST["proyecto-obj-especifico"], ENT_QUOTES), $words_mex_decode);
+$ProyectoDuracion = filter_var(trim($_POST["proyecto-duracion"]), FILTER_SANITIZE_NUMBER_INT);
+$ProyectoTipo = strtr(htmlspecialchars($_POST["proyecto-tipo"], ENT_QUOTES), $words_mex_decode);
 $Exsite = 1; // <==== Existente
 
 // Crear consulta
@@ -85,7 +89,7 @@ try {
         $ProyectoNombre,
         $ProyectoArea,
         $ProyectoDescripcion,
-        $ProyectoIdEmpresa,
+        $idEmpresa,
         $ProyectoObjGeneral,
         $ProyectoObjEspecifico,
         $ProyectoDuracion,
