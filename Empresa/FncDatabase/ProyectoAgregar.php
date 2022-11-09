@@ -50,8 +50,17 @@ foreach ($camposHTML as $key) {
     }
 }
 
-// ***** Iniciar Transición */
-$mysqli->begin_transaction();
+// Crear variables de campos recibidos
+$ProyectoNombre = $_POST["proyecto-nombre"];
+$ProyectoArea = $_POST["proyecto-area"];
+$ProyectoDescripcion = $_POST["proyecto-descripcion"];
+$ProyectoIdEmpresa = $_GET["id"];
+$ProyectoObjGeneral = $_POST["proyecto-obj-general"];
+$ProyectoObjEspecifico = $_POST["proyecto-obj-especifico"];
+$ProyectoDuracion = $_POST["proyecto-duracion"];
+$ProyectoTipo = $_POST["proyecto-tipo"];
+$idEmpresa = $_GET['id']; // <==== ID empresa
+$Exsite = 1; // <==== Existente
 
 // Crear consulta
 $consultaVerificarUsuario = "SELECT * FROM `empresa` 
@@ -59,8 +68,12 @@ WHERE id_empresa = ? AND Existe = ? ; ";
 
 // Crear consulta
 $consultaAgregarProyecto = "INSERT INTO `proyecto` 
-( `Nombre`, `id_Area`, `Descripcion`, `id_Empresa`, `Objetivo_General`, `Objetivo_Espesifico`, `Duracion`, `Tipo_Proyect`) 
+( Nombre, id_Area, Descripcion, id_Empresa, 
+Objetivo_General, Objetivo_Espesifico, Duracion, Tipo_Proyect ) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+// ***** Iniciar Transición */
+$mysqli->begin_transaction();
 
 try {
 
@@ -78,26 +91,12 @@ try {
         $ProyectoDuracion,
         $ProyectoTipo
     );
-
-    // establecer parametros y ejecutar cambios
-    $ProyectoNombre = $_POST["proyecto-nombre"];
-    $ProyectoArea = $_POST["proyecto-area"];
-    $ProyectoDescripcion = $_POST["proyecto-descripcion"];
-    $ProyectoIdEmpresa = $_GET["id"];
-    $ProyectoObjGeneral = $_POST["proyecto-obj-general"];
-    $ProyectoObjEspecifico = $_POST["proyecto-obj-especifico"];
-    $ProyectoDuracion = $_POST["proyecto-duracion"];
-    $ProyectoTipo = $_POST["proyecto-tipo"];
     $stmtAgregarProyecto->execute();
 
     // ***** Verificar Usuario */
     // preparar y parametrar
     $stmtVerificarUsuario = $mysqli->prepare($consultaVerificarUsuario);
-    $stmtVerificarUsuario->bind_param("ii",$idEmpresa ,$Existe);
-
-    // establecer parametros y ejecutar cambios
-    $idEmpresa = $_GET['id']; // <==== ID empresa
-    $Exsite = 1; // <==== Existente
+    $stmtVerificarUsuario->bind_param("ii", $idEmpresa, $Existe);
     $stmtVerificarUsuario->execute();
 
     $stmtVerificarUsuario->store_result();
@@ -113,7 +112,6 @@ try {
         $goTo .= "&msg=El usuario <mark>$user</mark><br/>";
         $goTo .= "<b>Ya está registrado.<b>";
         $goTo .= $againTo;
-
     } else {
 
         // Efectuar cambios
@@ -121,7 +119,6 @@ try {
         $mysqli->commit();
         $goTo .= "?action=success";
         $goTo .= "&title=$title registrado.";
-
     }
 } catch (mysqli_sql_exception $exception) {
 

@@ -11,32 +11,45 @@ if ($mysqli->connect_errno) {
     die("Error en la conexion" . $mysqli->connect_error);
 }
 
-//****  Verificar que existe el parametro id */
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location:/Empresa/ConsultarProyecto.php");
-    exit();
+// Listar campos a recibir desde la pagina Editar Alumno
+$camposHTML = array('id');
+
+// Verificar campos recibidos
+// Solo números enteros
+foreach ($camposHTML as $key) {
+
+    $_GET[$key] = trim($_GET[$key]);
+    $_GET[$key] = htmlentities($_GET[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
+    if (!isset($_GET[$key]) || empty(trim($_GET[$key]))) {
+        $mysqli->close();
+        exit();
+    }
 }
+
+// Crear variables de parametros recibidos
+$idProyecto = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+
+// ***** Eliminar proyecto */
+// Crear consulta
+$consultaEliminarProyecto = "DELETE FROM `proyecto`  
+WHERE id_Proyecto = ?; ";
 
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
-// ***** Eliminar proyecto */
-// Crear consulta
-$consultaQ = "DELETE FROM `proyecto`  
-WHERE id_Proyecto = ?; ";
-
 try {
 
     // preparar y parametrar
-    $stmt = $mysqli->prepare($consultaQ);
-    $stmt->bind_param("i", $id);
+    $stmtEliminarProyecto = $mysqli->prepare($consultaEliminarProyecto);
+    $stmtEliminarProyecto->bind_param("i", $idProyecto);
 
-    // establecer parametros y ejecutar cambios
-    $id = $_GET['id'];
-    $stmt->execute();
-
-    // Efectuar cambios
-    $mysqli->commit();
+    if ($stmtEliminarProyecto->execute()) {
+    
+        // Efectuar cambios
+        $mysqli->commit();
+    
+    }
 
 } catch (mysqli_sql_exception $exception) {
 
@@ -49,7 +62,7 @@ try {
 
 // Cerrar conexiones y consultas
 $mysqli->close();
-$stmt->close();
+$stmtEliminarProyecto->close();
 
 // Enviar mensaje
 echo "Proyecto eliminado.";

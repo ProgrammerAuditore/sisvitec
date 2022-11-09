@@ -138,6 +138,18 @@ $IDE = $_SESSION['idE'];
   <!-- Bootstrap core JavaScript -->
   <script src="../Estilos/dist/js/jquery.js"></script>
   <script src="../Estilos/dist/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+
+      $('#proyecto-descripcion, #proyecto-obj-general ,#proyecto-obj-especifico').on('input', function() {
+        this.style.height = 'auto';
+
+        this.style.height =
+          (this.scrollHeight) + 'px';
+      });
+
+    });
+  </script>
 </body>
 
 </html>
