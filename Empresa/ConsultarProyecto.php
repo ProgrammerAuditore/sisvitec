@@ -54,7 +54,7 @@ $mysqli->close();
     <div class="container">
       <h1>Listado De Proyectos</h1>
       <p class="lead">SISVINTEC</p><br>
-      <p class="lead">Usuario Administrador</p>
+      <p class="lead">Usuario Empresa</p>
     </div>
     <div class="col-12 col-md-12">
 
@@ -130,11 +130,14 @@ $mysqli->close();
 
         if (result.isConfirmed) {
           $.ajax({
-            url: "./FncDatabase/ProyectoEliminar.php?id=<?php echo $_GET['IdProyecto']; ?>"
-          }).then((a) => {
+            url: "./FncDatabase/ProyectoEliminar.php?id=<?php echo $_GET['IdProyecto']; ?>",
+            async: false,
+            dataType: 'json',
+          }).then((notif) => {
             Swal.fire({
-              icon: 'success',
-              title: a
+              icon: notif.icon,
+              title: notif.title,
+              html: notif.msg
             }).then((r) => {
               window.location.reload();
             });
