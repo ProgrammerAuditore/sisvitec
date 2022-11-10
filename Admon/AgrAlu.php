@@ -52,9 +52,9 @@ session_start();
           <input type="text" value="" placeholder="Usuario" name="cuenta-usuario" class="form-control" id="cuenta-usuario"><br>
         </div>
 
-        <label for="cuenta-password" class="col-lg-3 control-label">Contraseñaa:</label>
+        <label for="cuenta-password" class="col-lg-3 control-label">Contraseña:</label>
         <div class="col-lg-9">
-          <input value="" type="password" placeholder="Contraseña" name="cuenta-password" id="cuenta-password" class="form-control" data-toggle="cuenta-password"><br>
+          <input value="" type="password" placeholder="Contraseña" name="cuenta-password" id="cuenta-password" class="form-control" data-toggle="password"><br>
         </div>
 
         <label for="alumno-nombre" class="col-lg-3 control-label">Nombre De Alumno:</label>
@@ -67,7 +67,7 @@ session_start();
           <input value="" type="text" class="form-control" id="alumno-numero-control" name="alumno-numero-control" placeholder="Número de control"><br>
         </div>
 
-        <label for="alumno-correo" class="col-lg-3 control-label">Correo Electrónico :</label>
+        <label for="alumno-correo" class="col-lg-3 control-label">Correo Electrónico:</label>
         <div class="col-lg-9">
           <input value="" type="text" class="form-control" id="alumno-correo" name="alumno-correo" placeholder="Correo electronico"><br>
         </div>

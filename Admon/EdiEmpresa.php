@@ -104,7 +104,7 @@ $mysqli->close();
 
                 <label for="cuenta-password" class="col-lg-3 control-label">Contraseña:</label>
                 <div class="col-lg-9">
-                    <input value="<?php echo $getEmpresa['EmpresaPassword']; ?>" type="password" placeholder="Contraseña" id="cuenta-password" name="cuenta-password" class="form-control" data-toggle="cuenta-password"><br>
+                    <input value="<?php echo $getEmpresa['EmpresaPassword']; ?>" type="password" placeholder="Contraseña" id="cuenta-password" name="cuenta-password" class="form-control" data-toggle="password"><br>
                 </div>
 
                 <!-- Información de la empresa -->

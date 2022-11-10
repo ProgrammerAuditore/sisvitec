@@ -97,7 +97,7 @@ $getUsuario = $result->fetch_assoc();
 
         <label for="cuenta-password" class="col-lg-3 control-label">Contrasena:</label>
         <div class="col-lg-9">
-          <input value="<?php echo $getUsuario['CuentaPassword']; ?>" type="password" placeholder="Contraseña" id="cuenta-password" name="cuenta-password" class="form-control" data-toggle="cuenta-password"><br>
+          <input value="<?php echo $getUsuario['CuentaPassword']; ?>" type="password" placeholder="Contraseña" id="cuenta-password" name="cuenta-password" class="form-control" data-toggle="password"><br>
         </div>
 
         <span style="font-weight:bold;color:#000080;">Información de alumno&nbsp;</span>
