@@ -64,6 +64,14 @@ $consultaActualizarTrabajador = "UPDATE `trabajador` SET
 Nombre = ?, RFC = ?, Correo = ?, Puesto = ?, Tel = ?
 WHERE id_Trabajador = ? AND Existe = ? ; ";
 
+// Crear consulta
+$consultaObtenerIdLoginEmpresa = "SELECT 
+lng.id_Login AS CuentaIdLogin
+FROM trabajador AS t
+LEFT JOIN empresa AS e ON e.id_empresa = t.id_Empresa
+LEFT JOIN login AS lng ON lng.id_Login = e.id_login
+WHERE t.id_Trabajador = $trabjadorId; ";
+
 // ***** Iniciar Transición */
 $mysqli->begin_transaction();
 
@@ -81,16 +89,30 @@ try {
         $trabajadorTelefono,
         $trabjadorId,
         $Existe
-    );    
-    $stmtActualizarTrabajador->execute();
+    );
 
+    // ***** Obtener ID Login de la empresa */
+    $queryObtenerIdLoginEmpresa = $mysqli->query($consultaObtenerIdLoginEmpresa);
+    $rowEmpresa = $queryObtenerIdLoginEmpresa->fetch_array();
+    $EmpresaIdLogin = $rowEmpresa['CuentaIdLogin'];
 
-    // Efectuar cambios
-    // En caso de no tener errores
-    $mysqli->commit();
-    $goTo .= "?action=success";
-    $goTo .= "&title=$title actualizado.";
+    if ($stmtActualizarTrabajador->execute() && $EmpresaIdLogin > 0) {
 
+        // Efectuar cambios
+        // En caso de no tener errores
+        $mysqli->commit();
+        $goTo = "Location:/Admon/ConEmpresa.php";
+        $goTo .= "?IdEmpresa=" . $EmpresaIdLogin;
+        $goTo .= "&action=success";
+        $goTo .= "&title=$title actualizado.";
+    } else {
+        // Deshacer cambios
+        // En caso de existir el usuario
+        $mysqli->rollback();
+        $goTo .= "?action=error";
+        $goTo .= "&title=$title no actualizado.";
+        $goTo .= $againTo;
+    }
 } catch (mysqli_sql_exception $exception) {
 
     // Deshacer cambios
