@@ -110,7 +110,9 @@ try {
         // Deshacer cambios
         // En caso de existir el usuario
         $mysqli->rollback();
-        $goTo .= "?action=error";
+        $goTo = "Location:/Empresa/ConProyecto.php";
+        $goTo .= "?IdProyecto=" . $idProyecto;
+        $goTo .= "&action=error";
         $goTo .= "&title=$title no actualizado.";
         $goTo .= "Probablemente el proyecto no existe.";
         $goTo .= $againTo;
@@ -119,7 +121,9 @@ try {
         // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
-        $goTo .= "?action=success";
+        $goTo = "Location:/Empresa/ConProyecto.php";
+        $goTo .= "?IdProyecto=" . $idProyecto;
+        $goTo .= "&action=success";
         $goTo .= "&title=$title actualizado.";
     }
     

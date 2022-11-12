@@ -12,7 +12,7 @@ $againTo = "<br/><hr><a href=/Empresa/AgrProyecto.php>Volver a intentarlo.</a>";
 //****  Verificar que existe el parametro IdUsuario */
 if (!isset($_GET['IdProyecto']) || empty($_GET['IdProyecto'])) {
   // En caso de recibir campos incorrectos
-  $goTo .= "?action=error&msg=Usuario no valido&msg=Este usuario no existe.";
+  $goTo .= "?action=error&msg=Proyecto no valido&msg=Este proyecto no existe.<br>Inténtalo de nuevo.";
   $mysqli->close();
   header($goTo);
   exit();
@@ -69,17 +69,20 @@ $mysqli->close();
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
+
+  <!-- sweetalert2 -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <style>
-    textarea {
-        resize: none;
-        margin: 0.5em 0px;
-    }
+  textarea {
+    resize: none;
+    margin: 0.5em 0px;
+  }
 
-    section.cuerpo {
-        margin: 0px 0px 2em 0px;
-    }
+  section.cuerpo {
+    margin: 0px 0px 2em 0px;
+  }
 </style>
 
 <body>
@@ -132,7 +135,7 @@ $mysqli->close();
       <!-- Objetivos -->
       <span style="font-weight:bold;color:#000080;">Objetivos&nbsp;</span>
       <hr>
-      
+
       <label class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
       <div class="col-lg-9">
         <textarea disabled class="form-control" id="proyecto-obj-general" name="proyecto-obj-general"><?php echo $getProyecto['ProyectoObjGeneral']; ?></textarea>
@@ -151,11 +154,26 @@ $mysqli->close();
 
     </div>
   </section>
+
+  <?php if (isset($_GET['action'])) { ?>
+    <script>
+      Swal.fire({
+        icon: '<?php echo (isset($_GET['action'])) ? $_GET['action'] : ''; ?>',
+        title: '<?php echo (isset($_GET['title'])) ? $_GET['title'] : ''; ?>',
+        html: '<?php echo (isset($_GET['msg'])) ? $_GET['msg'] : ''; ?>'
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("?")[0]);
+      });
+    </script>
+  <?php } ?>
+
   <footer>
     <div class="contenedor">
       <p>Copyright &copy; BCB</p>
     </div>
   </footer>
+
   <!-- Bootstrap core JavaScript -->
   <script src="../Estilos/dist/js/jquery.js"></script>
   <script src="../Estilos/dist/js/bootstrap.min.js"></script>
