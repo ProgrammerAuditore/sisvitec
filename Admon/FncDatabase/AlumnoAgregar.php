@@ -145,7 +145,9 @@ try {
         // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
-        $goTo .= "?action=success";
+        $goTo = "Location:/Admon/ConAlumno.php";
+        $goTo .= "?IdUsuario=" . $CuentaLoginId;
+        $goTo .= "&action=success";
         $goTo .= "&title=Alumno registrado.";
     }
 } catch (mysqli_sql_exception $exception) {

@@ -131,6 +131,7 @@ try {
     // ***** Obtener ID Login de la cuenta nueva */
     $queryObtenerIdLogin = $mysqli->query($consultaObtenerIdLogin);
     $rowLogin = $queryObtenerIdLogin->fetch_array();
+    $CuentaIdLogin = $rowLogin['max_login'];
 
     // ***** Registrar Empresa */
     // preparar y parametrar
@@ -147,7 +148,7 @@ try {
         $EmpresaGiro,
         $EmpresaMision,
         $EmpresaTipoConvenio,
-        $rowLogin['max_login'],
+        $CuentaIdLogin,
         $Existe
     );
     $stmtAgregarEmpresa->execute();
@@ -213,8 +214,11 @@ try {
         // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
-        $goTo .= "?action=success";
+        $goTo = "Location:/Admon/ConEmpresa.php";
+        $goTo .= "?IdEmpresa=" . $CuentaIdLogin;
+        $goTo .= "&action=success";
         $goTo .= "&title=$title registrado.";
+        
     }
 } catch (mysqli_sql_exception $exception) {
 

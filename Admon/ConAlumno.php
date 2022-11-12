@@ -88,6 +88,8 @@ $mysqli->close();
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
 
+  <!-- sweetalert2 -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -191,6 +193,19 @@ $mysqli->close();
     </div>
 
   </section>
+
+  <?php if (isset($_GET['action'])) { ?>
+    <script>
+      Swal.fire({
+        icon: '<?php echo (isset($_GET['action'])) ? $_GET['action'] : ''; ?>',
+        title: '<?php echo (isset($_GET['title'])) ? $_GET['title'] : ''; ?>',
+        html: '<?php echo (isset($_GET['msg'])) ? $_GET['msg'] : ''; ?>'
+      }).then((resultado) => {
+        var url = document.location.href;
+        window.history.pushState({}, "", url.split("&")[0]);
+      });
+    </script>
+  <?php } ?>
 
   <footer>
     <div class="contenedor">

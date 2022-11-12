@@ -229,6 +229,19 @@ $mysqli->close();
         </div>
     </section>
 
+    <?php if (isset($_GET['action'])) { ?>
+        <script>
+            Swal.fire({
+                icon: '<?php echo (isset($_GET['action'])) ? $_GET['action'] : ''; ?>',
+                title: '<?php echo (isset($_GET['title'])) ? $_GET['title'] : ''; ?>',
+                html: '<?php echo (isset($_GET['msg'])) ? $_GET['msg'] : ''; ?>'
+            }).then((resultado) => {
+                var url = document.location.href;
+                window.history.pushState({}, "", url.split("&")[0]);
+            });
+        </script>
+    <?php } ?>
+
     <?php if (isset($_GET['action']) && $_GET['action'] == 'delete') { ?>
         <script>
             Swal.fire({

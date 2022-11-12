@@ -38,7 +38,7 @@ $camposHTML = array(
 
 // Verificar campos recibidos
 foreach ($camposHTML as $key) {
-    
+
     $_POST[$key] = trim($_POST[$key]);
     $_POST[$key] = strtr($_POST[$key], $words_mex_encode);
     $_POST[$key] = htmlentities($_POST[$key], ENT_QUOTES | ENT_IGNORE, "UTF-8");
@@ -69,6 +69,11 @@ $Exsite = 1; // <==== Existente
 // Crear consulta
 $consultaVerificarUsuario = "SELECT * FROM `empresa` 
 WHERE id_empresa = ? AND Existe = ? ; ";
+
+// Crear consulta
+$consultaObtenerIdProyecto = "SELECT 
+MAX(id_Proyecto) AS max_proyecto 
+FROM `proyecto` ; ";
 
 // Crear consulta
 $consultaAgregarProyecto = "INSERT INTO `proyecto` 
@@ -118,10 +123,16 @@ try {
         $goTo .= $againTo;
     } else {
 
+        // ***** Obtener ID Login de la proyecto nuevo */
+        $queryObtenerIdProyecto = $mysqli->query($consultaObtenerIdProyecto);
+        $rowProyecto = $queryObtenerIdProyecto->fetch_array();
+
         // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
-        $goTo .= "?action=success";
+        $goTo = "Location:/Empresa/ConProyecto.php";
+        $goTo .= "?IdProyecto=" . $rowProyecto['max_proyecto'];
+        $goTo .= "&action=success";
         $goTo .= "&title=$title registrado.";
     }
 } catch (mysqli_sql_exception $exception) {

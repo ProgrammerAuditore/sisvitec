@@ -13,7 +13,8 @@ if ($mysqli->connect_errno) {
     die("Error en la conexion" . $mysqli->connect_error);
 }
 
-//****  Verificar que existe el parametro IdUsuario */
+//****  Verificar que existe el parametro id */
+// id es el ID Login Cuenta 
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     // En caso de recibir campos incorrectos
     $goTo .= "?action=error&msg=Usuario no valido&msg=Este usuario no existe.";
@@ -59,7 +60,7 @@ foreach ($camposHTML as $key) {
 $cuentaTipo = 1;
 $cuentaUser = strtr(htmlspecialchars($_POST['cuenta-user'], ENT_QUOTES), $words_mex_decode);
 $cuentaPassword = strtr(htmlspecialchars($_POST['cuenta-password'], ENT_QUOTES), $words_mex_decode);
-$AlumnoId = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+$CuentaIdLogin = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 $AlumnoNombre = strtr(htmlspecialchars($_POST['alumno-nombre'], ENT_QUOTES), $words_mex_decode);
 $AlumnoNumeroControl = strtr(htmlspecialchars($_POST['alumno-numero-control'], ENT_QUOTES), $words_mex_decode);
 $AlumnoCorreo = strtr(htmlspecialchars($_POST['alumno-correo'], ENT_QUOTES), $words_mex_decode);
@@ -95,7 +96,7 @@ try {
         $tipo,
         $cuentaUser,
         $cuentaPassword,
-        $AlumnoId,
+        $CuentaIdLogin,
         $Existe
     );
     $stmtActualizarUsuario->execute();
@@ -112,7 +113,7 @@ try {
         $AlumnoCorreo,
         $AlumnoAreaId,
         $AlumnoCarreraId,
-        $AlumnoId,
+        $CuentaIdLogin,
         $Existe
     );
     $stmtActualizarAlumno->execute();
@@ -141,7 +142,9 @@ try {
         // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
-        $goTo .= "?action=success";
+        $goTo = "Location:/Admon/ConAlumno.php";
+        $goTo .= "?IdUsuario=" . $CuentaIdLogin;
+        $goTo .= "&action=success";
         $goTo .= "&title=Alumno actualizado.";
     }
 } catch (mysqli_sql_exception $exception) {

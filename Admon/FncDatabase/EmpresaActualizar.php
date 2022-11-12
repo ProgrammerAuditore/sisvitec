@@ -15,6 +15,7 @@ if ($mysqli->connect_errno) {
 }
 
 //****  Verificar que existe el parametro ID de empresa */
+// id es la cuenta id_login
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: ../ConsultarEmpresa.php");
     exit();
@@ -134,8 +135,11 @@ try {
         // Efectuar cambios
         // En caso de no tener errores
         $mysqli->commit();
-        $goTo .= "?action=success";
+        $goTo = "Location:/Admon/ConEmpresa.php";
+        $goTo .= "?IdEmpresa=" . $EmpresaIdLogin;
+        $goTo .= "&action=success";
         $goTo .= "&title=$title actualizado.";
+
     }
 } catch (mysqli_sql_exception $exception) {
 
