@@ -73,11 +73,9 @@ $consultaAgregarTrabajador = "INSERT INTO `trabajador`
 VALUES (?,?,?,?,?,?,?) ; ";
 
 $consultaObtenerIdLoginEmpresa = "SELECT 
-lng.id_Login AS CuentaIdLogin
-FROM trabajador AS t
-LEFT JOIN empresa AS e ON e.id_empresa = t.id_Empresa
-LEFT JOIN login AS lng ON lng.id_Login = e.id_login
-WHERE t.id_Trabajador = ?; ";
+e.id_login AS EmpresaIdLogin
+FROM `empresa` AS e
+WHERE e.id_empresa = $empresaId; ";
 
 // Crear consulta
 $consultaObtenerIdTrabajador = "SELECT 
@@ -101,7 +99,7 @@ try {
         $trabajadorTelefono,
         $empresaId,
         $Existe
-    );;
+    );
 
     // ***** Obtener ID del trabajador creado recientemente */
     $queryObtenerIdTrabajador = $mysqli->query($consultaObtenerIdTrabajador);
@@ -109,17 +107,11 @@ try {
     $TrabajadorId = $rowTrabajador['TrabajadorId'];
 
     // ***** Obtener id_Login de la Empresa  */
-    // preparar y parametrar
-    $stmtObtenerIdLoginEmpresa = $mysqli->prepare($consultaObtenerIdLoginEmpresa);
-    $stmtObtenerIdLoginEmpresa->bind_param("i", $TrabajadorId);
-    $stmtObtenerIdLoginEmpresa->execute();
-    $result = $stmtObtenerIdLoginEmpresa->get_result();
-    $EmpresaIdLogin = 0;
-    while ($row = $result->fetch_assoc()) {
-        $EmpresaIdLogin = $row['CuentaIdLogin'];
-    }
+    $queryObtenerIdLoginEmpresa = $mysqli->query($consultaObtenerIdLoginEmpresa);
+    $rowEmpresa = $queryObtenerIdLoginEmpresa->fetch_array();
+    $EmpresaIdLogin = $rowEmpresa['EmpresaIdLogin'];
 
-    if ($stmtAgregarTrabajador->execute() && $EmpresaIdLogin > 0) {
+    if ($stmtAgregarTrabajador->execute()) {
 
         // Efectuar cambios
         // En caso de no tener errores
@@ -152,5 +144,4 @@ try {
 
 $mysqli->close();
 $stmtAgregarTrabajador->close();
-$stmtObtenerIdLoginEmpresa->close();
 header($goTo);
