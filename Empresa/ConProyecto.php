@@ -163,7 +163,7 @@ $mysqli->close();
         html: '<?php echo (isset($_GET['msg'])) ? $_GET['msg'] : ''; ?>'
       }).then((resultado) => {
         var url = document.location.href;
-        window.history.pushState({}, "", url.split("?")[0]);
+        window.history.pushState({}, "", url.split("&")[0]);
       });
     </script>
   <?php } ?>

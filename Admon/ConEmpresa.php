@@ -261,18 +261,19 @@ $mysqli->close();
                     $.ajax({
                         url: "./FncDatabase/TrabajadorEliminar.php?" +
                             "idT=<?php echo $_GET['IdTrabajador']; ?>&" +
-                            "idE=<?php echo $_GET['IdEmpresa']; ?>"
-                    });
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Trabajador eliminado.',
-                    }).then((r) => {
-                        window.location.reload();
+                            "idE=<?php echo $getEmpresa['EmpresaId']; ?>",
+                        success: function() {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Trabajador eliminado.',
+                            }).then((r) => {
+                                window.location.reload();
+                            });
+                        }
                     });
                 }
 
                 window.location.href = window.location.href;
-
             })
         </script>
     <?php } ?>
