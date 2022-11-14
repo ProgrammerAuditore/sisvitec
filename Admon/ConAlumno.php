@@ -121,33 +121,33 @@ $mysqli->close();
 
       <label class="col-lg-3 control-label">Contraseña:</label>
       <div class="col-lg-9">
-        <p disabled class="form-control"><?php echo $getUsuario['CuentaPassword']; ?></p>
+        <p disabled class="form-control">******</p>
       </div>
 
-      <span style="font-weight:bold;color:#000080;">Información de alumno&nbsp;</span>
+      <span style="font-weight:bold;color:#000080;">Información de alumno</span>
       <hr>
 
-      <label class="col-lg-3 control-label">Nombre Alumno</label>
+      <label class="col-lg-3 control-label">Nombre Alumno:</label>
       <div class="col-lg-9">
         <p disabled class="form-control"><?php echo $getUsuario['AlumnoNombre']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Numero De Control</label>
+      <label class="col-lg-3 control-label">Numero De Control:</label>
       <div class="col-lg-9">
         <p disabled class="form-control"><?php echo $getUsuario['AlumnoNumeroControl']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Correo Electrónico </label>
+      <label class="col-lg-3 control-label">Correo Electrónico:</label>
       <div class="col-lg-9">
         <p disabled class="form-control"><?php echo $getUsuario['AlumnoCorreo']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Direccion</label>
+      <label class="col-lg-3 control-label">Dirección:</label>
       <div class="col-lg-9">
         <p disabled class="form-control"><?php echo $getUsuario['AlumnoDireccion']; ?></p>
       </div>
 
-      <label class="col-lg-3 control-label">Area De Desarrollo :</label>
+      <label class="col-lg-3 control-label">Area De Desarrollo:</label>
       <div class="col-lg-9">
         <div class="selector-pai">
           <select name="Area" class="form-control" disabled>
@@ -165,7 +165,7 @@ $mysqli->close();
           </select><br>
         </div>
       </div>
-      <label class="col-lg-3 control-label">Carrera :</label>
+      <label class="col-lg-3 control-label">Carrera:</label>
       <div class="col-lg-9">
         <div class="selector-pas">
           <select name="Carrera" class="form-control" disabled>
