@@ -93,7 +93,7 @@ try {
     $stmtActualizarUsuario = $mysqli->prepare($consultaActualizarUsuario);
     $stmtActualizarUsuario->bind_param(
         "issii",
-        $tipo,
+        $cuentaTipo,
         $cuentaUser,
         $cuentaPassword,
         $CuentaIdLogin,
