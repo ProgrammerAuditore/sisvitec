@@ -93,7 +93,7 @@ $consultaVerificarUsuario = "SELECT * FROM `login` WHERE User = ? ; ";
 $consultaObtenerIdLogin = "SELECT MAX(id_Login) AS max_login FROM `login` ; ";
 
 // Obtener Loggin ID
-$consultaObtenerIdEmpresa = "SELECT MAX(id_empresa) AS max_empresa FROM `empresa` ; ";
+$consultaObtenerIdEmpresa = "SELECT MAX(id_empresa) AS EmpresaId FROM `empresa` ; ";
 
 // Crear consulta
 $consultaCrearUsuario = "INSERT INTO `login`  
@@ -166,7 +166,7 @@ try {
         $RepresentanteRFC,
         $RepresentanteCorreo,
         $RepresentantePuesto,
-        $rowEmpresa['max_empresa'],
+        $rowEmpresa['EmpresaId'],
         $Existe,
         $RepresentanteTelefono
     );
@@ -181,7 +181,7 @@ try {
         $RecursosHumanosRFC,
         $RecursosHumanosCorreo,
         $RecursosHumanosPuesto,
-        $rowEmpresa['max_empresa'],
+        $rowEmpresa['EmpresaId'],
         $Existe,
         $RecursosHumanosTelefono
     );

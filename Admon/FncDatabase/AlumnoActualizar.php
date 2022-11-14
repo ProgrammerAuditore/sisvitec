@@ -110,7 +110,7 @@ try {
         $AlumnoNombre,
         $AlumnoNumeroControl,
         $AlumnoCorreo,
-        $AlumnoCorreo,
+        $AlumnoDireccion,
         $AlumnoAreaId,
         $AlumnoCarreraId,
         $CuentaIdLogin,
