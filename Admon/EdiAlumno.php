@@ -115,7 +115,7 @@ $getUsuario = $result->fetch_assoc();
 
         <label for="alumno-correo" class="col-lg-3 control-label">Correo Electrónico:</label>
         <div class="col-lg-9">
-          <input value="<?php echo $getUsuario['AlumnoCorreo']; ?>" type="text" class="form-control" id="alumno-correo" name="alumno-correo" required><br>
+          <input value="<?php echo $getUsuario['AlumnoCorreo']; ?>" type="email" class="form-control" id="alumno-correo" name="alumno-correo" required><br>
         </div>
 
         <label for="alumno-direccion" class="col-lg-3 control-label">Dirección:</label>
