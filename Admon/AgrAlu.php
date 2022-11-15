@@ -49,38 +49,38 @@ session_start();
 
         <label for="cuenta-usuario" class="col-lg-3 control-label">Usuario:</label>
         <div class="col-lg-9">
-          <input type="text" value="" placeholder="Usuario" name="cuenta-usuario" class="form-control" id="cuenta-usuario"><br>
+          <input type="text" value="" placeholder="Usuario" name="cuenta-usuario" class="form-control" id="cuenta-usuario" required><br>
         </div>
 
         <label for="cuenta-password" class="col-lg-3 control-label">Contraseña:</label>
         <div class="col-lg-9">
-          <input value="" type="password" placeholder="Contraseña" name="cuenta-password" id="cuenta-password" class="form-control" data-toggle="password"><br>
+          <input value="" type="password" placeholder="Contraseña" name="cuenta-password" id="cuenta-password" class="form-control" data-toggle="password" required><br>
         </div>
 
         <label for="alumno-nombre" class="col-lg-3 control-label">Nombre De Alumno:</label>
         <div class="col-lg-9">
-          <input value="" type="text" class="form-control" id="alumno-nombre" name="alumno-nombre" placeholder="Nombre alumno"><br>
+          <input value="" type="text" class="form-control" id="alumno-nombre" name="alumno-nombre" placeholder="Nombre alumno" required><br>
         </div>
 
         <label for="alumno-numero-control" class="col-lg-3 control-label">Número De Control:</label>
         <div class="col-lg-9">
-          <input value="" type="text" class="form-control" id="alumno-numero-control" name="alumno-numero-control" placeholder="Número de control"><br>
+          <input value="" type="text" class="form-control" id="alumno-numero-control" name="alumno-numero-control" placeholder="Número de control" required><br>
         </div>
 
         <label for="alumno-correo" class="col-lg-3 control-label">Correo Electrónico:</label>
         <div class="col-lg-9">
-          <input value="" type="text" class="form-control" id="alumno-correo" name="alumno-correo" placeholder="Correo electronico"><br>
+          <input value="" type="text" class="form-control" id="alumno-correo" name="alumno-correo" placeholder="Correo electronico" required><br>
         </div>
 
         <label for="alumno-direccion" class="col-lg-3 control-label">Dirección:</label>
         <div class="col-lg-9">
-          <input value="" type="text" class="form-control" id="alumno-direccion" name="alumno-direccion" placeholder="Dirección"><br>
+          <input value="" type="text" class="form-control" id="alumno-direccion" name="alumno-direccion" placeholder="Dirección" required><br>
         </div>
 
         <label for="alumno-area-id" class="col-lg-3 control-label">Area De Desarrollo:</label>
         <div class="col-lg-9">
           <div class="selector-pai">
-            <select name="alumno-area-id" id="alumno-area-id" class="form-control">
+            <select name="alumno-area-id" id="alumno-area-id" class="form-control" required>
               <script type="text/javascript">
                 $(document).ready(function() {
                   $.ajax({
@@ -99,7 +99,7 @@ session_start();
         <label for="alumno-carrera-id" class="col-lg-3 control-label">Carrera:</label>
         <div class="col-lg-9">
           <div class="selector-pas">
-            <select name="alumno-carrera-id" id="alumno-carrera-id" class="form-control">
+            <select name="alumno-carrera-id" id="alumno-carrera-id" class="form-control" required>
               <script type="text/javascript">
                 $(document).ready(function() {
                   $.ajax({

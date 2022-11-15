@@ -50,11 +50,11 @@ $mysqli = $mysql->_ObtenerConexion();
                 <hr>
                 <label for="nombre" class="col-lg-3 control-label">Usuario:</label>
                 <div class="col-lg-9">
-                    <input type="text" placeholder="Usuario" name="cuenta-usuario" class="form-control" id="nombre"><br>
+                    <input type="text" placeholder="Usuario" name="cuenta-usuario" class="form-control" id="nombre" required><br>
                 </div>
                 <label class="col-lg-3 control-label">Contrasena:</label>
                 <div class="col-lg-9">
-                    <input type="password" placeholder="Contraseña" name="cuenta-password" class="form-control" data-toggle="password"><br>
+                    <input type="password" placeholder="Contraseña" name="cuenta-password" class="form-control" data-toggle="password" required><br>
                 </div>
 
                 <!-- Datos Generales  -->
@@ -62,20 +62,20 @@ $mysqli = $mysql->_ObtenerConexion();
                 <hr>
                 <label class="col-lg-3 control-label">Nombre De La Empresa:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="empresa-nombre" name="empresa-nombre"><br>
+                    <input type="text" class="form-control" id="empresa-nombre" name="empresa-nombre" required><br>
                 </div>
                 <label class="col-lg-3 control-label">Razón Social</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="empresa-razon-social"><br>
+                    <input type="text" class="form-control" id="nc" name="empresa-razon-social" required><br>
                 </div>
                 <label class="col-lg-3 control-label">RFC:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="empresa-rfc"><br>
+                    <input type="text" class="form-control" id="nc" name="empresa-rfc" required><br>
                 </div>
                 <label class="col-lg-3 control-label">Tipo de Persona SAT:</label>
                 <div class="col-lg-9">
                     <div class="selector-pais">
-                        <select name="empresa-tipo-sat" class="form-control">
+                        <select name="empresa-tipo-sat" class="form-control" required>
                             <script type="text/javascript">
                                 $(document).ready(function() {
                                     $.ajax({
@@ -93,11 +93,11 @@ $mysqli = $mysql->_ObtenerConexion();
                 </div>
                 <label class="col-lg-3 control-label">Domicilio Fiscal:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="direc" name="empresa-direccion"><br>
+                    <input type="text" class="form-control" id="direc" name="empresa-direccion" required><br>
                 </div>
                 <label for="turno" class="col-lg-3 control-label">Tamaño de la Empresa:</label>
                 <div class="col-lg-9">
-                    <select name="empresa-magnitud" class="form-control">
+                    <select name="empresa-magnitud" class="form-control" required>
                         <Option select value="">Seleccione</Option>
                         <Option value="MicroEmpresa">MicroEmpresa</Option>
                         <Option value="Chica">Chica</Option>
@@ -107,7 +107,7 @@ $mysqli = $mysql->_ObtenerConexion();
                 </div>
                 <label for="turno" class="col-lg-3 control-label">Alcance:</label>
                 <div class="col-lg-9">
-                    <select name="empresa-alcance" class="form-control">
+                    <select name="empresa-alcance" class="form-control" required>
                         <Option select value="">Seleccione</Option>
                         <Option value="Estatal">Estatal</Option>
                         <Option value="Nacional">Nacional</Option>
@@ -116,15 +116,15 @@ $mysqli = $mysql->_ObtenerConexion();
                 </div>
                 <label class="col-lg-3 control-label">Giro De La Empresa:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="empresa-giro"><br>
+                    <input type="text" class="form-control" id="nc" name="empresa-giro" required><br>
                 </div>
                 <label class="col-lg-3 control-label">Mision:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="empresa-mision"><br>
+                    <input type="text" class="form-control" id="nc" name="empresa-mision" required><br>
                 </div>
                 <label for="turno" class="col-lg-3 control-label">Tipo de Convenio:</label>
                 <div class="col-lg-9">
-                    <select name="empresa-tipo-convenio" class="form-control">
+                    <select name="empresa-tipo-convenio" class="form-control" required>
                         <Option select value="">Seleccione</Option>
                         <Option value="Servicios profesionales y consultoría ">Servicios profesionales y consultoría </Option>
                         <Option value="Desarrollo y transferencia de tecnología">Desarrollo y transferencia de tecnología</Option>
@@ -136,21 +136,21 @@ $mysqli = $mysql->_ObtenerConexion();
                 <hr>
                 <label class="col-lg-3 control-label">Nombre:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="representante-nombre"><br>
+                    <input type="text" class="form-control" id="nc" name="representante-nombre" required><br>
                 </div>
                 <label class="col-lg-3 control-label">RFC:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="representante-rfc"><br>
+                    <input type="text" class="form-control" id="nc" name="representante-rfc" required><br>
                 </div>
 
                 <label class="col-lg-3 control-label">Correo:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="representante-correo"><br>
+                    <input type="text" class="form-control" id="nc" name="representante-correo" required><br>
                 </div>
 
                 <label class="col-lg-3 control-label">Tel/CEl:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="representante-telefono"><br>
+                    <input type="text" class="form-control" id="nc" name="representante-telefono" required><br>
                 </div>
 
                 <!-- Datos de Recursos Humanos -->
@@ -158,21 +158,21 @@ $mysqli = $mysql->_ObtenerConexion();
                 <hr>
                 <label class="col-lg-3 control-label">Nombre:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="recursoshumanos-nombre"><br>
+                    <input type="text" class="form-control" id="nc" name="recursoshumanos-nombre" required><br>
                 </div>
                 <label class="col-lg-3 control-label">RFC:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="recursoshumanos-rfc"><br>
+                    <input type="text" class="form-control" id="nc" name="recursoshumanos-rfc" required><br>
                 </div>
 
                 <label class="col-lg-3 control-label">Correo:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="recursoshumanos-correo"><br>
+                    <input type="text" class="form-control" id="nc" name="recursoshumanos-correo" required><br>
                 </div>
 
                 <label class="col-lg-3 control-label">Tel/CEl:</label>
                 <div class="col-lg-9">
-                    <input type="text" class="form-control" id="nc" name="recursoshumanos-telefono"><br>
+                    <input type="text" class="form-control" id="nc" name="recursoshumanos-telefono" required><br>
                 </div>
 
 

@@ -82,31 +82,31 @@ $IdEmpresa = $_GET['IdEmpresa'];
                 <label for="nombre" class="col-lg-3 control-label">Nombre:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="trabajador-nombre" name="trabajador-nombre" type="text"
-                    placeholder="Nombre" value=""><br>
+                    placeholder="Nombre" value="" required><br>
                 </div>
 
                 <label for="nombre" class="col-lg-3 control-label">RFC:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="trabajador-rfc" name="trabajador-rfc" type="text"
-                    placeholder="RFC" value=""><br>
+                    placeholder="RFC" value="" required><br>
                 </div>
 
                 <label for="nombre" class="col-lg-3 control-label">Correo:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="trabajador-correo" name="trabajador-correo" type="text"
-                    placeholder="Correo" value=""><br>
+                    placeholder="Correo" value="" required><br>
                 </div>
 
                 <label for="nombre" class="col-lg-3 control-label">Teléfono:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="trabajador-telefono" name="trabajador-telefono" type="text"
-                    placeholder="Teléfono" value=""><br>
+                    placeholder="Teléfono" value="" required><br>
                 </div>
 
                 <label for="nombre" class="col-lg-3 control-label">Puesto:</label>
                 <div class="col-lg-9">
                     <input class="form-control" id="trabajador-puesto" name="trabajador-puesto" type="text"
-                    placeholder="Puesto" value=""><br>
+                    placeholder="Puesto" value="" required><br>
                 </div>
                 
                 <!-- Botones (Para acciones) -->

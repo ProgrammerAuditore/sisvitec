@@ -63,18 +63,18 @@ $IDE = $_SESSION['idE'];
 
         <label for="proyecto-nombre" class="col-lg-3 control-label">Nombre Del Proyecto: </label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="proyecto-nombre" name="proyecto-nombre"><br>
+          <input type="text" class="form-control" id="proyecto-nombre" name="proyecto-nombre" required><br>
         </div>
 
         <label for="proyecto-tipo" class="col-lg-3 control-label">Tipo de Proyecto: </label>
         <div class="col-lg-9">
-          <input type="text" class="form-control" id="proyecto-tipo" name="proyecto-tipo"><br>
+          <input type="text" class="form-control" id="proyecto-tipo" name="proyecto-tipo" required><br>
         </div>
 
         <label for="proyecto-area" class="col-lg-3 control-label">Area De Desarrollo: </label>
         <div class="col-lg-9">
           <div id="seleccionar-proyecto-area">
-            <select name="proyecto-area" class="form-control">
+            <select name="proyecto-area" class="form-control" required>
               <script type="text/javascript">
                 $(document).ready(function() {
                   $.ajax({
@@ -93,7 +93,7 @@ $IDE = $_SESSION['idE'];
 
         <label for="proyecto-duracion" class="col-lg-3 control-label">Duración en Semanas: </label>
         <div class="col-lg-9">
-          <select name="proyecto-duracion" class="form-control">
+          <select name="proyecto-duracion" class="form-control" required>
             <!-- Crear 25 opciones -->
             <Option select value="">Seleccionar...</Option>
             <?php
@@ -106,7 +106,7 @@ $IDE = $_SESSION['idE'];
 
         <label for="proyecto-descripcion" class="col-lg-3 control-label">Descripción Del Proyecto: </label>
         <div class="col-lg-9">
-          <textarea class="form-control" id="proyecto-descripcion" name="proyecto-descripcion"></textarea>
+          <textarea class="form-control" id="proyecto-descripcion" name="proyecto-descripcion" required></textarea>
         </div>
 
         <!-- Objetivos -->
@@ -115,12 +115,12 @@ $IDE = $_SESSION['idE'];
 
         <label for="proyecto-obj-general" class="col-lg-3 control-label">Objetivo General Del Proyecto: </label>
         <div class="col-lg-9">
-          <textarea class="form-control" id="proyecto-obj-general" name="proyecto-obj-general"></textarea>
+          <textarea class="form-control" id="proyecto-obj-general" name="proyecto-obj-general" required></textarea>
         </div>
 
         <label for="proyecto-obj-especifico" class="col-lg-3 control-label">Objetivos Especificos Del Proyecto: </label>
         <div class="col-lg-9">
-          <textarea class="form-control" id="proyecto-obj-especifico" name="proyecto-obj-especifico"></textarea>
+          <textarea class="form-control" id="proyecto-obj-especifico" name="proyecto-obj-especifico" required></textarea>
         </div>
 
         <hr>
